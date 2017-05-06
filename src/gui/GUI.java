@@ -327,7 +327,7 @@ public class GUI extends JFrame {
 	private void getclickResult(int x_coordinate,int y_coordinate,int resolution){
 		
 		int w, h, cellwidth, cellheight, row_number, column_number;
-		h = main.getHeight();
+		h = main.getHeight(); 
 		w = main.getWidth();
 		cellwidth = w/resolution;
 		cellheight = h/resolution;
