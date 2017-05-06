@@ -46,6 +46,7 @@ public class controller{
 		
 		if(isFinished()){
 			System.out.println("Finished");
+			g.win();
 		}
 	}
 	
