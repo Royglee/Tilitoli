@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -239,7 +238,7 @@ public class GUI extends JFrame {
 
 	private void openImage(String name) {
 		try {
-			Image img = ImageIO.read(new File("pictures\\"+name+".jpg"));
+			Image img = ImageIO.read(getClass().getResource("/pictures/"+name+".jpg"));
 			img = img.getScaledInstance(150, 112, Image.SCALE_DEFAULT);
 			JLabel label = new JLabel(new ImageIcon(img));
 			main.add(label);
@@ -254,7 +253,7 @@ public class GUI extends JFrame {
 		int resolution = c.getGame().getResolution();
 		String picturename = c.getGame().getPicturename();
 		try {
-			img = ImageIO.read(new File("pictures\\"+picturename+".jpg"));
+			img = ImageIO.read(getClass().getResource("/pictures/"+picturename+".jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -284,7 +283,7 @@ public class GUI extends JFrame {
 		for(int i=0; i<(resolution*resolution); i++){
 			if(position.get(i)==0){
 				try {
-					blank = ImageIO.read(new File("pictures\\black.jpg"));
+					blank = ImageIO.read(getClass().getResource("/pictures/black.jpg"));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
