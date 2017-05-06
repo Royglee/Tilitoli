@@ -38,7 +38,7 @@ public class GUI extends JFrame {
 	JPanel sideupper;
 	JPanel sidelower;
 	JButton single = new JButton("SINGLE");
-	JButton multi = new JButton("MULTI");;
+	JButton multi = new JButton("MU LTI");;
 	JButton server = new JButton("SERVER");
 	JButton client = new JButton("CLIENT");
 	JButton start = new JButton("START");
