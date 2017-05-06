@@ -1,6 +1,5 @@
 package control;
 
-import java.util.Vector;
 import java.util.Collections;
 import gui.GUI;
 
@@ -33,7 +32,7 @@ public class controller{
 	}
 	
 	public void mix() {
-		
+		System.out.println("Finished");
 	}
 
 	
