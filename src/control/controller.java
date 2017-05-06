@@ -33,7 +33,7 @@ public class controller{
 	}
 	
 	public void mix() {
-		
+		int a=2;
 	}
 
 	
