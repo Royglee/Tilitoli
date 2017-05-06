@@ -15,6 +15,7 @@ public class controller{
 	
 	public void init() {
 		game.init();
+		//TODO: 5mp-ig látja a krakott képet
 		game.mix(500);
 	}
 	
