@@ -28,6 +28,7 @@ public class controller{
 		
 		if(game.isFinished()){
 			System.out.println("Finished");
+			g.win();
 		}
 	}
 

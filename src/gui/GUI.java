@@ -22,14 +22,10 @@ public class GUI extends JFrame {
 	protected controller c;
 	public boolean singlemode=true;
 	public boolean servermode=false;
-	public int resolution;
-	public String picturename;
 	public String nickname;
 	public int clickResult;
 	
 	ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-	int[] myIntArray1 = {0,1,2,3,4,5,6,8,7,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24};
-	int[] myIntArray2 = {3,4,5,0,1,2,6,8,7};
 	
 	public static int winwidth;		//Ablak szélessége
 	public static int winheight;	//Ablak magassága
@@ -38,16 +34,16 @@ public class GUI extends JFrame {
 	JPanel sideupper;
 	JPanel sidelower;
 	JButton single = new JButton("SINGLE");
-	JButton multi = new JButton("MU LTI");;
+	JButton multi = new JButton("MULTI");;
 	JButton server = new JButton("SERVER");
 	JButton client = new JButton("CLIENT");
 	JButton start = new JButton("START");
 	JButton connect = new JButton("CONNECT");
-	JButton test = new JButton("TEST");
 	JLabel single_or_multi;
 	JLabel server_or_client;
 	JLabel picture_and_resolution;
 	JLabel nickname_ask;
+	JLabel you_win;
 	JTextField nickname_input_server_single;
 	JTextField nickname_input_client;
 	String[] numberTitles = new String[] {"dog", "cat","elephant", "giraffe"};
@@ -81,16 +77,8 @@ public class GUI extends JFrame {
 		main.add(multi);
 		add(main);
 		
-		sidelower = new JPanel();
-		sidelower.setBounds(10, 521, 190, 100);
-		sidelower.setBorder(BorderFactory.createLineBorder(Color.black));
-		sidelower.setLayout(new FlowLayout());
-		test.setVisible(true);
-		sidelower.add(test);
-		add(sidelower);
-		
 		sideupper = new JPanel();
-		sideupper.setBounds(10, 10, 190, 501);
+		sideupper.setBounds(10, 10, 190, 611);
 		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
 		sideupper.setLayout(new FlowLayout());
 		add(sideupper);
@@ -207,6 +195,8 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				String resolutionString;
+				String picturename;
+				int resolution;
 				
 				picturename = animalList.getSelectedItem().toString();
 				c.getGame().setPicturename(picturename);
@@ -216,7 +206,7 @@ public class GUI extends JFrame {
 				c.getGame().setResolution(resolution);
 				
 				nickname = nickname_input_server_single.getText();
-				chopImage(resolution,picturename);
+				chopImage();
 	
 				c.init();
 				makePanel(c.getGame().getTable());
@@ -226,11 +216,8 @@ public class GUI extends JFrame {
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						System.out.println("X:" + e.getX() + " Y:" + e.getY());
-						getclickResult(e.getX(),e.getY(),resolution);
+						getclickResult(e.getX(),e.getY());
 						c.clicked(clickResult);
-						
-						System.out.println(clickResult);
 					}
 				});
 				
@@ -243,18 +230,6 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				nickname = nickname_input_client.getText();
 				
-			}
-		});
-		
-		test.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				main.removeAll();
-				c.getGame().mix(1);
-				makePanel(c.getGame().getTable());
-				main.revalidate();
-				main.repaint();
 			}
 		});
 		
@@ -273,9 +248,11 @@ public class GUI extends JFrame {
 		}
 	}
 	
-	public void chopImage(int resolution, String picturename){
+	public void chopImage(){
 		
 		Image img = null;
+		int resolution = c.getGame().getResolution();
+		String picturename = c.getGame().getPicturename();
 		try {
 			img = ImageIO.read(new File("pictures\\"+picturename+".jpg"));
 		} catch (IOException e) {
@@ -299,6 +276,7 @@ public class GUI extends JFrame {
 	public void makePanel(Vector<Integer> position){
 		
 		Image blank = null;
+		int resolution = c.getGame().getResolution();
 		
 		main.removeAll();
 		main.setLayout(new GridLayout(resolution, resolution,1,1));
@@ -325,9 +303,10 @@ public class GUI extends JFrame {
 		
 	}
 	
-	private void getclickResult(int x_coordinate,int y_coordinate,int resolution){
+	private void getclickResult(int x_coordinate,int y_coordinate){
 		
 		int w, h, cellwidth, cellheight, row_number, column_number;
+		int resolution = c.getGame().getResolution();
 		h = main.getHeight(); 
 		w = main.getWidth();
 		cellwidth = w/resolution;
@@ -336,6 +315,17 @@ public class GUI extends JFrame {
 		row_number = y_coordinate/cellheight;
 		clickResult = (row_number*resolution)+column_number;
 		
+	}
+	
+	public void win(){
+		main.removeAll();
+		main.setLayout(new GridBagLayout());
+		you_win = new JLabel("YOU WIN!");
+		you_win.setForeground(Color.GREEN);
+		you_win.setFont(you_win.getFont().deriveFont(64f)); 
+		main.add(you_win);
+		main.revalidate();
+		main.repaint();
 	}
 
 	
