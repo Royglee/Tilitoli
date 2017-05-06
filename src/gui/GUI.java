@@ -251,6 +251,7 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				main.removeAll();
+				c.getGame().mix(1);
 				makePanel(c.getGame().getTable());
 				main.revalidate();
 				main.repaint();
