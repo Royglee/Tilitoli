@@ -43,6 +43,7 @@ public class GUI extends JFrame {
 	JLabel picture_and_resolution;
 	JLabel nickname_ask;
 	JLabel you_win;
+	JLabel hello;
 	JTextField nickname_input_server_single;
 	JTextField nickname_input_client;
 	String[] numberTitles = new String[] {"dog", "cat","elephant", "giraffe"};
@@ -67,26 +68,27 @@ public class GUI extends JFrame {
 		add(main);
 		
 		sideupper = new JPanel();
-		sideupper.setBounds(10, 10, 190, 611);
+		sideupper.setBounds(10, 10, 190, 501);
 		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
 		sideupper.setLayout(new FlowLayout());
 		add(sideupper);
+		
+		sidelower = new JPanel();
+		sidelower.setBounds(10, 521, 190, 100);
+		sidelower.setBorder(BorderFactory.createLineBorder(Color.black));
+		sidelower.setLayout(new GridBagLayout());
+		hello = new JLabel("HELLO!");
+		hello.setForeground(Color.RED);
+		hello.setFont(hello.getFont().deriveFont(20f));
+		sidelower.add(hello);
+		add(sidelower);
 		
 		multi.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				singlemode = false;
-				main.removeAll();
-				server_or_client = new JLabel("Server or client?");
-				server_or_client.setVisible(true);
-				main.add(server_or_client);
-				server.setVisible(true);
-				main.add(server);
-				client.setVisible(true);
-				main.add(client);
-				main.revalidate();
-				main.repaint();
+				drawServerOrClientScreen();
 			}
 		});
 		
@@ -94,33 +96,7 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.removeAll();
-				main.setLayout(new GridLayout(5,2,10,10));
-				picture_and_resolution = new JLabel("Choose a picture and resolution!",SwingConstants.CENTER);
-				picture_and_resolution.setVisible(true);
-				main.add(picture_and_resolution);
-				
-				start.setVisible(true);
-				main.add(start);
-				
-				
-				((JLabel)animalList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-				((JLabel)resolutionList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-				main.add(animalList);
-				main.add(resolutionList);
-				openImage("dog");
-				openImage("cat");
-				openImage("elephant");
-				openImage("giraffe");
-				nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
-				nickname_ask.setVisible(true);
-				main.add(nickname_ask);
-				nickname_input_server_single = new JTextField("NICKNAME");
-				nickname_input_server_single.setHorizontalAlignment(JTextField.CENTER);
-				nickname_input_server_single.setVisible(true);
-				main.add(nickname_input_server_single);
-				main.revalidate();
-				main.repaint();
+				drawParameterScreen();
 			}
 		});
 		
@@ -129,32 +105,7 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				servermode = true;
-				main.removeAll();
-				main.setLayout(new GridLayout(5,2,10,10));
-				picture_and_resolution = new JLabel("Choose a picture and resolution!",SwingConstants.CENTER);
-				picture_and_resolution.setVisible(true);
-				main.add(picture_and_resolution);
-				
-				start.setVisible(true);
-				main.add(start);
-				
-				((JLabel)animalList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-				((JLabel)resolutionList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-				main.add(animalList);
-				main.add(resolutionList);
-				openImage("dog");
-				openImage("cat");
-				openImage("elephant");
-				openImage("giraffe");
-				nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
-				nickname_ask.setVisible(true);
-				main.add(nickname_ask);
-				nickname_input_server_single = new JTextField("NICKNAME");
-				nickname_input_server_single.setHorizontalAlignment(JTextField.CENTER);
-				nickname_input_server_single.setVisible(true);
-				main.add(nickname_input_server_single);
-				main.revalidate();
-				main.repaint();
+				drawParameterScreen();
 			}
 		});
 		
@@ -162,19 +113,7 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.removeAll();
-				main.setLayout(new GridLayout(2,2,10,10));
-				nickname_ask = new JLabel("Give your nickname",SwingConstants.CENTER);
-				nickname_ask.setVisible(true);
-				main.add(nickname_ask);
-				nickname_input_client = new JTextField("NICKNAME");
-				nickname_input_client.setHorizontalAlignment(JTextField.CENTER);
-				nickname_input_client.setVisible(true);
-				main.add(nickname_input_client);
-				connect.setVisible(true);
-				main.add(connect);
-				main.revalidate();
-				main.repaint();
+				drawClientScreen();
 			}
 		});
 		
@@ -330,6 +269,71 @@ public class GUI extends JFrame {
 		main.add(single);
 		multi.setVisible(true);
 		main.add(multi);
+		
+		main.revalidate();
+		main.repaint();
+	}
+	
+	public void drawParameterScreen() {
+		main.removeAll();
+		
+		main.setLayout(new GridLayout(5,2,10,10));
+		picture_and_resolution = new JLabel("Choose a picture and resolution!",SwingConstants.CENTER);
+		picture_and_resolution.setVisible(true);
+		main.add(picture_and_resolution);
+		
+		start.setVisible(true);
+		main.add(start);
+		
+		
+		((JLabel)animalList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		((JLabel)resolutionList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		main.add(animalList);
+		main.add(resolutionList);
+		openImage("dog");
+		openImage("cat");
+		openImage("elephant");
+		openImage("giraffe");
+		nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
+		nickname_ask.setVisible(true);
+		main.add(nickname_ask);
+		nickname_input_server_single = new JTextField("NICKNAME");
+		nickname_input_server_single.setHorizontalAlignment(JTextField.CENTER);
+		nickname_input_server_single.setVisible(true);
+		main.add(nickname_input_server_single);
+		
+		main.revalidate();
+		main.repaint();
+	}
+	
+	public void drawClientScreen() {
+		main.removeAll();
+		
+		main.setLayout(new GridLayout(2,2,10,10));
+		nickname_ask = new JLabel("Give your nickname",SwingConstants.CENTER);
+		nickname_ask.setVisible(true);
+		main.add(nickname_ask);
+		nickname_input_client = new JTextField("NICKNAME");
+		nickname_input_client.setHorizontalAlignment(JTextField.CENTER);
+		nickname_input_client.setVisible(true);
+		main.add(nickname_input_client);
+		connect.setVisible(true);
+		main.add(connect);
+		
+		main.revalidate();
+		main.repaint();
+	}
+	
+	public void drawServerOrClientScreen() {
+		main.removeAll();
+		
+		server_or_client = new JLabel("Server or client?");
+		server_or_client.setVisible(true);
+		main.add(server_or_client);
+		server.setVisible(true);
+		main.add(server);
+		client.setVisible(true);
+		main.add(client);
 		
 		main.revalidate();
 		main.repaint();
