@@ -43,7 +43,7 @@ public class GUI extends JFrame {
 	JLabel picture_and_resolution;
 	JLabel nickname_ask;
 	JLabel you_win;
-	JLabel hello;
+	JLabel sidelower_label;
 	JTextField nickname_input_server_single;
 	JTextField nickname_input_client;
 	String[] numberTitles = new String[] {"dog", "cat","elephant", "giraffe"};
@@ -77,10 +77,10 @@ public class GUI extends JFrame {
 		sidelower.setBounds(10, 521, 190, 100);
 		sidelower.setBorder(BorderFactory.createLineBorder(Color.black));
 		sidelower.setLayout(new GridBagLayout());
-		hello = new JLabel("HELLO!");
-		hello.setForeground(Color.RED);
-		hello.setFont(hello.getFont().deriveFont(20f));
-		sidelower.add(hello);
+		sidelower_label = new JLabel("HELLO!");
+		sidelower_label.setForeground(Color.RED);
+		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
+		sidelower.add(sidelower_label);
 		add(sidelower);
 		
 		multi.addActionListener(new ActionListener() {
@@ -337,6 +337,18 @@ public class GUI extends JFrame {
 		
 		main.revalidate();
 		main.repaint();
+	}
+	
+	public void countBack(int number){
+		sidelower.removeAll();
+		
+		sidelower_label = new JLabel(Integer.toString(number));
+		sidelower_label.setForeground(Color.RED);
+		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
+		sidelower.add(sidelower_label);
+		
+		sidelower.revalidate();
+		sidelower.repaint();
 	}
 
 	

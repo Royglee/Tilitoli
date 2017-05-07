@@ -52,7 +52,6 @@ public class game {
 		    	if(startTime>1){
 		    		startTime--;
 		    		System.out.println(startTime);
-		    		//.countBack(Integer.toString(startTime));
 		    	}else{
 		    		mix(500);  
 			    	System.out.println("Table mixed");
