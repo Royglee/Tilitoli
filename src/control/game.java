@@ -90,7 +90,6 @@ public class game {
 		if((Math.floor((Tile-1)/resolution) == Math.floor(Tile/resolution))&&(Tile-1)>=0){
 			neighbours.add(Tile-1);
 		}
-		System.out.println(neighbours);
 		return neighbours;
 	}
 }
