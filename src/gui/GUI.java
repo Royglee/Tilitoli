@@ -63,17 +63,7 @@ public class GUI extends JFrame {
 		setLayout(null);
 
 		main = new JPanel();
-		main.setBounds(210, 10, 811, 611);
-		main.setBorder(BorderFactory.createLineBorder(Color.black));
-		main.setLayout(new FlowLayout());
-		main.setVisible(true);
-		single_or_multi = new JLabel("Single or multi?");
-		single_or_multi.setVisible(true);
-		main.add(single_or_multi);
-		single.setVisible(true);
-		main.add(single);
-		multi.setVisible(true);
-		main.add(multi);
+		drawMainScreen();
 		add(main);
 		
 		sideupper = new JPanel();
@@ -208,7 +198,6 @@ public class GUI extends JFrame {
 				chopImage();
 	
 				c.init();
-				makePanel(c.getGame().getTable());
 				
 				
 				main.addMouseListener(new MouseAdapter() {
@@ -323,6 +312,25 @@ public class GUI extends JFrame {
 		you_win.setForeground(Color.GREEN);
 		you_win.setFont(you_win.getFont().deriveFont(64f)); 
 		main.add(you_win);
+		main.revalidate();
+		main.repaint();
+	}
+	
+	public void drawMainScreen() {
+		main.removeAll();
+		
+		main.setBounds(210, 10, 811, 611);
+		main.setBorder(BorderFactory.createLineBorder(Color.black));
+		main.setLayout(new FlowLayout());
+		main.setVisible(true);
+		single_or_multi = new JLabel("Single or multi?");
+		single_or_multi.setVisible(true);
+		main.add(single_or_multi);
+		single.setVisible(true);
+		main.add(single);
+		multi.setVisible(true);
+		main.add(multi);
+		
 		main.revalidate();
 		main.repaint();
 	}

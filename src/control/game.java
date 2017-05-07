@@ -1,13 +1,22 @@
 package control;
 
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Random;
 import java.util.Vector;
 
 public class game {
 	private int resolution;
-	public String picturename;
-	Vector<Integer> table = new Vector<Integer>();
+	private String picturename;
+	private Vector<Integer> table = new Vector<Integer>();
+	private Timer timer = new Timer();
+	private int startTime;
+	private controller c;
+	
+	public game(controller c) {
+		this.c = c;
+	}
 	
 	public int getResolution() {
 		return resolution;
@@ -28,11 +37,29 @@ public class game {
 		return table;
 	}
 	
-	public void init() {
+	protected void init() {
+		table.clear();
 		int size = resolution*resolution;
 		for(int i=0;i<size;i++ ){
 			table.add(i);
 		}
+		c.tableChanged();
+		
+		startTime = 6;
+		timer.scheduleAtFixedRate(new TimerTask() {          
+		    @Override
+		    public void run() {
+		    	if(startTime>1){
+		    		startTime--;
+		    		System.out.println(startTime);
+		    	}else{
+		    		mix(500);  
+			    	System.out.println("Table mixed");
+			    	startTime=0;
+			    	this.cancel();
+		    	}
+		    }
+		}, 0,1000);
 	}
 		
 	protected void swap(int clickedTile) {
@@ -48,7 +75,7 @@ public class game {
 		return -1;
 	}
 	
-	public boolean isSwappable(int clickResult) {
+	private boolean isSwappable(int clickResult) {
 		int blankTile = getBlankTilePosition();
 		
 		if(getNeighboursOf(clickResult).contains(blankTile)){
@@ -59,7 +86,7 @@ public class game {
 			
 	}
 	
-	public boolean isFinished() {
+	protected boolean isFinished() {
 		for(int i=0;i<table.size();i++ ){
 			if (table.get(i) != i){
 				return false;
@@ -68,12 +95,13 @@ public class game {
 		return true;
 	}
 	
-	public void mix(int steps) {
+	protected void mix(int steps) {
 		Random r = new Random();
 		for(int i=0;i<steps;i++){
 			Vector<Integer> neighbours= getNeighboursOf(getBlankTilePosition());
 			swap(neighbours.get(r.nextInt(neighbours.size())));
 		}
+		c.tableChanged();
 	}
 	
 	private Vector<Integer> getNeighboursOf(int Tile){
@@ -91,5 +119,17 @@ public class game {
 			neighbours.add(Tile-1);
 		}
 		return neighbours;
+	}
+	
+	protected boolean canMove(int clickResult) {
+		if (isStarted() && !isFinished() && isSwappable(clickResult)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	protected boolean isStarted() {
+		return startTime==0?true:false;
 	}
 }
