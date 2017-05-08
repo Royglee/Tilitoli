@@ -34,6 +34,7 @@ public class controller{
 			System.out.println("Finished");
 			endScreenDrawn=true;
 			g.win();
+			g.countBack(":)");
 		}
 		
 		
@@ -44,6 +45,11 @@ public class controller{
 	}
 	protected void tableChanged() {
 		g.makePanel(game.getTable());
+	}
+	
+	protected void startTimerChanged(){
+		String string = (game.getStartTime()>0)?""+game.getStartTime():"GO!";
+		g.countBack(string);
 	}
 
 }

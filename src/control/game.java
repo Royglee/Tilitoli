@@ -37,6 +37,10 @@ public class game {
 		return table;
 	}
 	
+	public int getStartTime() {
+		return startTime;
+	}
+	
 	protected void init() {
 		table.clear();
 		int size = resolution*resolution;
@@ -53,11 +57,12 @@ public class game {
 		    		startTime--;
 		    		System.out.println(startTime);
 		    	}else{
-		    		mix(500);  
+		    		mix(1);  
 			    	System.out.println("Table mixed");
 			    	startTime=0;
 			    	this.cancel();
 		    	}
+		    	startTimerChanged();
 		    }
 		}, 0,1000);
 	}
@@ -131,5 +136,9 @@ public class game {
 	
 	protected boolean isStarted() {
 		return startTime==0?true:false;
+	}
+	
+	private void startTimerChanged(){
+		c.startTimerChanged();
 	}
 }

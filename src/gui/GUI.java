@@ -64,8 +64,10 @@ public class GUI extends JFrame {
 		setLayout(null);
 
 		main = new JPanel();
-		drawMainScreen();
 		add(main);
+		sidelower = new JPanel();
+		add(sidelower);
+		drawMainScreen();
 		
 		sideupper = new JPanel();
 		sideupper.setBounds(10, 10, 190, 501);
@@ -73,15 +75,6 @@ public class GUI extends JFrame {
 		sideupper.setLayout(new FlowLayout());
 		add(sideupper);
 		
-		sidelower = new JPanel();
-		sidelower.setBounds(10, 521, 190, 100);
-		sidelower.setBorder(BorderFactory.createLineBorder(Color.black));
-		sidelower.setLayout(new GridBagLayout());
-		sidelower_label = new JLabel("HELLO!");
-		sidelower_label.setForeground(Color.RED);
-		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
-		sidelower.add(sidelower_label);
-		add(sidelower);
 		
 		multi.addActionListener(new ActionListener() {
 			
@@ -272,6 +265,19 @@ public class GUI extends JFrame {
 		
 		main.revalidate();
 		main.repaint();
+		
+		sidelower.removeAll();
+		
+		sidelower.setBounds(10, 521, 190, 100);
+		sidelower.setBorder(BorderFactory.createLineBorder(Color.black));
+		sidelower.setLayout(new GridBagLayout());
+		sidelower_label = new JLabel("HELLO!");
+		sidelower_label.setForeground(Color.RED);
+		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
+		sidelower.add(sidelower_label);
+		
+		sidelower.revalidate();
+		sidelower.repaint();
 	}
 	
 	public void drawParameterScreen() {
@@ -339,10 +345,10 @@ public class GUI extends JFrame {
 		main.repaint();
 	}
 	
-	public void countBack(int number){
+	public void countBack(String number){
 		sidelower.removeAll();
 		
-		sidelower_label = new JLabel(Integer.toString(number));
+		sidelower_label = new JLabel(number);
 		sidelower_label.setForeground(Color.RED);
 		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
 		sidelower.add(sidelower_label);
