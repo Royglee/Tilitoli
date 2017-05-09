@@ -16,8 +16,6 @@ public class ConnectorModule implements Runnable
 
 	private ServerSocket server;
 	private Socket client;
-	private ObjectInputStream clientIS;
-	private ObjectOutputStream clientOS;
 	private Thread connectionThread;
 	private Mode mode;
 	
@@ -61,13 +59,14 @@ public class ConnectorModule implements Runnable
 	{
 		try
 		{
-			clientIS = new ObjectInputStream(client.getInputStream());
-			clientOS = new ObjectOutputStream(client.getOutputStream());
-			currentPuzzle = (Puzzle)clientIS.readObject();
+			ObjectInputStream iS = new ObjectInputStream(client.getInputStream());
+			SyncObject sync = (SyncObject)iS.readObject();
+			currentPuzzle = sync.puzzle;
 			puzzleDeployed = true;
 		}catch (SocketTimeoutException e)
 		{
 			puzzleDeployed = false;
+			System.out.println(e.toString());
 		}
 		catch (Exception e)
 		{
@@ -285,10 +284,13 @@ public class ConnectorModule implements Runnable
 		Scores ego = new Scores(name, score);
 		try
 		{
-			clientOS.writeObject(ego);
-			//clientOS.flush();
+			SyncObject sync = new SyncObject(ego, null);
+			ObjectOutputStream oS = new ObjectOutputStream(client.getOutputStream());
+			oS.writeObject(sync);
 			System.out.println("Sent");
-			ego = (Scores)clientIS.readObject();
+			ObjectInputStream iS = new ObjectInputStream(client.getInputStream());
+			sync = (SyncObject)iS.readObject();
+			ego = sync.scores;
 			System.out.println("Get");
 		}catch (Exception e)
 		{

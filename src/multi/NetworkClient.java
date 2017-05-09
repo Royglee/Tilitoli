@@ -13,7 +13,7 @@ public class NetworkClient implements Runnable
 	//private ObjectOutputStream oS;
 	private boolean enabled;
 	private Thread thread;
-	private boolean deployed;
+	private boolean deployed; 
 	
 	public static synchronized void SetScores(Scores s)
 	{
@@ -47,48 +47,44 @@ public class NetworkClient implements Runnable
 		try
 		{
 			socket.setSoTimeout(1000);
+			s.setKeepAlive(true);
 			thread = new Thread(this);
 		}catch (Exception e)
 		{
 			thread = null;
 		}
 		enabled = false;
-		deployed = false;
 	}
 	
 	@Override
 	public void run()
 	{
 		while (enabled && socket != null)
-		{
-			if (!deployed)
+		{			
+			try
 			{
-				try
+				SyncObject sync;
+				if (!deployed)
 				{
+					sync = new SyncObject(GetScores(), GetPuzzle());
 					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
-					oS.writeObject(GetPuzzle());
+					oS.writeObject(sync);
 					deployed = true;
-				}catch (Exception e)
+				}else
 				{
-					deployed = false;
-				}
-			}else
-			{
-				try
-				{
-					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
 					ObjectInputStream iS = new ObjectInputStream(socket.getInputStream());
-					Scores newScores = (Scores)iS.readObject();
-					SetScores(newScores);
-					oS.writeObject(GetScores());
-					oS.flush();
-				}catch (Exception e)
-				{
-					System.out.println("sync-"+e.toString());
+					sync = (SyncObject)iS.readObject();
+					SetScores(sync.scores);
+					sync.scores = GetScores();
+					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
+					oS.writeObject(sync);
 				}
+				
+			}catch (Exception e)
+			{
+				//System.out.println("sync-"+e.toString());
 			}
 		}
-
 	}
 
 	public boolean Start()
@@ -98,12 +94,11 @@ public class NetworkClient implements Runnable
 			enabled = true;
 			deployed = false;
 			thread.start();
-			return true;
 		}else
 		{
 			enabled = false;
-			return false;
 		}
+		return enabled;
 	}
 	
 	public boolean Stop() 
