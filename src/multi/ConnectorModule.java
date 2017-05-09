@@ -10,18 +10,21 @@ import java.util.*;
  */
 public class ConnectorModule implements Runnable
 {
+	private enum Mode {none, server, client};
+	
 	private static final int TCP_PORT = 55556;
 
 	private ServerSocket server;
 	private Socket client;
+	private ObjectInputStream clientIS;
+	private ObjectOutputStream clientOS;
 	private Thread connectionThread;
+	private Mode mode;
 	
 	private boolean enableAccepting;
 	private boolean serverRunning;
 	private boolean clientRunning;
-	private List<Socket> clients;
-	private int nextSocket;
-	private Scores playerScores;
+	private List<NetworkClient> clients;
 	private boolean puzzleDeployed;
 	private Puzzle currentPuzzle;
 	
@@ -34,16 +37,16 @@ public class ConnectorModule implements Runnable
 			if (enableAccepting)
 			{
 				AcceptNewConnection();
-			}else if (clients.size()>0)
+			}else
 			{
-				if (puzzleDeployed)
+				if (clients.size()>0)
 				{
-					ProcessNextSocket();
-				}else
-				{
-					DeployPuzzle();
-					puzzleDeployed = true;
+					for (NetworkClient c : clients)
+					{
+						c.Start();
+					}
 				}
+				serverRunning = false;
 			}
 		}
 		while (clientRunning && !puzzleDeployed)
@@ -58,8 +61,9 @@ public class ConnectorModule implements Runnable
 	{
 		try
 		{
-			ObjectInputStream iS = new ObjectInputStream(client.getInputStream());
-			currentPuzzle = (Puzzle)iS.readObject();
+			clientIS = new ObjectInputStream(client.getInputStream());
+			clientOS = new ObjectOutputStream(client.getOutputStream());
+			currentPuzzle = (Puzzle)clientIS.readObject();
 			puzzleDeployed = true;
 		}catch (SocketTimeoutException e)
 		{
@@ -81,9 +85,7 @@ public class ConnectorModule implements Runnable
 		{
 			try
 			{
-				Socket newClient = server.accept();
-				newClient.setKeepAlive(true);
-				newClient.setSoTimeout(1000);
+				NetworkClient newClient = new NetworkClient(server.accept());
 				clients.add(newClient);
 				System.out.println("New player!");
 			}catch (Exception e)
@@ -93,53 +95,12 @@ public class ConnectorModule implements Runnable
 		}
 	}
 	
-	/**Round robin elven megy körbe körbe a csatlakozott klienseken és kezeli azok pontjainak szinkronizálását.
-	 */
-	private void ProcessNextSocket()
-	{
-		try
-		{
-			nextSocket = (++nextSocket)==clients.size()?0:nextSocket;
-			Socket actual = clients.get(nextSocket);	//ritka fos láncolt lista, ahol indexelni kell és nincs next object... Vajon mitõl láncolt akkor?!
-			ObjectInputStream iS = new ObjectInputStream(actual.getInputStream());
-			ObjectOutputStream oS = new ObjectOutputStream(actual.getOutputStream());
-			Scores inputScore = (Scores)iS.readObject();
-			synchronized (playerScores)
-			{
-				playerScores.MergeScores(inputScore);
-				oS.writeObject(playerScores);
-				oS.flush();
-			}
-		}catch (Exception e)
-		{
-			System.out.println(e.toString());
-		}
-	}
-	
-	/**Megpróbálja a csatlakozott játékosoknak elküldeni a játék keverést.
-	 */
-	private void DeployPuzzle()
-	{
-		try
-		{
-			for (Socket s :clients)
-			{
-				ObjectOutputStream oS = new ObjectOutputStream(s.getOutputStream());
-				oS.writeObject(currentPuzzle);
-				oS.flush();
-			}
-		}catch (Exception e)
-		{
-			//Dunno
-		}
-	}
-	
 	/**Konsturktor.
 	 */
 	public ConnectorModule()
 	{
+		mode = Mode.none;
 		connectionThread = new Thread(this);
-		playerScores = new Scores();
 		clientRunning = false;
 		serverRunning = false;
 	}
@@ -152,23 +113,29 @@ public class ConnectorModule implements Runnable
 	 */
 	public boolean StartGameServer(Puzzle puzzle)
 	{
-		if (puzzle != null && server == null)
+		if (mode == Mode.none)
 		{
-			try
+			if (puzzle != null && server == null)
 			{
-				clients = new LinkedList<Socket>();
-				server = new ServerSocket(TCP_PORT);
-				server.setSoTimeout(100);
-				currentPuzzle = puzzle;
-				serverRunning = true;
-				EnableNewConnections();
-				connectionThread.start();
-				return true;
-			}catch (Exception e)
-			{
-				serverRunning = false;
+				try
+				{
+					clients = new LinkedList<NetworkClient>();
+					server = new ServerSocket(TCP_PORT);
+					server.setSoTimeout(100);
+					NetworkClient.SetPuzzle(puzzle);
+					NetworkClient.SetScores(new Scores());
+					serverRunning = true;
+					mode = Mode.server;
+					EnableNewConnections();
+					connectionThread.start();
+					return true;
+				}catch (Exception e)
+				{
+					serverRunning = false;
+					mode = Mode.none;
+				}
 			}
-		}
+		}		
 		return false;
 	}
 	
@@ -189,15 +156,9 @@ public class ConnectorModule implements Runnable
 	{
 		if (clients != null && clients.size()>0)
 		{
-			for (Socket s : clients)
+			for (NetworkClient c : clients)
 			{
-				try
-				{
-					s.close();
-				}catch (Exception e)
-				{
-					//No problem, we are closing everithing.
-				}
+				c.Close();
 			}
 			clients.clear();
 		}
@@ -208,8 +169,6 @@ public class ConnectorModule implements Runnable
 	public void DisableNewConnections()
 	{
 		enableAccepting = false;
-		nextSocket=-1;
-		puzzleDeployed = false;
 	}
 	
 	/**Leállítja a server üzemmódot. Blokkol amíg le nem áll.
@@ -218,7 +177,7 @@ public class ConnectorModule implements Runnable
 	 */
 	public boolean StopGameServer()
 	{
-		if (serverRunning)
+		if (mode == Mode.server)
 		{
 			serverRunning = false;
 			while (connectionThread.isAlive())
@@ -233,9 +192,9 @@ public class ConnectorModule implements Runnable
 			}
 			CleanUpConnections();
 			server = null;
+			mode = Mode.none;
 			return true;
-		}
-		return false;
+		}else return false;
 	}
 	
 	/**A megadott ip címen lévõ játékhoz megpróbál csatlakozni.
@@ -246,21 +205,21 @@ public class ConnectorModule implements Runnable
 	 */
 	public boolean JoinGame(InetAddress address)
 	{
-		if (!serverRunning && !clientRunning && !connectionThread.isAlive())
+		if (mode == Mode.none)
 		{
 			try
 			{
+				mode = Mode.client;
 				client = new Socket(address, TCP_PORT);
-				client.setSoTimeout(5000);
+				client.setSoTimeout(2000);
 				clientRunning = true;
 				puzzleDeployed = false;
 				connectionThread.start();
 				return true;
 			}catch (Exception e)
 			{
-				System.out.println(e.toString());
 				clientRunning = false;
-				return false;
+				mode = Mode.none;
 			}
 		}
 		return false;
@@ -272,7 +231,7 @@ public class ConnectorModule implements Runnable
 	 */
 	public boolean LeaveGame()
 	{
-		if (clientRunning)
+		if (mode == Mode.client)
 		{
 			clientRunning = false;
 			try
@@ -287,9 +246,9 @@ public class ConnectorModule implements Runnable
 				//no problem
 			}
 			client = null;
+			mode = Mode.none;
 			return true;
-		}
-		return false;
+		}else return false;
 	}
 
 	/**Vissza adja a játékosok eredményeit, és elküldi a többieknek a saját eredményeket. Kliens esetán blokkol amíg meg nem jön a szervertõl a válasz. 
@@ -302,23 +261,15 @@ public class ConnectorModule implements Runnable
 	 */
 	public Scores GetPlayerScores(String name, Integer score)
 	{
-		
-			if (clientRunning)
-			{
-				if (puzzleDeployed)
-				{
-					playerScores = SyncScore(name, score);
-				}
-				else
-				{
-					return null;
-				}
-			}else if (serverRunning)
-			{
-				playerScores.WriteScore(name, score);
-				return playerScores;
-			}
-			return null;
+		if (mode == Mode.client)
+		{
+			return puzzleDeployed?SyncScore(name, score):null;
+		}else if (mode == Mode.server)
+		{
+			NetworkClient.SetScores(new Scores(name, score));
+			return NetworkClient.GetScores();
+		}
+		else return null;
 	}
 	
 	/**Szinkronizálja a pontokat. Elküldi a sajátot a szervernek, és várja amíg vissza nem kapja a többiekét is.
@@ -334,10 +285,11 @@ public class ConnectorModule implements Runnable
 		Scores ego = new Scores(name, score);
 		try
 		{
-			ObjectOutputStream oS = new ObjectOutputStream(client.getOutputStream());
-			ObjectInputStream iS = new ObjectInputStream(client.getInputStream());
-			oS.writeObject(ego);
-			ego = (Scores)iS.readObject();
+			clientOS.writeObject(ego);
+			//clientOS.flush();
+			System.out.println("Sent");
+			ego = (Scores)clientIS.readObject();
+			System.out.println("Get");
 		}catch (Exception e)
 		{
 			System.out.println(e.toString());
@@ -352,7 +304,7 @@ public class ConnectorModule implements Runnable
 	 */
 	public Puzzle GetPuzzle()
 	{
-		while (!puzzleDeployed && clientRunning)
+		while (!puzzleDeployed && mode == Mode.client)
 		{
 			try
 			{

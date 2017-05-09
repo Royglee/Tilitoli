@@ -38,10 +38,7 @@ public class DiscoveryModule implements Runnable
 				{
 					byte[] inputBuffer = new byte[MAX_BUFFER_SIZE];
 					DatagramPacket p = new DatagramPacket(inputBuffer, inputBuffer.length);
-					synchronized (socket)
-					{
-						socket.receive(p);
-					}
+					socket.receive(p);
 					if (isReplying)
 					{
 						ReplyIfValid(p);
@@ -89,24 +86,21 @@ public class DiscoveryModule implements Runnable
 	 */
 	private void SendAnswer(DatagramPacket p)
 	{
-		synchronized (socket)
+		if (socket != null && p != null)
 		{
-			if (socket != null && p != null)
+			String answer = "ToliTili:"+masterName+":"+imageID+":!";
+			p.setData(answer.getBytes());
+			try
 			{
-				String answer = "ToliTili:"+masterName+":"+imageID+":!";
-				p.setData(answer.getBytes());
-				try
-				{
-					socket.send(p);
-				}catch (Exception e)
-				{
-					System.out.println("DiscoveryModule.SendAnswer: Can't send answer!");
-				}
-			}
-			else
+				socket.send(p);
+			}catch (Exception e)
 			{
-				System.out.println("DiscoveryModule.SendAnswer: Socket or data is NULL!");
+				System.out.println("DiscoveryModule.SendAnswer: Can't send answer!");
 			}
+		}
+		else
+		{
+			System.out.println("DiscoveryModule.SendAnswer: Socket or data is NULL!");
 		}
 	}
 	
@@ -144,19 +138,16 @@ public class DiscoveryModule implements Runnable
 	{
 		if (socket != null && dest != null)
 		{
-			synchronized (socket)
+			DatagramPacket p = new DatagramPacket(INTERNATIONAL_PING.getBytes(), INTERNATIONAL_PING.getBytes().length, dest, UDP_PORT);
+			try
 			{
-				DatagramPacket p = new DatagramPacket(INTERNATIONAL_PING.getBytes(), INTERNATIONAL_PING.getBytes().length, dest, UDP_PORT);
-				try
-				{
-					socket.send(p);
-				}catch (Exception e)
-				{
-					System.out.println("DiscoveryModule.SnedPing: Unable to send trough socket!");
-					return false;
-				}
-				return true;
+				socket.send(p);
+			}catch (Exception e)
+			{
+				System.out.println("DiscoveryModule.SnedPing: Unable to send trough socket!");
+				return false;
 			}
+			return true;
 		}
 		//System.out.println("DiscoveryModule.SendPing: Socket is NULL!");
 		return false;
@@ -263,12 +254,9 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * Elérhetõ játékok listája.
 	 */
-	public GameList GetServerReplys()
+	public synchronized GameList GetServerReplys()
 	{
-		synchronized (availableGames)
-		{
 			return availableGames;
-		}
 	}
 	
 	/**Vissza adja a hálózati interfészek boradcast címeit.

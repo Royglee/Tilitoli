@@ -5,45 +5,40 @@ import java.io.*;
 
 public class NetworkClient implements Runnable
 {
+	
 	private static Scores scores;
 	private static Puzzle puzzle;
 	private Socket socket;
-	private ObjectInputStream iS;
-	private ObjectOutputStream oS;
+	//private ObjectInputStream iS;
+	//private ObjectOutputStream oS;
 	private boolean enabled;
 	private Thread thread;
 	private boolean deployed;
 	
-	public static void SetScores(Scores s)
+	public static synchronized void SetScores(Scores s)
 	{
-		synchronized (scores)
+		if (scores == null)
 		{
-			scores.MergeScores(s);	
+			scores = s;
+		}else
+		{
+			scores.MergeScores(s);
 		}
 	}
 	
-	public static Scores GetScores()
+	public static synchronized Scores GetScores()
 	{
-		synchronized (scores)
-		{
-			return scores;	
-		}
+		return scores;
 	}
 	
-	public static void SetPuzzle(Puzzle p)
+	public static synchronized void SetPuzzle(Puzzle p)
 	{
-		synchronized (puzzle)
-		{
-			puzzle = p;	
-		}
+		puzzle = p;	
 	}
 	
-	public static Puzzle GetPuzzle()
+	public static synchronized Puzzle GetPuzzle()
 	{
-		synchronized (puzzle)
-		{
-			return puzzle;
-		}
+		return puzzle;
 	}
 	
 	public NetworkClient(Socket s)
@@ -52,13 +47,9 @@ public class NetworkClient implements Runnable
 		try
 		{
 			socket.setSoTimeout(1000);
-			iS = new ObjectInputStream(socket.getInputStream());
-			oS = new ObjectOutputStream(socket.getOutputStream());
 			thread = new Thread(this);
 		}catch (Exception e)
 		{
-			iS = null;
-			oS = null;
 			thread = null;
 		}
 		enabled = false;
@@ -74,6 +65,7 @@ public class NetworkClient implements Runnable
 			{
 				try
 				{
+					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
 					oS.writeObject(GetPuzzle());
 					deployed = true;
 				}catch (Exception e)
@@ -84,12 +76,15 @@ public class NetworkClient implements Runnable
 			{
 				try
 				{
-					Scores newScore = (Scores)iS.readObject();
-					SetScores(newScore);
+					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
+					ObjectInputStream iS = new ObjectInputStream(socket.getInputStream());
+					Scores newScores = (Scores)iS.readObject();
+					SetScores(newScores);
 					oS.writeObject(GetScores());
+					oS.flush();
 				}catch (Exception e)
 				{
-					
+					System.out.println("sync-"+e.toString());
 				}
 			}
 		}
@@ -128,6 +123,15 @@ public class NetworkClient implements Runnable
 		{
 			return false;
 		}
+	}
+	
+	public void Close()
+	{
+		Stop();
+		try
+		{
+			socket.close();
+		}catch(Exception e){}
 	}
 	
 }
