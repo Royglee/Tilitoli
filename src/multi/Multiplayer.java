@@ -160,4 +160,16 @@ public class Multiplayer
 	{
 		return connector.GetPuzzle();
 	}
+	
+	/**Megadja a csatlakozott játékosok számát.
+	 * @return
+	 * Csatlakozott játékosok száma, 0 ha kliensek vagyunk.
+	 */
+	public Integer GetConnectionCount()
+	{
+		if (mode == Mode.server)
+		{
+			return connector.GetConnectionCount();
+		}else return 0;
+	}
 }

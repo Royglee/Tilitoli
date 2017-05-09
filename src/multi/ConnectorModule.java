@@ -318,5 +318,13 @@ public class ConnectorModule implements Runnable
 		}
 		return puzzleDeployed?currentPuzzle:null;
 	}
-	
+
+	/**Megmondja, hány TCP kapcsolat van már.
+	 * @return
+	 * Elfogadott TCP kapcsolatok száma.
+	 */
+	public Integer GetConnectionCount()
+	{
+		return clients.size();
+	}
 }
