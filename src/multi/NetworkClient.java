@@ -3,6 +3,10 @@ package tilitoli;
 import java.net.*;
 import java.io.*;
 
+/**Különálló tcp kapcsolatokat kezelõ osztály
+ * @author Tarjányi Péter
+ *
+ */
 public class NetworkClient implements Runnable
 {
 	
@@ -15,6 +19,10 @@ public class NetworkClient implements Runnable
 	private Thread thread;
 	private boolean deployed; 
 	
+	/**Az osztály statikus eredményeit állítja. Threadsafe.
+	 * @param s
+	 * A beállítani kívánt eredmények.
+	 */
 	public static synchronized void SetScores(Scores s)
 	{
 		if (scores == null)
@@ -26,21 +34,37 @@ public class NetworkClient implements Runnable
 		}
 	}
 	
+	/**Vissza adja a aktuális legfrissebb eredményeket. Threadsafe.
+	 * @return
+	 * Aktuális eredmények.
+	 */
 	public static synchronized Scores GetScores()
 	{
 		return scores;
 	}
 	
+	/**Beállítja a szétosztandó játékteret. Threadsafe.
+	 * @param p
+	 * Szétosztandó játéktér.
+	 */
 	public static synchronized void SetPuzzle(Puzzle p)
 	{
 		puzzle = p;	
 	}
 	
+	/**Visszaadja a beállított játékteret, mondjuk sok haszna nincs, de elfér. Threadsafe.
+	 * @return
+	 * Korábban beállított szétosztandó játéktér.
+	 */
 	public static synchronized Puzzle GetPuzzle()
 	{
 		return puzzle;
 	}
 	
+	/**Konstruktor
+	 * @param s
+	 * A fogadott TCP kapcsolathoz tartozó socket.
+	 */
 	public NetworkClient(Socket s)
 	{
 		socket = s;
@@ -56,6 +80,9 @@ public class NetworkClient implements Runnable
 		enabled = false;
 	}
 	
+	/**A kapcsolatot kezel szálat képezõ folyamat.
+	 *
+	 */
 	@Override
 	public void run()
 	{
@@ -87,6 +114,10 @@ public class NetworkClient implements Runnable
 		}
 	}
 
+	/**Elindítja a konkrét TCP kapcsolatot kezelõ szálat.
+	 * @return
+	 * true ha minend rendben, false ha nem indult el.
+	 */
 	public boolean Start()
 	{
 		if (thread != null)
@@ -101,6 +132,10 @@ public class NetworkClient implements Runnable
 		return enabled;
 	}
 	
+	/**Leállítja a szálat, ami kezeli a kapcsolatot.
+	 * @return
+	 * true ha leállt, false ha nem is futott.
+	 */
 	public boolean Stop() 
 	{
 		enabled = false;
@@ -120,6 +155,9 @@ public class NetworkClient implements Runnable
 		}
 	}
 	
+	/**
+	 * Leállítja a szálat, és aztán lezárja a kapcsolatot.
+	 */
 	public void Close()
 	{
 		Stop();
