@@ -26,8 +26,8 @@ public class GUI extends JFrame {
 	
 	ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 	
-	public static int winwidth;		//Ablak szÈlessÈge
-	public static int winheight;	//Ablak magass·ga
+	public static int winwidth;		//Ablak sz√©less√©ge
+	public static int winheight;	//Ablak magass√°ga
 	
 	JPanel main;
 	JPanel sideupper;
@@ -38,18 +38,22 @@ public class GUI extends JFrame {
 	JButton client = new JButton("CLIENT");
 	JButton start = new JButton("START");
 	JButton connect = new JButton("CONNECT");
+	JButton create = new JButton ("CREATE SERVER");
 	JLabel single_or_multi;
 	JLabel server_or_client;
-	JLabel picture_and_resolution;
+	JLabel start_instruction;
 	JLabel nickname_ask;
 	JLabel you_win;
 	JLabel sidelower_label;
+	JLabel create_ask;
 	JTextField nickname_input_server_single;
 	JTextField nickname_input_client;
 	String[] numberTitles = new String[] {"dog", "cat","elephant", "giraffe"};
 	String[] resolutionTitles = new String[] {"3x3", "4x4","5x5", "6x6","7x7","8x8","9x9"};
+	String[] servernames = new String[]{};
 	JComboBox<String> animalList = new JComboBox<>(numberTitles);
 	JComboBox<String> resolutionList = new JComboBox<>(resolutionTitles);
+	JComboBox<String> serverList = new JComboBox<>();
 	
 	public GUI(controller c){
 		
@@ -59,7 +63,7 @@ public class GUI extends JFrame {
 		GUI.winheight = 658;
 		setTitle("Tili-Toli");
 		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);	//KilÈpÈs ablak x-re
+		setDefaultCloseOperation(EXIT_ON_CLOSE);	//Kil√©p√©s ablak x-re
 		setSize(GUI.winwidth,GUI.winheight);
 		setLayout(null);
 
@@ -149,6 +153,14 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nickname = nickname_input_client.getText();
+				
+			}
+		});
+		
+		create.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				
 			}
 		});
@@ -283,14 +295,26 @@ public class GUI extends JFrame {
 	public void drawParameterScreen() {
 		main.removeAll();
 		
-		main.setLayout(new GridLayout(5,2,10,10));
-		picture_and_resolution = new JLabel("Choose a picture and resolution!",SwingConstants.CENTER);
-		picture_and_resolution.setVisible(true);
-		main.add(picture_and_resolution);
-		
-		start.setVisible(true);
-		main.add(start);
-		
+		if(servermode){
+			main.setLayout(new GridLayout(6,2,10,10));
+		}
+		else{
+			main.setLayout(new GridLayout(5,2,10,10));
+		}
+		nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
+		nickname_ask.setVisible(true);
+		main.add(nickname_ask);
+		nickname_input_server_single = new JTextField("NICKNAME");
+		nickname_input_server_single.setHorizontalAlignment(JTextField.CENTER);
+		nickname_input_server_single.setVisible(true);
+		main.add(nickname_input_server_single);
+		if(servermode){
+			create_ask = new JLabel("Choose resolution and picture, then push CREATE to start server!",SwingConstants.CENTER);
+			create_ask.setVisible(true);
+			main.add(create_ask);
+			create.setVisible(true);
+			main.add(create);
+		}
 		
 		((JLabel)animalList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		((JLabel)resolutionList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -300,13 +324,17 @@ public class GUI extends JFrame {
 		openImage("cat");
 		openImage("elephant");
 		openImage("giraffe");
-		nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
-		nickname_ask.setVisible(true);
-		main.add(nickname_ask);
-		nickname_input_server_single = new JTextField("NICKNAME");
-		nickname_input_server_single.setHorizontalAlignment(JTextField.CENTER);
-		nickname_input_server_single.setVisible(true);
-		main.add(nickname_input_server_single);
+		if(servermode){
+			start_instruction = new JLabel("If clients are connected, then you can START game!",SwingConstants.CENTER);
+		}
+		else{
+			start_instruction = new JLabel("After the parameters are choosen, push START!",SwingConstants.CENTER);
+		}
+		start_instruction.setVisible(true);
+		main.add(start_instruction);
+		
+		start.setVisible(true);
+		main.add(start);
 		
 		main.revalidate();
 		main.repaint();
@@ -323,6 +351,10 @@ public class GUI extends JFrame {
 		nickname_input_client.setHorizontalAlignment(JTextField.CENTER);
 		nickname_input_client.setVisible(true);
 		main.add(nickname_input_client);
+		
+		((JLabel)serverList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+		main.add(serverList);
+		
 		connect.setVisible(true);
 		main.add(connect);
 		
