@@ -20,7 +20,7 @@ public class GameList
 	
 	/**Üressé tesz nekünk a lustát, hogy tiszta lappal indulhassunk.
 	 */
-	public void ClearList()
+	public void clearList()
 	{
 		synchronized (gameList)
 		{
@@ -34,7 +34,7 @@ public class GameList
 	 * @return
 	 * True ha értelmes válasz volt, és bevette, false ha már van ilyen vagy nem is válasz üzenet.
 	 */
-	public boolean LoadData(DatagramPacket p)
+	public boolean loadData(DatagramPacket p)
 	{
 		if (p != null)
 		{
@@ -60,7 +60,7 @@ public class GameList
 	 * @return
 	 * A broadcast-ra válaszoló játékok nevei.
 	 */
-	public String[] GetGameNames()
+	public String[] getGameNames()
 	{
 		synchronized (gameList)
 		{
@@ -82,7 +82,7 @@ public class GameList
 	 * @return
 	 * IP ha name valid, null ha name nem is létezik.
 	 */
-	public InetAddress GetGameAddress(String name)
+	public InetAddress getGameAddress(String name)
 	{
 		return gameList.containsKey(name)?gameList.get(name).getAddress():null; //<- that's why I use HashMap with crazy datagram packet.
 	}

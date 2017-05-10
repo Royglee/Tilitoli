@@ -42,7 +42,7 @@ public class Puzzle implements Serializable
 	 * @param image
 	 * kép azonosító
 	 */
-	public void SetImage(byte image)
+	public void setImage(byte image)
 	{
 		this.image = image;
 	}
@@ -51,7 +51,7 @@ public class Puzzle implements Serializable
 	 * @return
 	 * képazonosító
 	 */
-	public byte GetImage()
+	public byte getImage()
 	{
 		return image;
 	}
@@ -60,7 +60,7 @@ public class Puzzle implements Serializable
 	 * @param puzzle
 	 * új keverés
 	 */
-	public void SetPuzzle(byte[] puzzle)
+	public void setPuzzle(byte[] puzzle)
 	{
 		this.puzzle = puzzle;
 	}
@@ -69,7 +69,7 @@ public class Puzzle implements Serializable
 	 * @return
 	 * aktuális keverés
 	 */
-	public byte[] GetPuzzle()
+	public byte[] getPuzzle()
 	{
 		return puzzle;
 	}
@@ -78,7 +78,7 @@ public class Puzzle implements Serializable
 	 * @param size
 	 * oldalhossz
 	 */
-	public void SetSize(byte size)
+	public void setSize(byte size)
 	{
 		this.size = size;
 	}
@@ -87,7 +87,7 @@ public class Puzzle implements Serializable
 	 * @return
 	 * oldalhossz
 	 */
-	public byte GetSize()
+	public byte getSize()
 	{
 		return size;
 	}

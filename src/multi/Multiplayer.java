@@ -10,7 +10,7 @@ public class Multiplayer
 {
 	private enum Mode {none, server, client};
 	
-	private DiscoveryModule discover;
+	private DiscoveryModule discovery;
 	private ConnectorModule connector;
 	
 	private String myName;
@@ -24,7 +24,7 @@ public class Multiplayer
 	public Multiplayer(String myName)
 	{
 		this.myName = myName;
-		discover = new DiscoveryModule();
+		discovery = new DiscoveryModule();
 		connector = new ConnectorModule();
 		mode = Mode.none;
 	}
@@ -35,13 +35,13 @@ public class Multiplayer
 	 * @return
 	 * A választ adó játékmesterek listája.
 	 */
-	public String[] ListGameNames(Integer timeout)
+	public String[] listGameNames(Integer timeout)
 	{
-		List<InetAddress> bcAddress =  discover.GetAllBroadcastAddress(true);
-		discover.StartListening();
+		List<InetAddress> bcAddress =  discovery.getAllBroadcastAddress(true);
+		discovery.startListening();
 		for (InetAddress a : bcAddress)
 		{
-			discover.SendPing(a);
+			discovery.sendPing(a);
 		}
 		try
 		{
@@ -50,9 +50,9 @@ public class Multiplayer
 		{
 			//Itt nem kéne interrupt...
 		}
-		discover.StopListening();
-		games = discover.GetServerReplys();
-		return games.GetGameNames();		
+		discovery.stopListening();
+		games = discovery.getServerReplys();
+		return games.getGameNames();		
 	}
 	
 	/**Ha még nem vagyunk semmilyen módban, csatlakozik a kiválasztott játékhoz.
@@ -61,11 +61,11 @@ public class Multiplayer
 	 * @return
 	 * false ha már valamilyen módban vagyunk vagy nem sikerült csatlakozni.
 	 */
-	public boolean JoinGame(String masterName)
+	public boolean joinGame(String masterName)
 	{
 		if (mode == Mode.none)
 		{
-			if (connector.JoinGame(games.GetGameAddress(masterName)))
+			if (connector.joinGame(games.getGameAddress(masterName)))
 			{
 				mode = Mode.client;
 				return true;
@@ -84,19 +84,19 @@ public class Multiplayer
 	 * @return
 	 * false ha már fut szerver vagy kliens, illetve ha nem sikerült elindítani.
 	 */
-	public boolean CreateGame(Puzzle p)
+	public boolean createGame(Puzzle p)
 	{
 		if (mode == Mode.none)
 		{
-			if (discover.StartReplyAs(myName, p.GetImage()))
+			if (discovery.startReplyAs(myName, p.getImage()))
 			{
-				if(connector.StartGameServer(p))
+				if(connector.startGameServer(p))
 				{
 					mode = Mode.server;
 					return true;
 				}else
 				{
-					discover.StopReply();
+					discovery.stopReply();
 					return false;
 				}
 			}
@@ -108,12 +108,12 @@ public class Multiplayer
 	 * @return
 	 * false ha nem szerver módban hívjuk meg.
 	 */
-	public boolean StartGame()
+	public boolean startGame()
 	{
 		if (mode == Mode.server)
 		{
-			discover.StopReply();
-			connector.DisableNewConnections();
+			discovery.stopReply();
+			connector.disableNewConnections();
 			return true;
 		}
 		return false;
@@ -123,20 +123,20 @@ public class Multiplayer
 	 * @return
 	 * false ha nem is futott semmi
 	 */
-	public boolean FinishGame()
+	public boolean finishGame()
 	{
 		if (mode == Mode.server)
 		{
-			if (discover.GetReceiveState())
+			if (discovery.getReceiveState())
 			{
-				discover.StopReply();
+				discovery.stopReply();
 			}
 			mode = Mode.none;
-			return connector.StopGameServer();
+			return connector.stopGameServer();
 		}else if (mode == Mode.client)
 		{
 			mode = Mode.none;
-			return connector.LeaveGame();
+			return connector.leaveGame();
 		}
 		return false;
 	}
@@ -147,29 +147,29 @@ public class Multiplayer
 	 * @return
 	 * Az összes játékos aktuálisan elérhetõ pontszáma.
 	 */
-	public Scores SyncScore(Integer myScore)
+	public Scores syncScore(Integer myScore)
 	{
-		return connector.GetPlayerScores(myName, myScore);
+		return connector.getPlayerScores(myName, myScore);
 	}
 	
 	/**Megadja az aktuális játékteret. Kliens esetén blokkol amíg meg nem kapja a szervertõl, tehát amíg el nem indul a játék.
 	 * @return
 	 * Kliens: szervertõl akpott játéktér Szerver: szétosztott játéktér. 
 	 */
-	public Puzzle GetPuzzle()
+	public Puzzle getPuzzle()
 	{
-		return connector.GetPuzzle();
+		return connector.getPuzzle();
 	}
 	
 	/**Megadja a csatlakozott játékosok számát.
 	 * @return
 	 * Csatlakozott játékosok száma, 0 ha kliensek vagyunk.
 	 */
-	public Integer GetConnectionCount()
+	public Integer getConnectionCount()
 	{
 		if (mode == Mode.server)
 		{
-			return connector.GetConnectionCount();
+			return connector.getConnectionCount();
 		}else return 0;
 	}
 }

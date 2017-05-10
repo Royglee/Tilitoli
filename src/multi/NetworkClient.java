@@ -23,14 +23,14 @@ public class NetworkClient implements Runnable
 	 * @param s
 	 * A beállítani kívánt eredmények.
 	 */
-	public static synchronized void SetScores(Scores s)
+	public static synchronized void setScores(Scores s)
 	{
 		if (scores == null)
 		{
 			scores = s;
 		}else
 		{
-			scores.MergeScores(s);
+			scores.mergeScores(s);
 		}
 	}
 	
@@ -38,7 +38,7 @@ public class NetworkClient implements Runnable
 	 * @return
 	 * Aktuális eredmények.
 	 */
-	public static synchronized Scores GetScores()
+	public static synchronized Scores getScores()
 	{
 		return scores;
 	}
@@ -47,7 +47,7 @@ public class NetworkClient implements Runnable
 	 * @param p
 	 * Szétosztandó játéktér.
 	 */
-	public static synchronized void SetPuzzle(Puzzle p)
+	public static synchronized void setPuzzle(Puzzle p)
 	{
 		puzzle = p;	
 	}
@@ -56,7 +56,7 @@ public class NetworkClient implements Runnable
 	 * @return
 	 * Korábban beállított szétosztandó játéktér.
 	 */
-	public static synchronized Puzzle GetPuzzle()
+	public static synchronized Puzzle getPuzzle()
 	{
 		return puzzle;
 	}
@@ -93,7 +93,7 @@ public class NetworkClient implements Runnable
 				SyncObject sync;
 				if (!deployed)
 				{
-					sync = new SyncObject(GetScores(), GetPuzzle());
+					sync = new SyncObject(getScores(), getPuzzle());
 					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
 					oS.writeObject(sync);
 					deployed = true;
@@ -101,8 +101,8 @@ public class NetworkClient implements Runnable
 				{
 					ObjectInputStream iS = new ObjectInputStream(socket.getInputStream());
 					sync = (SyncObject)iS.readObject();
-					SetScores(sync.scores);
-					sync.scores = GetScores();
+					setScores(sync.scores);
+					sync.scores = getScores();
 					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
 					oS.writeObject(sync);
 				}
@@ -118,7 +118,7 @@ public class NetworkClient implements Runnable
 	 * @return
 	 * true ha minend rendben, false ha nem indult el.
 	 */
-	public boolean Start()
+	public boolean start()
 	{
 		if (thread != null)
 		{
@@ -136,7 +136,7 @@ public class NetworkClient implements Runnable
 	 * @return
 	 * true ha leállt, false ha nem is futott.
 	 */
-	public boolean Stop() 
+	public boolean stop() 
 	{
 		enabled = false;
 		if (thread != null)
@@ -158,9 +158,9 @@ public class NetworkClient implements Runnable
 	/**
 	 * Leállítja a szálat, és aztán lezárja a kapcsolatot.
 	 */
-	public void Close()
+	public void close()
 	{
-		Stop();
+		stop();
 		try
 		{
 			socket.close();

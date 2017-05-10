@@ -36,7 +36,7 @@ public class Scores implements Serializable
 	 * @param score
 	 * Játékos (új) pontszáma.
 	 */
-	public void WriteScore(String name, Integer score)
+	public void writeScore(String name, Integer score)
 	{
 		if (scoreMap.containsKey(name))
 		{
@@ -51,7 +51,7 @@ public class Scores implements Serializable
 	 * @param s
 	 * A hozzáfûzendõ adatok.
 	 */
-	public void MergeScores(Scores s)
+	public void mergeScores(Scores s)
 	{
 		Set<String> originalKeys = this.scoreMap.keySet();
 		Set<String> newKeys = s.scoreMap.keySet();
@@ -73,7 +73,7 @@ public class Scores implements Serializable
 	 * @return
 	 * A játékos pontszáma, 0 ha nincs ilyen játékos.
 	 */
-	public Integer GetScore(String name)
+	public Integer getScore(String name)
 	{
 		if (scoreMap.containsKey(name))
 		{
@@ -86,7 +86,7 @@ public class Scores implements Serializable
 	 * @return
 	 * "Név: pont" elemek vektora.
 	 */
-	public String[] ListAll()
+	public String[] listAll()
 	{
 		String[] result = new String[scoreMap.size()];
 		Set<String> keys = scoreMap.keySet();

@@ -41,11 +41,11 @@ public class DiscoveryModule implements Runnable
 					socket.receive(p);
 					if (isReplying)
 					{
-						ReplyIfValid(p);
+						replyIfValid(p);
 					}
 					if (isListening)
 					{
-						availableGames.LoadData(p);
+						availableGames.loadData(p);
 					}
 				}catch (Exception e)
 				{
@@ -67,14 +67,14 @@ public class DiscoveryModule implements Runnable
 	 * @param p
 	 * Csomag aminek a tartalmát vizsgáljuk
 	 */
-	private void ReplyIfValid(DatagramPacket p)
+	private void replyIfValid(DatagramPacket p)
 	{
 		if (p != null)
 		{
 			String s = new String(p.getData());
 			if (s.startsWith(INTERNATIONAL_PING))
 			{
-				SendAnswer(p);
+				sendAnswer(p);
 			}
 		}
 		//System.out.println("DiscoveryModule.ReplyIfValid: NULL data!");
@@ -84,7 +84,7 @@ public class DiscoveryModule implements Runnable
 	 * @param p
 	 * Cél adatokat tartalmazó datagramPacket.
 	 */
-	private void SendAnswer(DatagramPacket p)
+	private void sendAnswer(DatagramPacket p)
 	{
 		if (socket != null && p != null)
 		{
@@ -134,7 +134,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * True ha sikerült a küldés, false ha nem.
 	 */
-	public boolean SendPing(InetAddress dest)
+	public boolean sendPing(InetAddress dest)
 	{
 		if (socket != null && dest != null)
 		{
@@ -161,7 +161,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * True ha sikerült elindítani a módot, false különben (már fut / más fut).
 	 */
-	public boolean StartReplyAs(String masterName, int imageID)
+	public boolean startReplyAs(String masterName, int imageID)
 	{
 		if (!isReplying && !isListening && !receiveThread.isAlive())
 		{
@@ -179,7 +179,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * false ha nem is futott semmi, true ha végre leálltunk
 	 */
-	public boolean StopReply()
+	public boolean stopReply()
 	{
 		if (isReplying && !isListening)
 		{
@@ -204,7 +204,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * The state of receiveThread as name shows.
 	 */
-	public boolean GetReceiveState()
+	public boolean getReceiveState()
 	{
 		return receiveThread.isAlive();
 	}
@@ -213,12 +213,12 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * true ha futunk, false ha már futunk vagy más fut a szálon (ergo ide se kellett volna jutni...)
 	 */
-	public boolean StartListening()
+	public boolean startListening()
 	{
 		if (!isListening && !isReplying && !receiveThread.isAlive())
 		{
 			isListening = true;
-			availableGames.ClearList();
+			availableGames.clearList();
 			receiveThread.start();
 			return true;
 		}
@@ -230,7 +230,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * false ha nem is fut ez a funkció, true ha leállt.
 	 */
-	public boolean StopListening()
+	public boolean stopListening()
 	{
 		if (isListening && !isReplying)
 		{
@@ -254,7 +254,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * Elérhetõ játékok listája.
 	 */
-	public synchronized GameList GetServerReplys()
+	public synchronized GameList getServerReplys()
 	{
 			return availableGames;
 	}
@@ -265,7 +265,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * A gép összes aktív broadcast címe.
 	 */
-	public List<InetAddress> GetAllBroadcastAddress(Boolean withoutLoopback)
+	public List<InetAddress> getAllBroadcastAddress(Boolean withoutLoopback)
 	{
 		List<InetAddress> result = new LinkedList<InetAddress>();
 		try

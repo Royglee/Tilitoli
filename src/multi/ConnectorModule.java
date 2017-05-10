@@ -34,14 +34,14 @@ public class ConnectorModule implements Runnable
 		{
 			if (enableAccepting)
 			{
-				AcceptNewConnection();
+				acceptNewConnection();
 			}else
 			{
 				if (clients.size()>0)
 				{
 					for (NetworkClient c : clients)
 					{
-						c.Start();
+						c.start();
 					}
 				}
 				serverRunning = false;
@@ -49,13 +49,13 @@ public class ConnectorModule implements Runnable
 		}
 		while (clientRunning && !puzzleDeployed)
 		{
-			ReceivePuzzle();
+			receivePuzzle();
 		}
 	}
 	
 	/**Fogadja a szervertõl akpott puzzle-t, és tárolja.
 	 */
-	private void ReceivePuzzle()
+	private void receivePuzzle()
 	{
 		try
 		{
@@ -78,7 +78,7 @@ public class ConnectorModule implements Runnable
 	
 	/**Fogadja az új játékosokat.
 	 */
-	private void AcceptNewConnection()
+	private void acceptNewConnection()
 	{
 		if (server != null)
 		{
@@ -110,7 +110,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * False ha nem tud elindulni vagy kliens módban vagyunk, true ha a játék elindult.
 	 */
-	public boolean StartGameServer(Puzzle puzzle)
+	public boolean startGameServer(Puzzle puzzle)
 	{
 		if (mode == Mode.none)
 		{
@@ -121,11 +121,11 @@ public class ConnectorModule implements Runnable
 					clients = new LinkedList<NetworkClient>();
 					server = new ServerSocket(TCP_PORT);
 					server.setSoTimeout(100);
-					NetworkClient.SetPuzzle(puzzle);
-					NetworkClient.SetScores(new Scores());
+					NetworkClient.setPuzzle(puzzle);
+					NetworkClient.setScores(new Scores());
 					serverRunning = true;
 					mode = Mode.server;
-					EnableNewConnections();
+					enableNewConnections();
 					connectionThread.start();
 					return true;
 				}catch (Exception e)
@@ -140,24 +140,24 @@ public class ConnectorModule implements Runnable
 	
 	/**Tiszta lappal kezdi fogadni az új játékosokat.
 	 */
-	private void EnableNewConnections()
+	private void enableNewConnections()
 	{
 		if (server != null)
 		{
-			CleanUpConnections();
+			cleanUpConnections();
 			enableAccepting = true;
 		}
 	}
 	
 	/**Lezárja a nyitott kapcsolatokat és törli azokat.
 	 */
-	private void CleanUpConnections()
+	private void cleanUpConnections()
 	{
 		if (clients != null && clients.size()>0)
 		{
 			for (NetworkClient c : clients)
 			{
-				c.Close();
+				c.close();
 			}
 			clients.clear();
 		}
@@ -165,7 +165,7 @@ public class ConnectorModule implements Runnable
 	
 	/**Leállítja a további játékosok fogadását, és elindul a játék.
 	 */
-	public void DisableNewConnections()
+	public void disableNewConnections()
 	{
 		enableAccepting = false;
 	}
@@ -174,7 +174,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * true ha leállt, false ha nem is ment a szerver mód.
 	 */
-	public boolean StopGameServer()
+	public boolean stopGameServer()
 	{
 		if (mode == Mode.server)
 		{
@@ -189,7 +189,7 @@ public class ConnectorModule implements Runnable
 					//Do nothing, "while" goes on and on
 				}
 			}
-			CleanUpConnections();
+			cleanUpConnections();
 			server = null;
 			mode = Mode.none;
 			return true;
@@ -202,7 +202,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * false ha nem sikerült csatlakozni, true ha csatlakozott.
 	 */
-	public boolean JoinGame(InetAddress address)
+	public boolean joinGame(InetAddress address)
 	{
 		if (mode == Mode.none)
 		{
@@ -228,7 +228,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * true ha kiléptünk, false ha nem is voltunk játékban
 	 */
-	public boolean LeaveGame()
+	public boolean leaveGame()
 	{
 		if (mode == Mode.client)
 		{
@@ -258,15 +258,15 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * Minden játékos eredménye, vagy null, ha nem fut semmi
 	 */
-	public Scores GetPlayerScores(String name, Integer score)
+	public Scores getPlayerScores(String name, Integer score)
 	{
 		if (mode == Mode.client)
 		{
-			return puzzleDeployed?SyncScore(name, score):null;
+			return puzzleDeployed?syncScore(name, score):null;
 		}else if (mode == Mode.server)
 		{
-			NetworkClient.SetScores(new Scores(name, score));
-			return NetworkClient.GetScores();
+			NetworkClient.setScores(new Scores(name, score));
+			return NetworkClient.getScores();
 		}
 		else return null;
 	}
@@ -279,7 +279,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * Minden játékos eredménye a szervertõl.
 	 */
-	private Scores SyncScore(String name, Integer score)
+	private Scores syncScore(String name, Integer score)
 	{
 		Scores ego = new Scores(name, score);
 		try
@@ -304,7 +304,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * Kliens: szervertõl akpott játéktér Szerver: szétosztott játéktér. 
 	 */
-	public Puzzle GetPuzzle()
+	public Puzzle getPuzzle()
 	{
 		while (!puzzleDeployed && mode == Mode.client)
 		{
@@ -323,7 +323,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * Elfogadott TCP kapcsolatok száma.
 	 */
-	public Integer GetConnectionCount()
+	public Integer getConnectionCount()
 	{
 		return clients.size();
 	}
