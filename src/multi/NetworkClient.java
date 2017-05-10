@@ -1,4 +1,4 @@
-package tilitoli;
+package multi;
 
 import java.net.*;
 import java.io.*;

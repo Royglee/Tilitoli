@@ -57,7 +57,7 @@ public class game {
 		    		startTime--;
 		    		System.out.println(startTime);
 		    	}else{
-		    		mix(1);  
+		    		mix(500);  
 			    	System.out.println("Table mixed");
 			    	startTime=0;
 			    	this.cancel();
