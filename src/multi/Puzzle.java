@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Puzzle implements Serializable
 {
 	private static final long serialVersionUID = 1L;
-	private byte image;
+	private String image;
 	private byte[] puzzle;
 	private byte size; 
 	
@@ -18,7 +18,7 @@ public class Puzzle implements Serializable
 	 */
 	public Puzzle()
 	{
-		image = 0;
+		image = "";
 		size = 0;
 		puzzle = null;
 	}
@@ -31,7 +31,7 @@ public class Puzzle implements Serializable
 	 * @param puzzle
 	 * Keverés
 	 */
-	public Puzzle(byte image, byte size, byte[] puzzle)
+	public Puzzle(String image, byte size, byte[] puzzle)
 	{
 		this.image = image;
 		this.puzzle = puzzle;
@@ -42,7 +42,7 @@ public class Puzzle implements Serializable
 	 * @param image
 	 * kép azonosító
 	 */
-	public void setImage(byte image)
+	public void setImage(String image)
 	{
 		this.image = image;
 	}
@@ -51,7 +51,7 @@ public class Puzzle implements Serializable
 	 * @return
 	 * képazonosító
 	 */
-	public byte getImage()
+	public String getImage()
 	{
 		return image;
 	}

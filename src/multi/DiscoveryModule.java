@@ -20,7 +20,7 @@ public class DiscoveryModule implements Runnable
 	private boolean isReplying; 	//Reply thread enabler
 	private boolean isListening;	//Listening thread enabler
 	private String masterName;		//Válaszhoz szükséges néve
-	private int imageID;			//Aktuális játéktér azonosító
+	private String imageID;			//Aktuális játéktér azonosító
 
 	private GameList availableGames;//Alosztály, az elérhetõ játékok feldolgozására és tárolására
 	
@@ -161,7 +161,7 @@ public class DiscoveryModule implements Runnable
 	 * @return
 	 * True ha sikerült elindítani a módot, false különben (már fut / más fut).
 	 */
-	public boolean startReplyAs(String masterName, int imageID)
+	public boolean startReplyAs(String masterName, String imageID)
 	{
 		if (!isReplying && !isListening && !receiveThread.isAlive())
 		{
