@@ -57,5 +57,10 @@ public class controller{
 		String string = (game.getStartTime()>0)?""+game.getStartTime():"GO!";
 		g.countBack(string);
 	}
+	
+	public String[] listServers(){
+		String[] servers = new String[] {"dog", "cat","elephant", "giraffe"};
+		return servers;
+	}
 
 }
