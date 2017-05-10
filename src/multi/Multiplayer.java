@@ -110,7 +110,7 @@ public class Multiplayer
 	 */
 	public boolean startGame()
 	{
-		if (mode == Mode.server)
+		if (mode == Mode.server && getConnectionCount()>1)
 		{
 			discovery.stopReply();
 			connector.disableNewConnections();
