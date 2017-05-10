@@ -49,8 +49,13 @@ public class GUI extends JFrame {
 	JTextField nickname_input_server_single;
 	JTextField nickname_input_client;
 	String[] numberTitles = new String[] {"dog", "cat","elephant", "giraffe"};
+<<<<<<< HEAD
 	String[] resolutionTitles = new String[] {"3x3", "4x4","5x5", "6x6","7x7","8x8","9x9"};
 	String[] servernames = new String[]{};
+=======
+	String[] resolutionTitles = new String[] {"3x3", "4x4","5x5", "6x6","7x7","8x8","9x9","10x10"};
+
+>>>>>>> 04ead55a69f1c4ef21b1c19b4d32c730a3e67f76
 	JComboBox<String> animalList = new JComboBox<>(numberTitles);
 	JComboBox<String> resolutionList = new JComboBox<>(resolutionTitles);
 	JComboBox<String> serverList = new JComboBox<>();
@@ -127,7 +132,8 @@ public class GUI extends JFrame {
 				c.getGame().setPicturename(picturename);
 				
 				resolutionString = resolutionList.getSelectedItem().toString();
-				resolution = Character.getNumericValue(resolutionString.charAt(0));
+				resolution = Integer.parseInt(resolutionString.substring(0,resolutionString.indexOf("x")));
+
 				c.getGame().setResolution(resolution);
 				
 				nickname = nickname_input_server_single.getText();

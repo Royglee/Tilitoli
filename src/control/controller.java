@@ -1,10 +1,16 @@
 package control;
 import gui.GUI;
+import multi.Multiplayer;
 
 public class controller{
 	private GUI g;
 	private game game = new game(this);
+	private Multiplayer multi;
 	private boolean endScreenDrawn; 
+	private boolean isMulti;
+	private boolean servermode;
+	private String myName;
+	
 	
 	public game getGame() {
 		return game;
