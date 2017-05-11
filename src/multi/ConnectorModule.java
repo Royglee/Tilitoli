@@ -73,7 +73,7 @@ public class ConnectorModule implements Runnable
 		{
 			puzzleDeployed = false;
 			clientRunning = false;
-			System.out.println(e.toString());
+			System.out.println("deploy2:"+e.toString());
 		}
 	}
 	
@@ -295,7 +295,7 @@ public class ConnectorModule implements Runnable
 			System.out.println("Get");
 		}catch (Exception e)
 		{
-			System.out.println(e.toString());
+			System.out.println("sync: "+e.toString());
 			//Something wrong, so return ego data.
 		}
 		return ego; 
