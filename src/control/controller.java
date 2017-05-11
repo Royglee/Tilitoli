@@ -22,7 +22,7 @@ public class controller{
 		this.g = g;
 	}
 	
-	public void init() {
+	private void init() {
 		endScreenDrawn = false;
 		game.init();
 	}
@@ -88,7 +88,13 @@ public class controller{
 	}
 	
 	public void startGame() {
-		multi.startGame();
+		if(!multiplayer){
+			init();
+			tableChanged();
+			game.mixAfterDelay();
+		}else{
+			multi.startGame();
+		}
 	}
 
 	public void setMyName(String name) {

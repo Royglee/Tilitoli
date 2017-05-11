@@ -132,7 +132,7 @@ public class GUI extends JFrame {
 				nickname = nickname_input_server_single.getText();
 				chopImage();
 	
-				c.init();
+				c.startGame();
 				
 				
 				main.addMouseListener(new MouseAdapter() {
