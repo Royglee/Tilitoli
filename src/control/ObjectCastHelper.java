@@ -13,6 +13,7 @@ public class ObjectCastHelper {
 	{
 	    ByteArrayInputStream bytesIn = new ByteArrayInputStream(bytes);
 	    ObjectInputStream ois = new ObjectInputStream(bytesIn);
+		@SuppressWarnings("unchecked")
 		Vector<Integer> obj = (Vector<Integer>) ois.readObject();
 	    ois.close();
 	    return obj;

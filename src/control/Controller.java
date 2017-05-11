@@ -102,6 +102,7 @@ public class Controller{
 	}
 	
 	public void clicked(int clickResult) {
+		System.out.println(endScreenDrawn);
 		
 		if(game.canMove(clickResult)){
 			game.swap(clickResult); 
