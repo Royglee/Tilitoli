@@ -120,6 +120,7 @@ public class Controller{
 					game.setPicturename(p.getImage());
 					game.setResolution((int)p.getSize());
 					game.setTable(ObjectCastHelper.deserializeBytes(p.getPuzzle()));
+					g.chopImage();
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				}
