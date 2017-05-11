@@ -37,6 +37,11 @@ public class Game {
 		return table;
 	}
 	
+	protected void setTable(Vector<Integer> deserializeBytes) {
+		table = deserializeBytes;
+		
+	}
+	
 	public Vector<Integer> getSolvedTable() {
 		int size = resolution*resolution;
 		Vector<Integer> solved = new Vector<Integer>();
@@ -146,10 +151,5 @@ public class Game {
 	
 	protected boolean isStarted() {
 		return startTime==0?true:false;
-	}
-
-	protected void setTable(Vector<Integer> deserializeBytes) {
-		table = deserializeBytes;
-		
 	}
 }

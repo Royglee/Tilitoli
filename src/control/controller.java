@@ -13,35 +13,71 @@ public class Controller{
 	private boolean servermode=false;
 	private String myName;
 	
+	/**GUI-ra referencia beállítás
+	 * 
+	 * @param g
+	 * GUI példány
+	 */
 	public void setGUI(GUI g) {
 		this.g = g;
 	}
 	
+	/** 
+	 * 
+	 * @return a játékot leíró game objektum
+	 */
 	public Game getGame() {
 		return game;
 	}
 	
+	/**Beállítja hogy a játék single/multi módban fusson
+	 * 
+	 * @param isMulti
+	 * true - A játék multiplayer módban fog menni, false-a játék singleplayer módban fog menni
+	 */
 	public void setMultiMode(boolean isMulti) {
 		multiplayer = isMulti;
 	}
 	
+	/**
+	 * 
+	 * @param isServer
+	 * true-szerver módban üzemel false-kliens módban üzemel a program
+	 */
 	public void setServerMode(boolean isServer) {
 		this.servermode = isServer;
 	}
 	
+	/** Visszaadja, hogy milyen módban fut a szoftver
+	 * 
+	 * @return true, ha szerver módban fut. false, ha kliens módban
+	 */
 	public boolean getServerMode(){
 		return servermode;
 	}
 	
+	/** Beálítja a felhasználó nevét
+	 * 
+	 * @param name
+	 */
 	public void setMyName(String name) {
 		myName = name;
 		
 	}
 	
+	/**
+	 * 
+	 * @return a felhasználó neve
+	 */
 	public String getMyName() {
 		return myName;
 	}
 	
+	/** Beállítja a játékra jellemzõ paramétereket
+	 * 
+	 * @param pictureName
+	 * @param resolution
+	 */
 	public void setGameParameters(String pictureName, int resolution) {
 		game.setPicturename(pictureName);
 		game.setResolution(resolution);
@@ -83,7 +119,6 @@ public class Controller{
 					Puzzle p = multi.getPuzzle();
 					game.setTable(ObjectCastHelper.deserializeBytes(p.getPuzzle()));
 				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -101,9 +136,7 @@ public class Controller{
 		}
 	}
 	
-	public void clicked(int clickResult) {
-		System.out.println(endScreenDrawn);
-		
+	public void clicked(int clickResult) {		
 		if(game.canMove(clickResult)){
 			game.swap(clickResult); 
 			tableChanged();
