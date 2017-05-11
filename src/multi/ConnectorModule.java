@@ -66,7 +66,8 @@ public class ConnectorModule implements Runnable
 		}catch (SocketTimeoutException e)
 		{
 			puzzleDeployed = false;
-			System.out.println(e.toString());
+			System.out.println(client.getInetAddress());
+			System.out.println("deploy:"+e.toString());
 		}
 		catch (Exception e)
 		{
