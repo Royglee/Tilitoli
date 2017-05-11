@@ -63,17 +63,17 @@ public class ConnectorModule implements Runnable
 			SyncObject sync = (SyncObject)iS.readObject();
 			currentPuzzle = sync.puzzle;
 			puzzleDeployed = true;
+			System.out.println("puzzle deployed");
 		}catch (SocketTimeoutException e)
 		{
 			puzzleDeployed = false;
-			System.out.println(client.getInetAddress());
-			System.out.println("deploy:"+e.toString());
+			//System.out.println("deploy:"+e.toString());
 		}
 		catch (Exception e)
 		{
 			puzzleDeployed = false;
 			clientRunning = false;
-			System.out.println("deploy2:"+e.toString());
+			//System.out.println("deploy2:"+e.toString());
 		}
 	}
 	
