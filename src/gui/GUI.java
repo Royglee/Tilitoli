@@ -193,6 +193,7 @@ public class GUI extends JFrame {
 	
 	public void chopImage(){
 		
+		images.clear();
 		Image img = null;
 		int resolution = c.getGame().getResolution();
 		String picturename = c.getGame().getPicturename();

@@ -80,7 +80,8 @@ public class Controller{
 			}
 			else{
 				try {
-					game.setTable(ObjectCastHelper.deserializeBytes(multi.getPuzzle().getPuzzle()));
+					Puzzle p = multi.getPuzzle();
+					game.setTable(ObjectCastHelper.deserializeBytes(p.getPuzzle()));
 				} catch (ClassNotFoundException | IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
