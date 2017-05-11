@@ -122,12 +122,11 @@ public class GUI extends JFrame {
 				int resolution;
 				
 				picturename = animalList.getSelectedItem().toString();
-				c.getGame().setPicturename(picturename);
-				
+
 				resolutionString = resolutionList.getSelectedItem().toString();
 				resolution = Integer.parseInt(resolutionString.substring(0,resolutionString.indexOf("x")));
 
-				c.getGame().setResolution(resolution);
+				c.setGameParameters(picturename, resolution);
 				
 				nickname = nickname_input_server_single.getText();
 				chopImage();
@@ -153,7 +152,7 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				nickname = nickname_input_client.getText();
 				String server = serverList.getSelectedItem().toString();
-				System.out.println(server);
+				c.joinServer(server);
 				
 			}
 		});

@@ -13,18 +13,91 @@ public class Controller{
 	private boolean servermode=false;
 	private String myName;
 	
+	public void setGUI(GUI g) {
+		this.g = g;
+	}
 	
 	public Game getGame() {
 		return game;
 	}
 	
-	public void setGUI(GUI g) {
-		this.g = g;
+	public void setMultiMode(boolean isMulti) {
+		multiplayer = isMulti;
 	}
 	
-	private void init() {
-		endScreenDrawn = false;
+	public void setServerMode(boolean isServer) {
+		this.servermode = isServer;
+	}
+	
+	public boolean getServerMode(){
+		return servermode;
+	}
+	
+	public void setMyName(String name) {
+		myName = name;
+		
+	}
+	
+	public String getMyName() {
+		return myName;
+	}
+	
+	public void setGameParameters(String pictureName, int resolution) {
+		game.setPicturename(pictureName);
+		game.setResolution(resolution);
+	}
+	
+	public void createGame() throws IOException, ClassNotFoundException {
+		multi = new Multiplayer(myName);
 		game.init();
+		game.mix(500);
+		Puzzle p = new Puzzle(game.getPicturename(), (byte)game.getResolution(),ObjectCastHelper.serializeObject(game.getTable()));
+		multi.createGame(p);		
+	}
+	
+	
+	public void listServers(){
+		//String[] servers = new String[] {"dog", "cat","elephant", "giraffe"};
+		multi = new Multiplayer("Client nicname");
+		g.drawClientScreen(multi.listGameNames(1000));
+		//g.drawClientScreen(servers);
+	}
+	
+	public void joinServer(String server) {
+		multi.joinGame(server);
+		startGame();
+		
+	}
+	
+	public void startGame() {
+		endScreenDrawn = false;
+		if(!multiplayer){
+			game.init();
+			game.mix(500); 
+		}else{
+			if(servermode){
+				multi.startGame();
+			}
+			else{
+				try {
+					game.setTable(ObjectCastHelper.deserializeBytes(multi.getPuzzle().getPuzzle()));
+				} catch (ClassNotFoundException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		g.makePanel(game.getSolvedTable());
+		game.startTimer(5);
+	}
+	
+	protected void startTimerChanged(){
+		String string = (game.getStartTime()>0)?""+game.getStartTime():"GO!";
+		g.countBack(string);
+		
+		if(game.getStartTime()==0){
+				tableChanged();
+		}
 	}
 	
 	public void clicked(int clickResult) {
@@ -48,63 +121,8 @@ public class Controller{
 		
 	}
 	
-	protected void tableChanged(boolean needSync) {
-		g.makePanel(game.getTable());
-	}
 	protected void tableChanged() {
 		g.makePanel(game.getTable());
-	}
-	
-	protected void startTimerChanged(){
-		String string = (game.getStartTime()>0)?""+game.getStartTime():"GO!";
-		g.countBack(string);
-	}
-	
-	public void listServers(){
-		String[] servers = new String[] {"dog", "cat","elephant", "giraffe"};
-		multi = new Multiplayer("IGEN");
-		//g.drawClientScreen(multi.listGameNames(1000));
-		g.drawClientScreen(servers);
-	}
-	
-	public void setMultiMode(boolean isMulti) {
-		multiplayer = isMulti;
-	}
-	
-	public void setServerMode(boolean isServer) {
-		this.servermode = isServer;
-	}
-	
-	public boolean getServerMode(){
-		return servermode;
-	}
-
-	public void createGame() throws IOException, ClassNotFoundException {
-		multi = new Multiplayer(myName);
-		game.init();
-		Puzzle p = new Puzzle(game.getPicturename(), (byte)game.getResolution(),ObjectCastHelper.serializeObject(game.getTable()));
-		multi.createGame(p);
-		
-	}
-	
-	public void startGame() {
-		if(!multiplayer){
-			init();
-			tableChanged();
-			game.mixAfterDelay();
-		}else{
-			multi.startGame();
-		}
-	}
-
-	public void setMyName(String name) {
-		myName = name;
-		
-	}
-	
-	public void setGameParameters(String pictureName, int resolution) {
-		game.setPicturename(pictureName);
-		game.setResolution(resolution);
 	}
 
 }

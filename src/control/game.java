@@ -21,7 +21,7 @@ public class Game {
 	public int getResolution() {
 		return resolution;
 	}
-	public void setResolution(int resolution) {
+	protected void setResolution(int resolution) {
 		this.resolution = resolution;
 	}
 	
@@ -29,12 +29,22 @@ public class Game {
 		return picturename;
 	}
 	
-	public void setPicturename(String picturename) {
+	protected void setPicturename(String picturename) {
 		this.picturename = picturename;
 	}
 	
 	public Vector<Integer> getTable() {
 		return table;
+	}
+	
+	public Vector<Integer> getSolvedTable() {
+		int size = resolution*resolution;
+		Vector<Integer> solved = new Vector<Integer>();
+		
+		for(int i=0;i<size;i++ ){
+			solved.add(i);
+		}
+		return solved;
 	}
 	
 	public int getStartTime() {
@@ -51,21 +61,19 @@ public class Game {
 		
 	}
 	
-	protected void mixAfterDelay() {
-		startTime = 6;
+	protected void startTimer(int delay) {
+		startTime = delay+1;
 		timer.scheduleAtFixedRate(new TimerTask() {          
 		    @Override
 		    public void run() {
-		    	if(startTime>1){
-		    		startTime--;
+		    	startTime--;
+		    	if(startTime>=1){
 		    		System.out.println(startTime);
 		    	}else{
-		    		mix(500);  
-			    	System.out.println("Table mixed");
-			    	startTime=0;
 			    	this.cancel();
 		    	}
-		    	startTimerChanged();
+		    	c.startTimerChanged();
+		
 		    }
 		}, 0,1000);
 	}
@@ -109,7 +117,6 @@ public class Game {
 			Vector<Integer> neighbours= getNeighboursOf(getBlankTilePosition());
 			swap(neighbours.get(r.nextInt(neighbours.size())));
 		}
-		c.tableChanged();
 	}
 	
 	private Vector<Integer> getNeighboursOf(int Tile){
@@ -140,8 +147,9 @@ public class Game {
 	protected boolean isStarted() {
 		return startTime==0?true:false;
 	}
-	
-	private void startTimerChanged(){
-		c.startTimerChanged();
+
+	protected void setTable(Vector<Integer> deserializeBytes) {
+		table = deserializeBytes;
+		
 	}
 }
