@@ -94,7 +94,7 @@ public class Controller{
 	
 	public void listServers(){
 		//String[] servers = new String[] {"dog", "cat","elephant", "giraffe"};
-		multi = new Multiplayer("Client nicname");
+		multi = new Multiplayer("Clientnicname");
 		g.drawClientScreen(multi.listGameNames(1000));
 		//g.drawClientScreen(servers);
 	}
