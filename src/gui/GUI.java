@@ -410,8 +410,11 @@ public class GUI extends JFrame {
 		sidelower.repaint();
 	}
 
-	public void drawLobby() {
-		
+	public void drawScore(String score) {
+		sideupper.removeAll();
+		sideupper.add(new JLabel(score));
+		sideupper.revalidate();
+		sideupper.repaint();
 	}
 	
 }

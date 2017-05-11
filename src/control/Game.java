@@ -107,6 +107,17 @@ public class Game {
 			
 	}
 	
+	protected int getScore(){
+		int inPlace=0;
+		for(int i=0;i<table.size();i++ ){
+			if (table.get(i) == i){
+				inPlace++;
+			}
+		}
+		
+		return (100*inPlace)/(resolution*resolution);
+	}
+	
 	protected boolean isFinished() {
 		for(int i=0;i<table.size();i++ ){
 			if (table.get(i) != i){
