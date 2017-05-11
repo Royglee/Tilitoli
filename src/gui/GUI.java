@@ -412,6 +412,7 @@ public class GUI extends JFrame {
 
 	public void drawScore(String score) {
 		sideupper.removeAll();
+		//TODO ez szar majd meg kell csinálni rendesen pls
 		sideupper.add(new JLabel(score));
 		sideupper.revalidate();
 		sideupper.repaint();
