@@ -4,9 +4,9 @@ import gui.GUI;
 import multi.Multiplayer;
 import multi.Puzzle;
 
-public class controller{
+public class Controller{
 	private GUI g;
-	private game game = new game(this);
+	private Game game = new Game(this);
 	private Multiplayer multi;
 	private boolean endScreenDrawn; 
 	private boolean multiplayer=false;
@@ -14,7 +14,7 @@ public class controller{
 	private String myName;
 	
 	
-	public game getGame() {
+	public Game getGame() {
 		return game;
 	}
 	

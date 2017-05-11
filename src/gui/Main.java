@@ -1,10 +1,10 @@
 package gui;
-import control.controller;
+import control.Controller;
 
 public class Main {
 
 	public static void main(String[] args) {
-		controller c = new controller();
+		Controller c = new Controller();
 		GUI g = new GUI(c);
 		c.setGUI(g);
 		

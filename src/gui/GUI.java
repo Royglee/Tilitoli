@@ -13,12 +13,12 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import control.controller;
+import control.Controller;
 
 public class GUI extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-	protected controller c;
+	protected Controller c;
 	public String nickname;
 	public int clickResult;
 	
@@ -53,7 +53,7 @@ public class GUI extends JFrame {
 	JComboBox<String> resolutionList = new JComboBox<>(resolutionTitles);
 	JComboBox<String> serverList = new JComboBox<>();
 	
-	public GUI(controller c){
+	public GUI(Controller c){
 		
 		this.c = c;
 		

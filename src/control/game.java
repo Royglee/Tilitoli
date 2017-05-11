@@ -6,15 +6,15 @@ import java.util.TimerTask;
 import java.util.Random;
 import java.util.Vector;
 
-public class game {
+public class Game {
 	private int resolution;
 	private String picturename;
 	private Vector<Integer> table = new Vector<Integer>();
 	private Timer timer = new Timer();
 	private int startTime;
-	private controller c;
+	private Controller c;
 	
-	public game(controller c) {
+	public Game(Controller c) {
 		this.c = c;
 	}
 	
