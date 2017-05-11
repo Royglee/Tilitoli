@@ -47,8 +47,11 @@ public class game {
 		for(int i=0;i<size;i++ ){
 			table.add(i);
 		}
-		c.tableChanged();
+		//c.tableChanged();
 		
+	}
+	
+	protected void mixAfterDelay() {
 		startTime = 6;
 		timer.scheduleAtFixedRate(new TimerTask() {          
 		    @Override

@@ -19,8 +19,6 @@ public class GUI extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	protected controller c;
-	public boolean singlemode=true;
-	public boolean servermode=false;
 	public String nickname;
 	public int clickResult;
 	
@@ -84,7 +82,7 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				singlemode = false;
+				c.setMultiMode(true);
 				drawServerOrClientScreen();
 			}
 		});
@@ -101,7 +99,7 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				servermode = true;
+				c.setServerMode(true);
 				drawParameterScreen();
 			}
 		});
@@ -110,7 +108,7 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				drawClientScreen(c.listServers());
+				c.listServers();
 			}
 		});
 		
@@ -154,6 +152,8 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				nickname = nickname_input_client.getText();
+				String server = serverList.getSelectedItem().toString();
+				System.out.println(server);
 				
 			}
 		});
@@ -162,7 +162,18 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String resolutionString = resolutionList.getSelectedItem().toString();
+				int resolution = Integer.parseInt(resolutionString.substring(0,resolutionString.indexOf("x")));
 				
+				c.setGameParameters(animalList.getSelectedItem().toString(), resolution);
+				
+				c.setMyName(nickname_input_server_single.getText());
+				try {
+					c.createGame();
+				} catch (ClassNotFoundException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -296,7 +307,7 @@ public class GUI extends JFrame {
 	public void drawParameterScreen() {
 		main.removeAll();
 		
-		if(servermode){
+		if(c.getServerMode()){
 			main.setLayout(new GridLayout(6,2,10,10));
 		}
 		else{
@@ -309,7 +320,7 @@ public class GUI extends JFrame {
 		nickname_input_server_single.setHorizontalAlignment(JTextField.CENTER);
 		nickname_input_server_single.setVisible(true);
 		main.add(nickname_input_server_single);
-		if(servermode){
+		if(c.getServerMode()){
 			create_ask = new JLabel("Choose resolution and picture, then push CREATE to start server!",SwingConstants.CENTER);
 			create_ask.setVisible(true);
 			main.add(create_ask);
@@ -325,7 +336,7 @@ public class GUI extends JFrame {
 		openImage("cat");
 		openImage("elephant");
 		openImage("giraffe");
-		if(servermode){
+		if(c.getServerMode()){
 			start_instruction = new JLabel("If clients are connected, then you can START game!",SwingConstants.CENTER);
 		}
 		else{
@@ -343,7 +354,7 @@ public class GUI extends JFrame {
 	
 	public void drawClientScreen(String[] servers) {
 		
-		JComboBox<String> serverList = new JComboBox<>(servers);
+		serverList = new JComboBox<>(servers);
 		
 		main.removeAll();
 		
@@ -393,5 +404,8 @@ public class GUI extends JFrame {
 		sidelower.repaint();
 	}
 
+	public void drawLobby() {
+		
+	}
 	
 }
