@@ -117,6 +117,8 @@ public class Controller{
 			else{
 				try {
 					Puzzle p = multi.getPuzzle();
+					game.setPicturename(p.getImage());
+					game.setResolution((int)p.getSize());
 					game.setTable(ObjectCastHelper.deserializeBytes(p.getPuzzle()));
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
