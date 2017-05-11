@@ -116,10 +116,14 @@ public class Controller{
 			}
 			else{
 				try {
+					System.out.println("getPuzzle");
 					Puzzle p = multi.getPuzzle();
 					game.setPicturename(p.getImage());
+					System.out.println(p.getImage());
 					game.setResolution((int)p.getSize());
+					System.out.println((int)p.getSize());
 					game.setTable(ObjectCastHelper.deserializeBytes(p.getPuzzle()));
+					System.out.println(ObjectCastHelper.deserializeBytes(p.getPuzzle()));
 				} catch (ClassNotFoundException | IOException e) {
 					e.printStackTrace();
 				}
