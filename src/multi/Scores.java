@@ -99,4 +99,20 @@ public class Scores implements Serializable
 		return result;
 	}
 
+	/**Vissza adja az összes tárolt játékos nevét.
+	 * @return
+	 * Játékosok neveit tartalmazó tömb.
+	 */
+	public String[] getNames()
+	{
+		String[] result = new String[scoreMap.size()];
+		Set<String> keys = scoreMap.keySet();
+		Integer i = 0;
+		for (String key : keys)
+		{
+			result[i] = key;
+			i++;
+		}
+		return result;
+	}
 }

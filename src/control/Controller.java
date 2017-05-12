@@ -142,7 +142,9 @@ public class Controller{
 	public void clicked(int clickResult) {		
 		if(game.canMove(clickResult)){
 			game.swap(clickResult); 
+			System.out.println(game.getScore());
 			tableChanged();
+			g.drawScore(""+game.getScore());
 		}
 		
 		if(endScreenDrawn){
