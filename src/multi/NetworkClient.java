@@ -72,6 +72,8 @@ public class NetworkClient implements Runnable
 		{
 			socket.setSoTimeout(1000);
 			s.setKeepAlive(true);
+			ObjectInputStream iS = new ObjectInputStream(socket.getInputStream());
+			scores = (Scores)iS.readObject();
 			thread = new Thread(this);
 		}catch (Exception e)
 		{

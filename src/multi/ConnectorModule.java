@@ -203,7 +203,7 @@ public class ConnectorModule implements Runnable
 	 * @return
 	 * false ha nem sikerült csatlakozni, true ha csatlakozott.
 	 */
-	public boolean joinGame(InetAddress address)
+	public boolean joinGame(String myName, InetAddress address)
 	{
 		if (mode == Mode.none)
 		{
@@ -213,6 +213,8 @@ public class ConnectorModule implements Runnable
 				client = new Socket(address, TCP_PORT);
 				client.setSoTimeout(2000);
 				clientRunning = true;
+				ObjectOutputStream oS = new ObjectOutputStream(client.getOutputStream());
+				oS.writeObject(new Scores(myName,0));
 				puzzleDeployed = false;
 				connectionThread.start();
 				return true;

@@ -71,7 +71,7 @@ public class Multiplayer
 			}else
 			{
 				this.myName = myName;
-				if (connector.joinGame(games.getGameAddress(masterName)))
+				if (connector.joinGame(myName, games.getGameAddress(masterName)))
 				{
 					mode = Mode.client;
 					return true;
@@ -95,6 +95,7 @@ public class Multiplayer
 	{
 		if (mode == Mode.none)
 		{
+			//szervert se lehessen létrehozni létezõ névvel
 			this.myName = myName;
 			if (discovery.startReplyAs(myName, p.getImage()))
 			{
