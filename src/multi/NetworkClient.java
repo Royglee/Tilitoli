@@ -13,11 +13,10 @@ public class NetworkClient implements Runnable
 	private static Scores scores;
 	private static Puzzle puzzle;
 	private Socket socket;
-	//private ObjectInputStream iS;
-	//private ObjectOutputStream oS;
 	private boolean enabled;
 	private Thread thread;
-	private boolean deployed; 
+	private boolean deployed;
+	//private String myName;
 	
 	/**Az osztály statikus eredményeit állítja. Threadsafe.
 	 * @param s
@@ -74,6 +73,13 @@ public class NetworkClient implements Runnable
 			s.setKeepAlive(true);
 			ObjectInputStream iS = new ObjectInputStream(socket.getInputStream());
 			scores = (Scores)iS.readObject();
+			if (scores.getNames().length==1)
+			{
+				//myName = scores.getNames()[0];
+			}else
+			{
+				//myName = null;
+			}
 			thread = new Thread(this);
 		}catch (Exception e)
 		{
@@ -111,7 +117,7 @@ public class NetworkClient implements Runnable
 				
 			}catch (Exception e)
 			{
-				//System.out.println("sync-"+e.toString());
+				//
 			}
 		}
 	}
