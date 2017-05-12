@@ -86,4 +86,15 @@ public class GameList
 	{
 		return gameList.containsKey(name)?gameList.get(name).getAddress():null; //<- that's why I use HashMap with crazy datagram packet.
 	}
+	
+	/**Megadja, hogy az elérhetõ játékmesterek között szerepel-e adott nevû.
+	 * @param name
+	 * Keresett játékosnév.
+	 * @return
+	 * true ha szerepel a név az elérhetõ játékosok között.
+	 */
+	public boolean containsName(String name)
+	{
+		return gameList.containsKey(name);
+	}
 }

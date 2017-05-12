@@ -21,9 +21,8 @@ public class Multiplayer
 	 * @param myName
 	 * Aktuális játékos neve.
 	 */
-	public Multiplayer(String myName)
+	public Multiplayer()
 	{
-		this.myName = myName;
 		discovery = new DiscoveryModule();
 		connector = new ConnectorModule();
 		mode = Mode.none;
@@ -59,18 +58,26 @@ public class Multiplayer
 	 * @param masterName
 	 * Választott játékmester / játék.
 	 * @return
-	 * false ha már valamilyen módban vagyunk vagy nem sikerült csatlakozni.
+	 * false ha már valamilyen módban vagyunk vagy nem sikerült csatlakozni vagy ha már foglalt a játékos név
 	 */
-	public boolean joinGame(String masterName)
+	public boolean joinGame(String myName, String masterName)
 	{
 		if (mode == Mode.none)
 		{
-			if (connector.joinGame(games.getGameAddress(masterName)))
+			if (games.containsName(myName))
 			{
-				mode = Mode.client;
-				return true;
+				System.out.println("Name already taken!");
+				return false;
+			}else
+			{
+				this.myName = myName;
+				if (connector.joinGame(games.getGameAddress(masterName)))
+				{
+					mode = Mode.client;
+					return true;
+				}
+				System.out.println("Join error.");
 			}
-			System.out.println("Join error.");
 		}
 		System.out.println("Mode error.");
 		return false;
@@ -84,10 +91,11 @@ public class Multiplayer
 	 * @return
 	 * false ha már fut szerver vagy kliens, illetve ha nem sikerült elindítani.
 	 */
-	public boolean createGame(Puzzle p)
+	public boolean createGame(String myName,Puzzle p)
 	{
 		if (mode == Mode.none)
 		{
+			this.myName = myName;
 			if (discovery.startReplyAs(myName, p.getImage()))
 			{
 				if(connector.startGameServer(p))
