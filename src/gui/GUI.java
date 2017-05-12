@@ -38,9 +38,11 @@ public class GUI extends JFrame {
 	JButton start = new JButton("START");
 	JButton connect = new JButton("CONNECT");
 	JButton create = new JButton ("CREATE SERVER");
+	JButton back_to_main_menu = new JButton ("BACK TO MAIN MENU");
 	JLabel single_or_multi;
 	JLabel server_or_client;
-	JLabel start_instruction;
+	JLabel single_start_instruction;
+	JLabel server_start_instruction;
 	JLabel nickname_ask;
 	JLabel you_win;
 	JLabel sidelower_label;
@@ -73,10 +75,9 @@ public class GUI extends JFrame {
 		drawMainScreen();
 		
 		sideupper = new JPanel();
-		sideupper.setBounds(10, 10, 190, 501);
-		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
-		sideupper.setLayout(new FlowLayout());
 		add(sideupper);
+		drawSideUpperPanel();
+		
 		
 		
 		multi.addActionListener(new ActionListener() {
@@ -174,6 +175,16 @@ public class GUI extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
+			}
+		});
+		
+		back_to_main_menu.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				drawSideUpperPanel();
+				drawMainScreen();
 			}
 		});
 		
@@ -313,12 +324,7 @@ public class GUI extends JFrame {
 	public void drawParameterScreen() {
 		main.removeAll();
 		
-		if(c.getServerMode()){
-			main.setLayout(new GridLayout(6,2,10,10));
-		}
-		else{
-			main.setLayout(new GridLayout(5,2,10,10));
-		}
+		main.setLayout(new GridLayout(5,2,10,10));
 		nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
 		nickname_ask.setVisible(true);
 		main.add(nickname_ask);
@@ -333,7 +339,6 @@ public class GUI extends JFrame {
 			create.setVisible(true);
 			main.add(create);
 		}
-		
 		((JLabel)animalList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		((JLabel)resolutionList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		main.add(animalList);
@@ -342,18 +347,14 @@ public class GUI extends JFrame {
 		openImage("cat");
 		openImage("elephant");
 		openImage("giraffe");
-		if(c.getServerMode()){
-			start_instruction = new JLabel("If clients are connected, then you can START game!",SwingConstants.CENTER);
+		if(!c.getServerMode()){
+			single_start_instruction = new JLabel("After parameters and nickname chosen, you can START!",SwingConstants.CENTER);
+			single_start_instruction.setVisible(true);
+			main.add(single_start_instruction);
+			
+			start.setVisible(true);
+			main.add(start);
 		}
-		else{
-			start_instruction = new JLabel("After the parameters are choosen, push START!",SwingConstants.CENTER);
-		}
-		start_instruction.setVisible(true);
-		main.add(start_instruction);
-		
-		start.setVisible(true);
-		main.add(start);
-		
 		main.revalidate();
 		main.repaint();
 	}
@@ -410,12 +411,62 @@ public class GUI extends JFrame {
 		sidelower.repaint();
 	}
 
-	public void drawScore(String score) {
+	public void drawScore(String score, String[] playerList) {
 		sideupper.removeAll();
-		//TODO ez szar majd meg kell csinálni rendesen pls
+		sideupper.setBounds(10, 10, 190, 501);
+		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
+		sideupper.setLayout(new GridLayout(13,1));
+		sideupper.add(back_to_main_menu);
 		sideupper.add(new JLabel(score));
 		sideupper.revalidate();
 		sideupper.repaint();
+	}
+	
+	public void drawServerStartScreen(String[] stringList) {
+		JLabel actualState;
+		main.removeAll();
+		main.setLayout(new GridLayout(10,1,10,10));
+		start.setVisible(true);
+		main.add(start);
+		server_start_instruction = new JLabel("Wait, while client are connect, then you can START!",SwingConstants.CENTER);
+		server_start_instruction.setVisible(true);
+		main.add(server_start_instruction);
+		if(stringList.length ==0){
+			actualState = new JLabel("There are no any players, who connected!",SwingConstants.CENTER);
+		}
+		else{
+			actualState = new JLabel("Connected players:",SwingConstants.CENTER);
+		}
+		main.add(actualState);
+		for(int i=0; i < stringList.length; i++){
+			JLabel listelement =new JLabel(stringList[i]);
+			listelement.setHorizontalAlignment(JTextField.CENTER);
+			main.add(listelement);
+		}
+		main.revalidate();
+		main.repaint();
+	}
+	
+	public void drawSideUpperPanel() {
+		sideupper.removeAll();
+		
+		sideupper.setBounds(10, 10, 190, 501);
+		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
+		sideupper.setLayout(new GridLayout(13,1));
+		sideupper.add(back_to_main_menu);
+		sideupper.revalidate();
+		sideupper.repaint();
+	}
+	
+	public void drawWaitForServerScreen(){
+		main.removeAll();
+		main.setLayout(new GridBagLayout());
+		you_win = new JLabel("WAIT FOR SERVER START!");
+		you_win.setForeground(Color.BLACK);
+		you_win.setFont(you_win.getFont().deriveFont(64f)); 
+		main.add(you_win);
+		main.revalidate();
+		main.repaint();
 	}
 	
 }
