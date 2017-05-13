@@ -272,12 +272,18 @@ public class GUI extends JFrame {
 		clickResult = (row_number*resolution)+column_number;
 		
 	}
-	
-	public void win(){
+	/*Advanced win képernyő: */
+	public void win(boolean isWinner, String winnerName){
 		main.removeAll();
 		main.setLayout(new GridBagLayout());
-		you_win = new JLabel("YOU WIN!");
-		you_win.setForeground(Color.GREEN);
+		if(isWinner){
+			you_win = new JLabel("YOU WIN!");
+			you_win.setForeground(Color.GREEN);
+		}
+		else{
+			you_win = new JLabel("The winner is:"+winnerName);
+			you_win.setForeground(Color.RED);
+		}
 		you_win.setFont(you_win.getFont().deriveFont(64f)); 
 		main.add(you_win);
 		main.revalidate();
@@ -410,18 +416,32 @@ public class GUI extends JFrame {
 		sidelower.revalidate();
 		sidelower.repaint();
 	}
-
-	public void drawScore(String score, String[] playerList) {
+	/*oldalsó panel idő, játékosok és pontok kijelzésével*/
+	public void drawScore(String[] score, String[] playerList, String min, String second) {
+		
+		JLabel time = new JLabel("Time:"+min+":"+second,SwingConstants.CENTER);
+		
 		sideupper.removeAll();
 		sideupper.setBounds(10, 10, 190, 501);
 		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
 		sideupper.setLayout(new GridLayout(13,1));
 		sideupper.add(back_to_main_menu);
-		sideupper.add(new JLabel(score));
+		time.setForeground(Color.GRAY);
+		time.setFont(time.getFont().deriveFont(30f)); 
+		sideupper.add(time);
+		for(int i=0; i < playerList.length; i++){
+			JLabel listelementplayer =new JLabel(playerList[i]);
+			listelementplayer.setHorizontalAlignment(JTextField.CENTER);
+			listelementplayer.setFont(listelementplayer.getFont().deriveFont(25f)); 
+			sideupper.add(listelementplayer);
+			JLabel listelementscore =new JLabel(score[i]);
+			listelementscore.setHorizontalAlignment(JTextField.CENTER);
+			sideupper.add(listelementscore);
+		}
 		sideupper.revalidate();
 		sideupper.repaint();
 	}
-	
+	/*elválasztott szerver játékindítás 2. rész, kijelezve a csatlakozott játékosokat*/
 	public void drawServerStartScreen(String[] stringList) {
 		JLabel actualState;
 		main.removeAll();
@@ -446,7 +466,7 @@ public class GUI extends JFrame {
 		main.revalidate();
 		main.repaint();
 	}
-	
+	/*oldalsó panel inicializálása*/
 	public void drawSideUpperPanel() {
 		sideupper.removeAll();
 		
@@ -457,7 +477,7 @@ public class GUI extends JFrame {
 		sideupper.revalidate();
 		sideupper.repaint();
 	}
-	
+	/*kliens várakozás a szerverre képernyő*/
 	public void drawWaitForServerScreen(){
 		main.removeAll();
 		main.setLayout(new GridBagLayout());
