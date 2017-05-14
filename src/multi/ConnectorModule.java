@@ -73,7 +73,7 @@ public class ConnectorModule implements Runnable
 		{
 			puzzleDeployed = false;
 			clientRunning = false;
-			//System.out.println("deploy2:"+e.toString());
+			System.out.println("deploy2:"+e.toString());
 		}
 	}
 	
@@ -121,6 +121,7 @@ public class ConnectorModule implements Runnable
 				{
 					clients = new LinkedList<NetworkClient>();
 					server = new ServerSocket(TCP_PORT);
+					server.setReuseAddress(true);
 					server.setSoTimeout(100);
 					NetworkClient.setPuzzle(puzzle);
 					NetworkClient.setScores(new Scores());
@@ -191,6 +192,16 @@ public class ConnectorModule implements Runnable
 				}
 			}
 			cleanUpConnections();
+			try
+			{
+				if (!server.isClosed())
+				{
+					server.close();
+				}
+			}catch (Exception e)
+			{
+				//
+			}
 			server = null;
 			mode = Mode.none;
 			return true;
@@ -242,10 +253,19 @@ public class ConnectorModule implements Runnable
 				{
 					Thread.sleep(1);
 				}
-				client.close();
 			}catch (Exception e)
 			{
 				//no problem
+			}
+			if (!client.isClosed())
+			{
+				try
+				{
+					client.close();
+				}catch (Exception e)
+				{
+					//
+				}
 			}
 			client = null;
 			mode = Mode.none;

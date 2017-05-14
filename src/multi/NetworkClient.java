@@ -114,7 +114,6 @@ public class NetworkClient implements Runnable
 					ObjectOutputStream oS = new ObjectOutputStream(socket.getOutputStream());
 					oS.writeObject(sync);
 				}
-				
 			}catch (Exception e)
 			{
 				//

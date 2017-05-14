@@ -112,16 +112,7 @@ public class DiscoveryModule implements Runnable
 		isListening = false;
 		availableGames = new GameList();
 		receiveThread = new Thread(this);
-		try
-		{
-			socket = new DatagramSocket(UDP_PORT);
-			socket.setSoTimeout(100); // <- ez nagyon is kell, különben a receiverThread örökre blokkolhat, és restartig buktuk a port foglalást.
-			socket.setReuseAddress(true);
-		}catch (Exception e)
-		{
-			socket = null;
-			System.out.println("DiscoveryModule.Constructor: Unable to Create Socket!");
-		}
+		socket = null;
 	}
 
 	/**UDP kapcsolataon keresztül küld egy pinget a megadott cmíre!
@@ -163,7 +154,7 @@ public class DiscoveryModule implements Runnable
 	 */
 	public boolean startReplyAs(String masterName, String imageID)
 	{
-		if (!isReplying && !isListening && !receiveThread.isAlive())
+		if (!isReplying && !isListening && !receiveThread.isAlive() && openSocket())
 		{
 			this.masterName = masterName;
 			this.imageID = imageID;
@@ -194,6 +185,7 @@ public class DiscoveryModule implements Runnable
 					//Do nothing, "while" goes on and on
 				}
 			}
+			closeSocket();
 			return true;
 		}
 		return false;
@@ -215,7 +207,7 @@ public class DiscoveryModule implements Runnable
 	 */
 	public boolean startListening()
 	{
-		if (!isListening && !isReplying && !receiveThread.isAlive())
+		if (!isListening && !isReplying && !receiveThread.isAlive() && openSocket())
 		{
 			isListening = true;
 			availableGames.clearList();
@@ -239,12 +231,13 @@ public class DiscoveryModule implements Runnable
 			{
 				try
 				{
-				Thread.sleep(1);
+					Thread.sleep(1);
 				}catch (InterruptedException e)
 				{
 					//Do nothing, "while" goes on and on
 				}
 			}
+			closeSocket();
 			return true;
 		}
 		return false;
@@ -285,4 +278,34 @@ public class DiscoveryModule implements Runnable
 		}
 		return result;
 	}
+	
+	private boolean openSocket()
+	{
+		if (socket == null || socket.isClosed())
+		{
+			try
+			{
+				socket = new DatagramSocket(UDP_PORT);
+				socket.setSoTimeout(100); // <- ez nagyon is kell, különben a receiverThread örökre blokkolhat, és restartig buktuk a port foglalást.
+				socket.setReuseAddress(true);
+				return true;
+			}catch (Exception e)
+			{
+				socket = null;
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	private boolean closeSocket()
+	{
+		if ( socket!= null && !socket.isClosed())
+		{
+			socket.close();
+		}
+		socket = null;
+		return true;
+	}
+	
 }
