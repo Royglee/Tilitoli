@@ -93,6 +93,8 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				c.setMultiMode(false);
+				c.setServerMode(false);
 				drawParameterScreen();
 			}
 		});
@@ -131,9 +133,8 @@ public class GUI extends JFrame {
 				c.setGameParameters(picturename, resolution);
 				
 				nickname = nickname_input_server_single.getText();
+				c.setMyName(nickname);
 				chopImage();
-	
-				c.startGame();
 				
 				
 				main.addMouseListener(new MouseAdapter() {
@@ -144,6 +145,7 @@ public class GUI extends JFrame {
 						c.clicked(clickResult);
 					}
 				});
+				c.startGame();
 				
 			}
 		});
@@ -152,8 +154,18 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				main.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						getclickResult(e.getX(),e.getY());
+						c.clicked(clickResult);
+					}
+				});
+				
 				nickname = nickname_input_client.getText();
 				String server = serverList.getSelectedItem().toString();
+				c.setMyName(nickname);
 				c.joinServer(server);
 				
 			}
@@ -183,8 +195,7 @@ public class GUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				drawSideUpperPanel();
-				drawMainScreen();
+				c.backToMainMenu();
 			}
 		});
 		
@@ -419,16 +430,23 @@ public class GUI extends JFrame {
 	/*oldalsó panel idő, játékosok és pontok kijelzésével*/
 	public void drawScore(String[] score, String[] playerList, String min, String second) {
 		
-		JLabel time = new JLabel("Time:"+min+":"+second,SwingConstants.CENTER);
+		
+		
 		
 		sideupper.removeAll();
 		sideupper.setBounds(10, 10, 190, 501);
 		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
 		sideupper.setLayout(new GridLayout(13,1));
 		sideupper.add(back_to_main_menu);
-		time.setForeground(Color.GRAY);
-		time.setFont(time.getFont().deriveFont(30f)); 
-		sideupper.add(time);
+		
+		if(min != ""){
+			JLabel time = new JLabel("Time:"+min+":"+second,SwingConstants.CENTER);
+			time.setForeground(Color.GRAY);
+			time.setFont(time.getFont().deriveFont(30f));
+			sideupper.add(time);
+		}
+		
+		
 		for(int i=0; i < playerList.length; i++){
 			JLabel listelementplayer =new JLabel(playerList[i]);
 			listelementplayer.setHorizontalAlignment(JTextField.CENTER);
@@ -441,8 +459,9 @@ public class GUI extends JFrame {
 		sideupper.revalidate();
 		sideupper.repaint();
 	}
+	
 	/*elválasztott szerver játékindítás 2. rész, kijelezve a csatlakozott játékosokat*/
-	public void drawServerStartScreen(String[] stringList) {
+	public void drawServerStartScreen(int connectedCount) {
 		JLabel actualState;
 		main.removeAll();
 		main.setLayout(new GridLayout(10,1,10,10));
@@ -451,18 +470,18 @@ public class GUI extends JFrame {
 		server_start_instruction = new JLabel("Wait, while client are connect, then you can START!",SwingConstants.CENTER);
 		server_start_instruction.setVisible(true);
 		main.add(server_start_instruction);
-		if(stringList.length ==0){
+		if(connectedCount ==0){
 			actualState = new JLabel("There are no any players, who connected!",SwingConstants.CENTER);
 		}
 		else{
-			actualState = new JLabel("Connected players:",SwingConstants.CENTER);
+			actualState = new JLabel("Connected players: "+connectedCount,SwingConstants.CENTER);
 		}
 		main.add(actualState);
-		for(int i=0; i < stringList.length; i++){
-			JLabel listelement =new JLabel(stringList[i]);
-			listelement.setHorizontalAlignment(JTextField.CENTER);
-			main.add(listelement);
-		}
+		//for(int i=0; i < stringList.length; i++){
+		//	JLabel listelement =new JLabel(stringList[i]);
+		//	listelement.setHorizontalAlignment(JTextField.CENTER);
+		//	main.add(listelement);
+		//}
 		main.revalidate();
 		main.repaint();
 	}

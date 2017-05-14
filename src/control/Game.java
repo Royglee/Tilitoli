@@ -13,6 +13,7 @@ public class Game {
 	private Timer timer = new Timer();
 	private int startTime;
 	private Controller c;
+	private Boolean needToCancel;
 	
 	public Game(Controller c) {
 		this.c = c;
@@ -67,17 +68,22 @@ public class Game {
 	}
 	
 	protected void startTimer(int delay) {
+		needToCancel = false;
 		startTime = delay+1;
 		timer.scheduleAtFixedRate(new TimerTask() {          
 		    @Override
 		    public void run() {
-		    	startTime--;
-		    	if(startTime>=1){
-		    		System.out.println(startTime);
+		    	if(needToCancel){
+		    		this.cancel();
 		    	}else{
-			    	this.cancel();
+		    		startTime--;
+			    	if(startTime>=1){
+			    		System.out.println(startTime);
+			    	}else{
+				    	this.cancel();
+			    	}
+			    	c.startTimerChanged();
 		    	}
-		    	c.startTimerChanged();
 		
 		    }
 		}, 0,1000);
@@ -162,5 +168,9 @@ public class Game {
 	
 	protected boolean isStarted() {
 		return startTime==0?true:false;
+	}
+	
+	public void startTimerCancel() {
+		needToCancel = true;
 	}
 }
