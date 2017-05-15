@@ -39,6 +39,7 @@ public class GUI extends JFrame {
 	JButton connect = new JButton("CONNECT");
 	JButton create = new JButton ("CREATE SERVER");
 	JButton back_to_main_menu = new JButton ("BACK TO MAIN MENU");
+	JButton refresh = new JButton ("REFRESH");
 	JLabel single_or_multi;
 	JLabel server_or_client;
 	JLabel single_start_instruction;
@@ -196,6 +197,14 @@ public class GUI extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				c.backToMainMenu();
+			}
+		});
+		
+		refresh.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		
@@ -379,10 +388,11 @@ public class GUI extends JFrame {
 	public void drawClientScreen(String[] servers) {
 		
 		serverList = new JComboBox<>(servers);
+		JLabel empty_list;
 		
 		main.removeAll();
 		
-		main.setLayout(new GridLayout(2,2,10,10));
+		main.setLayout(new GridLayout(3,2,10,10));
 		nickname_ask = new JLabel("Give your nickname",SwingConstants.CENTER);
 		nickname_ask.setVisible(true);
 		main.add(nickname_ask);
@@ -390,12 +400,19 @@ public class GUI extends JFrame {
 		nickname_input_client.setHorizontalAlignment(JTextField.CENTER);
 		nickname_input_client.setVisible(true);
 		main.add(nickname_input_client);
-		
-		((JLabel)serverList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
-		main.add(serverList);
-		
+		if(servers.length ==0){
+			empty_list = new JLabel("There is no reachable server!",SwingConstants.CENTER);
+			main.add(empty_list);
+		}
+		else{
+			((JLabel)serverList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+			main.add(serverList);
+		}
 		connect.setVisible(true);
 		main.add(connect);
+		
+		refresh.setVisible(true);
+		main.add(refresh);
 		
 		main.revalidate();
 		main.repaint();
