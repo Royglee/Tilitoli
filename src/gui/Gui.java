@@ -31,6 +31,7 @@ public class Gui extends JFrame {
 	JPanel main;
 	JPanel sideupper;
 	JPanel sidelower;
+	
 	JButton single = new JButton("SINGLE");
 	JButton multi = new JButton("MULTI");;
 	JButton server = new JButton("SERVER");
@@ -40,18 +41,19 @@ public class Gui extends JFrame {
 	JButton create = new JButton ("CREATE SERVER");
 	JButton back_to_main_menu = new JButton ("BACK TO MAIN MENU");
 	JButton refresh = new JButton ("REFRESH");
+	
 	JTextField nickname_input_server_single;
 	JTextField nickname_input_client;
+	
 	String[] animalTitles = new String[] {"dog", "cat","elephant", "giraffe"};
 	String[] resolutionTitles = new String[] {"3x3", "4x4","5x5", "6x6","7x7","8x8","9x9","10x10"};
+	
 	JComboBox<String> animalList = new JComboBox<>(animalTitles);
 	JComboBox<String> resolutionList = new JComboBox<>(resolutionTitles);
 	JComboBox<String> serverList = new JComboBox<>();
 	
 	public Gui(Controller c){
-		
 		this.c = c;
-		
 		Gui.winwidth = 1037;
 		Gui.winheight = 658;
 		setTitle("Tili-Toli");
@@ -70,8 +72,6 @@ public class Gui extends JFrame {
 		sideupper = new JPanel();
 		add(sideupper);
 		drawSideUpperPanel();
-		
-		
 		
 		multi.addActionListener(new ActionListener() {
 			
@@ -113,25 +113,20 @@ public class Gui extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
 				String resolutionString;
 				String picturename;
 				int resolution;
-				
 				picturename = animalList.getSelectedItem().toString();
-
 				resolutionString = resolutionList.getSelectedItem().toString();
 				resolution = Integer.parseInt(resolutionString.substring(0,resolutionString.indexOf("x")));
-
 				c.setGameParameters(picturename, resolution);
-				
 				nickname = nickname_input_server_single.getText();
 				c.setMyName(nickname);
 				chopImage();
 				
 				
 				main.addMouseListener(new MouseAdapter() {
-
+					
 					@Override
 					public void mousePressed(MouseEvent e) {
 						getclickResult(e.getX(),e.getY());
@@ -139,7 +134,6 @@ public class Gui extends JFrame {
 					}
 				});
 				c.startGame();
-				
 			}
 		});
 		
@@ -155,12 +149,10 @@ public class Gui extends JFrame {
 						c.clicked(clickResult);
 					}
 				});
-				
 				nickname = nickname_input_client.getText();
 				String server = serverList.getSelectedItem().toString();
 				c.setMyName(nickname);
 				c.joinServer(server);
-				
 			}
 		});
 		
@@ -170,9 +162,7 @@ public class Gui extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String resolutionString = resolutionList.getSelectedItem().toString();
 				int resolution = Integer.parseInt(resolutionString.substring(0,resolutionString.indexOf("x")));
-				
 				c.setGameParameters(animalList.getSelectedItem().toString(), resolution);
-				
 				c.setMyName(nickname_input_server_single.getText());
 				try {
 					c.createGame();
@@ -180,7 +170,6 @@ public class Gui extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
 			}
 		});
 		
@@ -210,20 +199,21 @@ public class Gui extends JFrame {
 			img = img.getScaledInstance(150, 112, Image.SCALE_DEFAULT);
 			JLabel label = new JLabel(new ImageIcon(img));
 			main.add(label);
-		} catch (IOException e1) {
+		}
+		catch (IOException e1) {
 			System.out.println(e1.getMessage());
 		}
 	}
 	
 	public void chopImage(){
-		
 		images.clear();
 		Image img = null;
 		int resolution = c.getGame().getResolution();
 		String picturename = c.getGame().getPicturename();
 		try {
 			img = ImageIO.read(getClass().getResource("/pictures/"+picturename+".jpg"));
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		img = img.getScaledInstance(800, 600, Image.SCALE_DEFAULT);
@@ -242,17 +232,16 @@ public class Gui extends JFrame {
 	}
 	
 	public void makePanel(Vector<Integer> position){
-		
 		Image blank = null;
 		int resolution = c.getGame().getResolution();
-		
 		main.removeAll();
 		main.setLayout(new GridLayout(resolution, resolution,1,1));
 		for(int i=0; i<(resolution*resolution); i++){
 			if(position.get(i)==0){
 				try {
 					blank = ImageIO.read(getClass().getResource("/pictures/black.jpg"));
-				} catch (IOException e) {
+				}
+				catch (IOException e) {
 					e.printStackTrace();
 				}
 				blank = blank.getScaledInstance((800/resolution-2), (600/resolution-2), Image.SCALE_DEFAULT);
@@ -267,11 +256,9 @@ public class Gui extends JFrame {
 		}
 		main.revalidate();
 		main.repaint();
-		
 	}
 	
 	private void getclickResult(int x_coordinate,int y_coordinate){
-		
 		int w, h, cellwidth, cellheight, row_number, column_number;
 		int resolution = c.getGame().getResolution();
 		h = main.getHeight(); 
@@ -281,12 +268,10 @@ public class Gui extends JFrame {
 		column_number = x_coordinate/cellwidth;
 		row_number = y_coordinate/cellheight;
 		clickResult = (row_number*resolution)+column_number;
-		
 	}
 	/*Advanced win képernyő: */
 	public void win(boolean isWinner, String winnerName){
 		JLabel you_win;
-		
 		main.removeAll();
 		main.setLayout(new GridBagLayout());
 		if(isWinner){
@@ -308,9 +293,7 @@ public class Gui extends JFrame {
 		for (MouseListener mouseListener : mouseListeners) {
 		    main.removeMouseListener(mouseListener);
 		}
-		
 		JLabel label1 = new JLabel("Single or multi?");
-		
 		main.removeAll();
 		main.setBounds(210, 10, 811, 611);
 		main.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -335,7 +318,6 @@ public class Gui extends JFrame {
 	
 	public void drawParameterScreen() {
 		main.removeAll();
-		
 		main.setLayout(new GridLayout(5,2,10,10));
 		JLabel nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
 		main.add(nickname_ask);
@@ -365,11 +347,8 @@ public class Gui extends JFrame {
 	}
 	
 	public void drawClientScreen(String[] servers) {
-		
 		serverList = new JComboBox<>(servers);
-		
 		main.removeAll();
-		
 		main.setLayout(new GridLayout(3,2,10,10));
 		JLabel nickname_ask = new JLabel("Give your nickname",SwingConstants.CENTER);
 		main.add(nickname_ask);
@@ -392,9 +371,7 @@ public class Gui extends JFrame {
 	}
 	
 	public void drawServerOrClientScreen() {
-		
 		JLabel label1 =new JLabel("Server or client?");
-		
 		main.removeAll();
 		main.add(label1);
 		main.add(server);
@@ -405,35 +382,26 @@ public class Gui extends JFrame {
 	
 	public void countBack(String number){
 		sidelower.removeAll();
-		
 		JLabel sidelower_label = new JLabel(number);
 		sidelower_label.setForeground(Color.RED);
 		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
 		sidelower.add(sidelower_label);
-		
 		sidelower.revalidate();
 		sidelower.repaint();
 	}
 	/*oldalsó panel idő, játékosok és pontok kijelzésével*/
 	public void drawScore(String[] score, String[] playerList, String min, String second) {
-		
-		
-		
-		
 		sideupper.removeAll();
 		sideupper.setBounds(10, 10, 190, 501);
 		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
 		sideupper.setLayout(new GridLayout(13,1));
 		sideupper.add(back_to_main_menu);
-		
 		if(min != ""){
 			JLabel time = new JLabel("Time:"+min+":"+second,SwingConstants.CENTER);
 			time.setForeground(Color.GRAY);
 			time.setFont(time.getFont().deriveFont(30f));
 			sideupper.add(time);
 		}
-		
-		
 		for(int i=0; i < playerList.length; i++){
 			JLabel listelementplayer =new JLabel(playerList[i]);
 			listelementplayer.setHorizontalAlignment(JTextField.CENTER);
@@ -482,9 +450,7 @@ public class Gui extends JFrame {
 	}
 	/*kliens várakozás a szerverre képernyő*/
 	public void drawWaitForServerScreen(){
-		
 		JLabel you_win;
-		
 		main.removeAll();
 		main.setLayout(new GridBagLayout());
 		you_win = new JLabel("WAIT FOR SERVER START!");
