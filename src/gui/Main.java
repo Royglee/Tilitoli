@@ -5,7 +5,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Controller c = new Controller();
-		GUI g = new GUI(c);
+		Gui g = new Gui(c);
 		c.setGUI(g);
 		
 

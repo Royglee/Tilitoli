@@ -3,12 +3,12 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import gui.GUI;
+import gui.Gui;
 import multi.Multiplayer;
 import multi.Puzzle;
 
 public class Controller{
-	private GUI g;
+	private Gui g;
 	private Game game = new Game(this);
 	private Multiplayer multi;
 	private boolean endScreenDrawn=true; 
@@ -24,27 +24,27 @@ public class Controller{
 	
 
 	
-	/**GUI-ra referencia beállítás
+	/**GUI-ra referencia beï¿½llï¿½tï¿½s
 	 * 
 	 * @param g
-	 * GUI példány
+	 * GUI pï¿½ldï¿½ny
 	 */
-	public void setGUI(GUI g) {
+	public void setGUI(Gui g) {
 		this.g = g;
 	}
 	
 	/** 
 	 * 
-	 * @return a játékot leíró game objektum
+	 * @return a jï¿½tï¿½kot leï¿½rï¿½ game objektum
 	 */
 	public Game getGame() {
 		return game;
 	}
 	
-	/**Beállítja hogy a játék single/multi módban fusson
+	/**Beï¿½llï¿½tja hogy a jï¿½tï¿½k single/multi mï¿½dban fusson
 	 * 
 	 * @param isMulti
-	 * true - A játék multiplayer módban fog menni, false-a játék singleplayer módban fog menni
+	 * true - A jï¿½tï¿½k multiplayer mï¿½dban fog menni, false-a jï¿½tï¿½k singleplayer mï¿½dban fog menni
 	 */
 	public void setMultiMode(boolean isMulti) {
 		multiplayer = isMulti;
@@ -53,21 +53,21 @@ public class Controller{
 	/**
 	 * 
 	 * @param isServer
-	 * true-szerver módban üzemel false-kliens módban üzemel a program
+	 * true-szerver mï¿½dban ï¿½zemel false-kliens mï¿½dban ï¿½zemel a program
 	 */
 	public void setServerMode(boolean isServer) {
 		this.servermode = isServer;
 	}
 	
-	/** Visszaadja, hogy milyen módban fut a szoftver
+	/** Visszaadja, hogy milyen mï¿½dban fut a szoftver
 	 * 
-	 * @return true, ha szerver módban fut. false, ha kliens módban
+	 * @return true, ha szerver mï¿½dban fut. false, ha kliens mï¿½dban
 	 */
 	public boolean getServerMode(){
 		return servermode;
 	}
 	
-	/** Beálítja a felhasználó nevét
+	/** Beï¿½lï¿½tja a felhasznï¿½lï¿½ nevï¿½t
 	 * 
 	 * @param name
 	 */
@@ -78,13 +78,13 @@ public class Controller{
 	
 	/**
 	 * 
-	 * @return a felhasználó neve
+	 * @return a felhasznï¿½lï¿½ neve
 	 */
 	public String getMyName() {
 		return myName;
 	}
 	
-	/** Beállítja a játékra jellemzõ paramétereket
+	/** Beï¿½llï¿½tja a jï¿½tï¿½kra jellemzï¿½ paramï¿½tereket
 	 * 
 	 * @param pictureName
 	 * @param resolution
@@ -94,7 +94,7 @@ public class Controller{
 		game.setResolution(resolution);
 	}
 	
-	/** Elkészíti a szervert, ahova csatlakozhatnak a kliensek
+	/** Elkï¿½szï¿½ti a szervert, ahova csatlakozhatnak a kliensek
 	 * 
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -123,7 +123,7 @@ public class Controller{
 		}, 0,1000);
 	}
 	
-	/** Kilistázza a hálózaton elérhetõ szervereket
+	/** Kilistï¿½zza a hï¿½lï¿½zaton elï¿½rhetï¿½ szervereket
 	 * 
 	 */
 	public void listServers(){
@@ -131,9 +131,9 @@ public class Controller{
 		g.drawClientScreen(multi.listGameNames(1000));
 	}
 	
-	/** A kliens csatlakozik az általa választott játékmester szerveréhez
+	/** A kliens csatlakozik az ï¿½ltala vï¿½lasztott jï¿½tï¿½kmester szerverï¿½hez
 	 * 
-	 * @param server (A játékmester neve)
+	 * @param server (A jï¿½tï¿½kmester neve)
 	 */
 	public void joinServer(String server) {
 		g.drawWaitForServerScreen();
@@ -142,7 +142,7 @@ public class Controller{
 		
 	}
 	
-	/**	Elindítja a játékot a beállított paraméterekkel (multi/single/image/size)
+	/**	Elindï¿½tja a jï¿½tï¿½kot a beï¿½llï¿½tott paramï¿½terekkel (multi/single/image/size)
 	 * 
 	 */
 	public void startGame() {
@@ -175,7 +175,7 @@ public class Controller{
 		game.startTimer(5);
 	}
 	
-	/** A játék indítása elõtti 5mp-es számláló callback függvénye
+	/** A jï¿½tï¿½k indï¿½tï¿½sa elï¿½tti 5mp-es szï¿½mlï¿½lï¿½ callback fï¿½ggvï¿½nye
 	 * 
 	 */
 	protected void startTimerChanged(){
@@ -191,9 +191,9 @@ public class Controller{
 		}
 	}
 	
-	/** Egy adott elemre való kattintás feldolgozására szolgáló függvény	
+	/** Egy adott elemre valï¿½ kattintï¿½s feldolgozï¿½sï¿½ra szolgï¿½lï¿½ fï¿½ggvï¿½ny	
 	 * 
-	 * @param clickResult Annak az elemnek a sorszáma amelyre a felhasználó kattintott
+	 * @param clickResult Annak az elemnek a sorszï¿½ma amelyre a felhasznï¿½lï¿½ kattintott
 	 * 3x3 esetben:
 	 *  | 0 | 1 | 2 |
 	 *  | 3 | 4 | 5 |
@@ -218,14 +218,14 @@ public class Controller{
 		
 	}
 	
-	/** A játéktér megváltozása esetén hívható függvény, amely újrarajzolja a táblát
+	/** A jï¿½tï¿½ktï¿½r megvï¿½ltozï¿½sa esetï¿½n hï¿½vhatï¿½ fï¿½ggvï¿½ny, amely ï¿½jrarajzolja a tï¿½blï¿½t
 	 * 
 	 */
 	protected void tableChanged() {
 		g.makePanel(game.getTable());
 	}
 	
-	/** A szervertõl kapott eltárolt pontok kirajzolása a képernyõre, és ellenõrzés, hogy van-e nyertes
+	/** A szervertï¿½l kapott eltï¿½rolt pontok kirajzolï¿½sa a kï¿½pernyï¿½re, ï¿½s ellenï¿½rzï¿½s, hogy van-e nyertes
 	 * 
 	 */
 	public void updateScore(){
@@ -240,7 +240,7 @@ public class Controller{
 		}
 	}
 
-	/** Vissza lép a fõmenübe
+	/** Vissza lï¿½p a fï¿½menï¿½be
 	 * 
 	 */
 	public void backToMainMenu() {
@@ -252,7 +252,7 @@ public class Controller{
 		
 	}
 	
-	/** Leellenõrzi, hogy van-e nyertes
+	/** Leellenï¿½rzi, hogy van-e nyertes
 	 * 
 	 * @return A nyertes neve, vagy ""
 	 */
@@ -274,8 +274,8 @@ public class Controller{
 		
 	}
 	
-	/** A Szervernek elküldi a saját pontszámot, 
-	 *  és feldolgozza a válaszul kapott tömböt amelyben a többi játékos neve, és pontszáma szerepel.
+	/** A Szervernek elkï¿½ldi a sajï¿½t pontszï¿½mot, 
+	 *  ï¿½s feldolgozza a vï¿½laszul kapott tï¿½mbï¿½t amelyben a tï¿½bbi jï¿½tï¿½kos neve, ï¿½s pontszï¿½ma szerepel.
 	 * 
 	 */
 	private void getScoresAndNamesArray(){
@@ -292,7 +292,7 @@ public class Controller{
 		}	
 	}
 	
-	/** Elindít egy timert, ami 1mp-ként szinkronizálja a pontokat.
+	/** Elindï¿½t egy timert, ami 1mp-kï¿½nt szinkronizï¿½lja a pontokat.
 	 * 
 	 */
 	private void startSyncTimer() {
@@ -317,7 +317,7 @@ public class Controller{
 		}, 0,1000);
 	}
 	
-	/** Kirajzolja a játék vége képernyõt, ha valaki nyert
+	/** Kirajzolja a jï¿½tï¿½k vï¿½ge kï¿½pernyï¿½t, ha valaki nyert
 	 * 
 	 */
 	private void endScreenIfSomeoneWon() {

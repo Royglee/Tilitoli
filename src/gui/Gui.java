@@ -16,7 +16,7 @@ import javax.swing.*;
 
 import control.Controller;
 
-public class GUI extends JFrame {
+public class Gui extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	protected Controller c;
@@ -48,16 +48,16 @@ public class GUI extends JFrame {
 	JComboBox<String> resolutionList = new JComboBox<>(resolutionTitles);
 	JComboBox<String> serverList = new JComboBox<>();
 	
-	public GUI(Controller c){
+	public Gui(Controller c){
 		
 		this.c = c;
 		
-		GUI.winwidth = 1037;
-		GUI.winheight = 658;
+		Gui.winwidth = 1037;
+		Gui.winheight = 658;
 		setTitle("Tili-Toli");
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);	//Kilépés ablak x-re
-		setSize(GUI.winwidth,GUI.winheight);
+		setSize(Gui.winwidth,Gui.winheight);
 		setLayout(null);
 
 		main = new JPanel();
