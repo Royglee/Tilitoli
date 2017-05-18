@@ -18,8 +18,6 @@ public class Multiplayer
 	private GameList games;
 	
 	/**Konstuktor
-	 * @param myName
-	 * Aktuális játékos neve.
 	 */
 	public Multiplayer()
 	{
@@ -55,6 +53,8 @@ public class Multiplayer
 	}
 	
 	/**Ha még nem vagyunk semmilyen módban, csatlakozik a kiválasztott játékhoz.
+	 * @param myName
+	 * A csatlakozó játékos neve.
 	 * @param masterName
 	 * Választott játékmester / játék.
 	 * @return
@@ -84,10 +84,10 @@ public class Multiplayer
 	}
 	
 	/**Létrehoz egy új játék szervert.
-	 * @param imageID
-	 * A játszani kívánt kép.
-	 * @param puzzle
-	 * A játszani kívánt keverés
+	 * @param myName
+	 * A létrehozó saját neve.
+	 * @param p
+	 * A játszandó játéktér.
 	 * @return
 	 * false ha már fut szerver vagy kliens, illetve ha nem sikerült elindítani.
 	 */

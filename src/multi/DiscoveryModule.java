@@ -104,7 +104,7 @@ public class DiscoveryModule implements Runnable
 		}
 	}
 	
-	/**Das Konstruktor. Need no comment. 
+	/**Das Konstruktor.
 	 */
 	public DiscoveryModule()
 	{
@@ -118,10 +118,6 @@ public class DiscoveryModule implements Runnable
 	/**UDP kapcsolataon keresztül küld egy pinget a megadott cmíre!
 	 * @param dest
 	 * Cél IP cím
-	 * @param port
-	 * Cél port
-	 * @param data
-	 * Küldendõ adat
 	 * @return
 	 * True ha sikerült a küldés, false ha nem.
 	 */
@@ -145,7 +141,7 @@ public class DiscoveryModule implements Runnable
 	}
 	
 	/**Bekapcsolja a hallgatózó módot. Ilyenkor válaszol a boradcast üzenetekre.
-	 * @param name
+	 * @param masterName
 	 * A játékmester neve
 	 * @param imageID
 	 * A játéktér (kép) azonosítója
@@ -192,7 +188,7 @@ public class DiscoveryModule implements Runnable
 
 	}
 	
-	/**No need for comment...
+	/**Megadja, hogy a fogadó szál fut-e.
 	 * @return
 	 * The state of receiveThread as name shows.
 	 */
@@ -279,6 +275,10 @@ public class DiscoveryModule implements Runnable
 		return result;
 	}
 	
+	/**Kinyitja az UDP socketet az elõre definiált porton
+	 * @return
+	 * false, ha nem sikerült kinyitni, vagy már nyitva van.
+	 */
 	private boolean openSocket()
 	{
 		if (socket == null || socket.isClosed())
@@ -298,6 +298,10 @@ public class DiscoveryModule implements Runnable
 		return false;
 	}
 	
+	/**Lezárja az UDP socketet.
+	 * @return
+	 * Minden esetben true
+	 */
 	private boolean closeSocket()
 	{
 		if ( socket!= null && !socket.isClosed())
