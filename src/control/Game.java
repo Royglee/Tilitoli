@@ -25,13 +25,13 @@ public class Game {
 	
 	/**
 	 * 
-	 * @return A játéktábla mérete (3x3 esetén -> 3)
+	 * @return A jÃ¡tÃ©ktÃ¡bla mÃ©rete (3x3 esetÃ©n -> 3)
 	 */
 	public int getResolution() {
 		return resolution;
 	}
 	
-	/** Beállítja a játéktér méretét
+	/** BeÃ¡llÃ­tja a jÃ¡tÃ©ktÃ©r mÃ©retÃ©t
 	 * 
 	 * @param resolution
 	 */
@@ -39,7 +39,7 @@ public class Game {
 		this.resolution = resolution;
 	}
 	
-	/** Visszaadja a kirakandó kép azonosítóját
+	/** Visszaadja a kirakandÃ³ kÃ©p azonosÃ­tÃ³jÃ¡t
 	 * 
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public class Game {
 		return picturename;
 	}
 	
-	/** Beállítható a kirakandó kép azonosítója
+	/** BeÃ¡llÃ­thatÃ³ a kirakandÃ³ kÃ©p azonosÃ­tÃ³ja
 	 * 
 	 * @param picturename
 	 */
@@ -57,22 +57,22 @@ public class Game {
 	
 	/** 
 	 * 
-	 * @return A játékteret reprezentáló Vector
+	 * @return A jÃ¡tÃ©kteret reprezentÃ¡lÃ³ Vector
 	 */
 	public Vector<Integer> getTable() {
 		return table;
 	}
 	
-	/** Beállítható egy kívánt keverés
+	/** BeÃ¡llÃ­thatÃ³ egy kÃ­vÃ¡nt keverÃ©s
 	 * 
-	 * @param table - a keverést reprezentáló vektor
+	 * @param table - a keverÃ©st reprezentÃ¡lÃ³ vektor
 	 */
 	protected void setTable(Vector<Integer> table) {
 		this.table = table;
 		
 	}
 	
-	/** Inicializálja a játékteret az adott felbontás függvényében
+	/** InicializÃ¡lja a jÃ¡tÃ©kteret az adott felbontÃ¡s fÃ¼ggvÃ©nyÃ©ben
 	 * 
 	 */
 	protected void init() {
@@ -83,7 +83,7 @@ public class Game {
 		}	
 	}
 	
-	/** Visszaadja a kirakott táblát reprezentáló vektort
+	/** Visszaadja a kirakott tÃ¡blÃ¡t reprezentÃ¡lÃ³ vektort
 	 * 
 	 * @return solved
 	 */
@@ -97,7 +97,7 @@ public class Game {
 		return solved;
 	}
 	
-	/** Paraméterként kapott számú random lépéssel megkeveri a táblát
+	/** ParamÃ©terkÃ©nt kapott szÃ¡mÃº random lÃ©pÃ©ssel megkeveri a tÃ¡blÃ¡t
 	 * 
 	 * @param steps
 	 */
@@ -109,7 +109,7 @@ public class Game {
 		}
 	}
 	
-	/** A paraméterül kapott elemet megcseréli az üres elemmel
+	/** A paramÃ©terÃ¼l kapott elemet megcserÃ©li az Ã¼res elemmel
 	 * 
 	 * @param clickedTile
 	 */
@@ -119,7 +119,7 @@ public class Game {
 	
 	/**
 	 * 
-	 * @return A játék kezdésére vonatkozó visszaszámláló értéke
+	 * @return A jÃ¡tÃ©k kezdÃ©sÃ©re vonatkozÃ³ visszaszÃ¡mlÃ¡lÃ³ Ã©rtÃ©ke
 	 */
 	public int getStartTime() {
 		return startTime;
@@ -127,22 +127,22 @@ public class Game {
 	
 	/**
 	 * 
-	 * @return true - A játék elkezdõdött
+	 * @return true - A jÃ¡tÃ©k elkezdÃµdÃ¶tt
 	 */
 	protected boolean isStarted() {
 		return startTime==0?true:false;
 	}
 	
-	/** Jelzi, hogy a játék kezdésére vonatkozó visszaszámlálást meg kell szakítani
+	/** Jelzi, hogy a jÃ¡tÃ©k kezdÃ©sÃ©re vonatkozÃ³ visszaszÃ¡mlÃ¡lÃ¡st meg kell szakÃ­tani
 	 * 
 	 */
 	protected void startTimerCancel() {
 		needToCancel = true;
 	}
 	
-	/** Elindítja a játék elején lévõ visszaszámlálót 
+	/** ElindÃ­tja a jÃ¡tÃ©k elejÃ©n lÃ©vÃµ visszaszÃ¡mlÃ¡lÃ³t 
 	 * 
-	 * @param delay mp-ig számol vissza
+	 * @param delay mp-ig szÃ¡mol vissza
 	 */
 	protected void startTimer(int delay) {
 		needToCancel = false;
@@ -166,7 +166,7 @@ public class Game {
 		}, 0,1000);
 	}
 	
-	/** Visszaadja, hogy az adott elem elmozdítható-e
+	/** Visszaadja, hogy az adott elem elmozdÃ­thatÃ³-e
 	 * 
 	 * @param clickResult
 	 * @return
@@ -181,7 +181,7 @@ public class Game {
 	
 	/**
 	 * 
-	 * @return A játékos pontszáma
+	 * @return A jÃ¡tÃ©kos pontszÃ¡ma
 	 */
 	protected int getScore(){
 		int inPlace=0;
@@ -196,7 +196,7 @@ public class Game {
 	
 	/** 
 	 * 
-	 * @return true, ha a játék befejezõdött
+	 * @return true, ha a jÃ¡tÃ©k befejezÃµdÃ¶tt
 	 */
 	protected boolean isFinished() {
 		for(int i=0;i<table.size();i++ ){
@@ -209,7 +209,7 @@ public class Game {
 	
 	/**
 	 * 
-	 * @return Az üres elem pozícióját a játéktérben
+	 * @return Az Ã¼res elem pozÃ­ciÃ³jÃ¡t a jÃ¡tÃ©ktÃ©rben
 	 */
 	private int getBlankTilePosition() {
 		for(int i=0;i<table.size();i++ ){
@@ -223,7 +223,7 @@ public class Game {
 	/**
 	 * 
 	 * @param clickResult
-	 * @return true, ha a bemeneti paraméter az üres elem mellett van
+	 * @return true, ha a bemeneti paramÃ©ter az Ã¼res elem mellett van
 	 */
 	private boolean isSwappable(int clickResult) {
 		int blankTile = getBlankTilePosition();
@@ -239,7 +239,7 @@ public class Game {
 	/**
 	 * 
 	 * @param Tile
-	 * @return Egy adott elem szomszédait tartalmazó vektor
+	 * @return Egy adott elem szomszÃ©dait tartalmazÃ³ vektor
 	 */
 	private Vector<Integer> getNeighboursOf(int Tile){
 		Vector<Integer> neighbours= new Vector<Integer>();

@@ -57,7 +57,7 @@ public class Gui extends JFrame {
 	/**
 	 * Konstruktor
 	 * @param c
-	 * Adott játékos Controller osztálya
+	 * Adott j�t�kos Controller oszt�lya
 	 */
 	public Gui(Controller c){
 		this.c = c;
