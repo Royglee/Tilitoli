@@ -25,8 +25,8 @@ public class Gui extends JFrame {
 	
 	private ArrayList<BufferedImage> partImageList = new ArrayList<BufferedImage>();
 	
-	public static final int WIN_WIDTH = 1037;		//Ablak szélessége
-	public static final int WIN_HEIGHT = 658;		//Ablak magassága
+	public static final int WIN_WIDTH = 1037;		//Ablak szélessége(frame)
+	public static final int WIN_HEIGHT = 658;		//Ablak magassága(frame)
 	
 	private JPanel main;							//főpanel paraméterezés, kapcsolatlétesítés, játék
 	private JPanel sideUpper;						//oldalsó felső panel user paraméterek kijelzésére
