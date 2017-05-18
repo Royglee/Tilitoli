@@ -209,6 +209,8 @@ public class ConnectorModule implements Runnable
 	}
 	
 	/**A megadott ip címen lévõ játékhoz megpróbál csatlakozni.
+	 * @param myName
+	 * A csatalkozó játékos neve.
 	 * @param address
 	 * Cél ip cím
 	 * @return
