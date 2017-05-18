@@ -3,8 +3,8 @@ package multi;
 import java.net.*;
 import java.util.*;
 
-/**A hálózaton elérhetõ játékokat tároló osztály.
- * @author Tarjányi Péter
+/**A hÃ¡lÃ³zaton elÃ©rhetÅ‘ jÃ¡tÃ©kokat tÃ¡rolÃ³ osztÃ¡ly.
+ * @author TarjÃ¡nyi PÃ©ter
  */
 public class GameList
 {
@@ -18,7 +18,7 @@ public class GameList
 		gameList = new HashMap<String,DatagramPacket>();
 	}
 	
-	/**Üressé tesz nekünk a lustát, hogy tiszta lappal indulhassunk.
+	/**ÃœressÃ© tesz nekÃ¼nk a lustÃ¡t, hogy tiszta lappal indulhassunk.
 	 */
 	public void clearList()
 	{
@@ -28,11 +28,11 @@ public class GameList
 		}
 	}
 	
-	/**Belenyomunk egy packet-et, és ha az megfelelõ formátumú, felveszi a megfelelõ játékot a listára.
+	/**Belenyomunk egy packet-et, Ã©s ha az megfelelÅ‘ formÃ¡tumÃº, felveszi a megfelelÅ‘ jÃ¡tÃ©kot a listÃ¡ra.
 	 * @param p
-	 * A feldolgozni kívánt packet.
+	 * A feldolgozni kÃ­vÃ¡nt packet.
 	 * @return
-	 * True ha értelmes válasz volt, és bevette, false ha már van ilyen vagy nem is válasz üzenet.
+	 * True ha Ã©rtelmes vÃ¡lasz volt, Ã©s bevette, false ha mÃ¡r van ilyen vagy nem is vÃ¡lasz Ã¼zenet.
 	 */
 	public boolean loadData(DatagramPacket p)
 	{
@@ -56,9 +56,9 @@ public class GameList
 		return false;
 	}
 
-	/**Kilistázza a belepakolt játékmesterek neveit.
+	/**KilistÃ¡zza a belepakolt jÃ¡tÃ©kmesterek neveit.
 	 * @return
-	 * A broadcast-ra válaszoló játékok nevei.
+	 * A broadcast-ra vÃ¡laszolÃ³ jÃ¡tÃ©kok nevei.
 	 */
 	public String[] getGameNames()
 	{
@@ -76,22 +76,22 @@ public class GameList
 
 	}
 	
-	/**Megmondja, hogy a kiválasztott játékhoz milyen cím tartozik.
+	/**Megmondja, hogy a kivÃ¡lasztott jÃ¡tÃ©khoz milyen cÃ­m tartozik.
 	 * @param name
-	 * A játék neve, aminek a címe kéne nekünk.
+	 * A jÃ¡tÃ©k neve, aminek a cÃ­me kÃ©ne nekÃ¼nk.
 	 * @return
-	 * IP ha name valid, null ha name nem is létezik.
+	 * IP ha name valid, null ha name nem is lÃ©tezik.
 	 */
 	public InetAddress getGameAddress(String name)
 	{
 		return gameList.containsKey(name)?gameList.get(name).getAddress():null; //<- that's why I use HashMap with crazy datagram packet.
 	}
 	
-	/**Megadja, hogy az elérhetõ játékmesterek között szerepel-e adott nevû.
+	/**Megadja, hogy az elÃ©rhetÅ‘ jÃ¡tÃ©kmesterek kÃ¶zÃ¶tt szerepel-e adott nevÅ±.
 	 * @param name
-	 * Keresett játékosnév.
+	 * Keresett jÃ¡tÃ©kosnÃ©v.
 	 * @return
-	 * true ha szerepel a név az elérhetõ játékosok között.
+	 * true ha szerepel a nÃ©v az elÃ©rhetÅ‘ jÃ¡tÃ©kosok kÃ¶zÃ¶tt.
 	 */
 	public boolean containsName(String name)
 	{

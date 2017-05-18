@@ -2,8 +2,8 @@ package multi;
 
 import java.io.Serializable;
 
-/**Hálózaton küldött adatstruktúra
- * @author Tarjányi Péter
+/**HÃ¡lÃ³zaton kÃ¼ldÃ¶tt adatstruktÃºra
+ * @author TarjÃ¡nyi PÃ©ter
  *
  */
 public class SyncObject implements Serializable
@@ -12,13 +12,13 @@ public class SyncObject implements Serializable
 	public Scores scores;
 	public Puzzle puzzle;
 	
-	//Nincs értelme getter-setter mókának. A többiben megmutattam, ha volt értelme.
+	//Nincs Ã©rtelme getter-setter mÃ³kÃ¡nak. A tÃ¶bbiben megmutattam, ha volt Ã©rtelme.
 	
-	/**Konsturkor az adatok azonnali állításához.
+	/**Konsturkor az adatok azonnali Ã¡llÃ­tÃ¡sÃ¡hoz.
 	 * @param scores
-	 * Tárolt eredmények
+	 * TÃ¡rolt eredmÃ©nyek
 	 * @param puzzle
-	 * Tárolt játék 
+	 * TÃ¡rolt jÃ¡tÃ©k 
 	 */
 	public SyncObject(Scores scores, Puzzle puzzle)
 	{

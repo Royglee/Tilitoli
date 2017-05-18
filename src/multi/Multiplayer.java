@@ -3,8 +3,8 @@ package multi;
 import java.net.*;
 import java.util.*;
 
-/**Hálózati játék lebonyolítását végzõ osztály.
- * @author Tarjányi Péter
+/**HÃ¡lÃ³zati jÃ¡tÃ©k lebonyolÃ­tÃ¡sÃ¡t vÃ©gzÅ‘ osztÃ¡ly.
+ * @author TarjÃ¡nyi PÃ©ter
  */
 public class Multiplayer
 {
@@ -26,11 +26,11 @@ public class Multiplayer
 		mode = Mode.none;
 	}
 	
-	/**Kislistázza a hálózaton elérhetõ kátékokat. Blokkol arra az ídõre, amíg gyûjti a válaszokat.
+	/**KislistÃ¡zza a hÃ¡lÃ³zaton elÃ©rhetÅ‘ kÃ¡tÃ©kokat. Blokkol arra az Ã­dÅ‘re, amÃ­g gyÅ±jti a vÃ¡laszokat.
 	 * @param timeout
-	 * Az az idõtartam, amíg várjuk a válaszokat.
+	 * Az az idÅ‘tartam, amÃ­g vÃ¡rjuk a vÃ¡laszokat.
 	 * @return
-	 * A választ adó játékmesterek listája.
+	 * A vÃ¡laszt adÃ³ jÃ¡tÃ©kmesterek listÃ¡ja.
 	 */
 	public String[] listGameNames(Integer timeout)
 	{
@@ -45,20 +45,20 @@ public class Multiplayer
 			Thread.sleep(timeout);
 		}catch (Exception e)
 		{
-			//Itt nem kéne interrupt...
+			//Itt nem kÃ©ne interrupt...
 		}
 		discovery.stopListening();
 		games = discovery.getServerReplys();
 		return games.getGameNames();		
 	}
 	
-	/**Ha még nem vagyunk semmilyen módban, csatlakozik a kiválasztott játékhoz.
+	/**Ha mÃ©g nem vagyunk semmilyen mÃ³dban, csatlakozik a kivÃ¡lasztott jÃ¡tÃ©khoz.
 	 * @param myName
-	 * A csatlakozó játékos neve.
+	 * A csatlakozÃ³ jÃ¡tÃ©kos neve.
 	 * @param masterName
-	 * Választott játékmester / játék.
+	 * VÃ¡lasztott jÃ¡tÃ©kmester / jÃ¡tÃ©k.
 	 * @return
-	 * false ha már valamilyen módban vagyunk vagy nem sikerült csatlakozni vagy ha már foglalt a játékos név
+	 * false ha mÃ¡r valamilyen mÃ³dban vagyunk vagy nem sikerÃ¼lt csatlakozni vagy ha mÃ¡r foglalt a jÃ¡tÃ©kos nÃ©v
 	 */
 	public boolean joinGame(String myName, String masterName)
 	{
@@ -83,19 +83,19 @@ public class Multiplayer
 		return false;
 	}
 	
-	/**Létrehoz egy új játék szervert.
+	/**LÃ©trehoz egy Ãºj jÃ¡tÃ©k szervert.
 	 * @param myName
-	 * A létrehozó saját neve.
+	 * A lÃ©trehozÃ³ sajÃ¡t neve.
 	 * @param p
-	 * A játszandó játéktér.
+	 * A jÃ¡tszandÃ³ jÃ¡tÃ©ktÃ©r.
 	 * @return
-	 * false ha már fut szerver vagy kliens, illetve ha nem sikerült elindítani.
+	 * false ha mÃ¡r fut szerver vagy kliens, illetve ha nem sikerÃ¼lt elindÃ­tani.
 	 */
 	public boolean createGame(String myName,Puzzle p)
 	{
 		if (mode == Mode.none)
 		{
-			//szervert se lehessen létrehozni létezõ névvel
+			//szervert se lehessen lÃ©trehozni lÃ©tezÅ‘ nÃ©vvel
 			this.myName = myName;
 			if (discovery.startReplyAs(myName, p.getImage()))
 			{
@@ -113,9 +113,9 @@ public class Multiplayer
 		return false;
 	}
 	
-	/**Szerver esetén megszakítja a további játékosok csatlakozását, és elindul a tényleges játék.
+	/**Szerver esetÃ©n megszakÃ­tja a tovÃ¡bbi jÃ¡tÃ©kosok csatlakozÃ¡sÃ¡t, Ã©s elindul a tÃ©nyleges jÃ¡tÃ©k.
 	 * @return
-	 * false ha nem szerver módban hívjuk meg.
+	 * false ha nem szerver mÃ³dban hÃ­vjuk meg.
 	 */
 	public boolean startGame()
 	{
@@ -128,7 +128,7 @@ public class Multiplayer
 		return false;
 	}
 	
-	/** Befejezi az aktuális játékot. Szerver esetén lezárja a kapcsolatokat.
+	/** Befejezi az aktuÃ¡lis jÃ¡tÃ©kot. Szerver esetÃ©n lezÃ¡rja a kapcsolatokat.
 	 * @return
 	 * false ha nem is futott semmi
 	 */
@@ -150,29 +150,29 @@ public class Multiplayer
 		return false;
 	}
 	
-	/**Szinkornizálja a pontszámot a többi játékossal. Kliens esetén blokkol, amíg meg nem jön a szervertõl a firss adat.
+	/**SzinkornizÃ¡lja a pontszÃ¡mot a tÃ¶bbi jÃ¡tÃ©kossal. Kliens esetÃ©n blokkol, amÃ­g meg nem jÃ¶n a szervertÅ‘l a firss adat.
 	 * @param myScore
-	 * A saját pontszámom.
+	 * A sajÃ¡t pontszÃ¡mom.
 	 * @return
-	 * Az összes játékos aktuálisan elérhetõ pontszáma.
+	 * Az Ã¶sszes jÃ¡tÃ©kos aktuÃ¡lisan elÃ©rhetÅ‘ pontszÃ¡ma.
 	 */
 	public Scores syncScore(Integer myScore)
 	{
 		return connector.getPlayerScores(myName, myScore);
 	}
 	
-	/**Megadja az aktuális játékteret. Kliens esetén blokkol amíg meg nem kapja a szervertõl, tehát amíg el nem indul a játék.
+	/**Megadja az aktuÃ¡lis jÃ¡tÃ©kteret. Kliens esetÃ©n blokkol amÃ­g meg nem kapja a szervertÅ‘l, tehÃ¡t amÃ­g el nem indul a jÃ¡tÃ©k.
 	 * @return
-	 * Kliens: szervertõl akpott játéktér Szerver: szétosztott játéktér. 
+	 * Kliens: szervertÅ‘l akpott jÃ¡tÃ©ktÃ©r Szerver: szÃ©tosztott jÃ¡tÃ©ktÃ©r. 
 	 */
 	public Puzzle getPuzzle()
 	{
 		return connector.getPuzzle();
 	}
 	
-	/**Megadja a csatlakozott játékosok számát.
+	/**Megadja a csatlakozott jÃ¡tÃ©kosok szÃ¡mÃ¡t.
 	 * @return
-	 * Csatlakozott játékosok száma, 0 ha kliensek vagyunk.
+	 * Csatlakozott jÃ¡tÃ©kosok szÃ¡ma, 0 ha kliensek vagyunk.
 	 */
 	public Integer getConnectionCount()
 	{

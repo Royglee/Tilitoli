@@ -3,8 +3,8 @@ package multi;
 import java.io.Serializable;
 import java.util.*;
 
-/**A játékosok pontjait tároló osztály
- * @author Tarjányi Péter
+/**A jÃ¡tÃ©kosok pontjait tÃ¡rolÃ³ osztÃ¡ly
+ * @author TarjÃ¡nyi PÃ©ter
  */
 public class Scores implements Serializable
 {
@@ -18,11 +18,11 @@ public class Scores implements Serializable
 		scoreMap = new HashMap<String, Integer>();
 	}
 	
-	/**Második konsturkor, ami egybõl rak is bele adatot
+	/**MÃ¡sodik konsturkor, ami egybÅ‘l rak is bele adatot
 	 * @param name
-	 * Játékos neve.
+	 * JÃ¡tÃ©kos neve.
 	 * @param socre
-	 * Játékos pontjai
+	 * JÃ¡tÃ©kos pontjai
 	 */
 	public Scores(String name, Integer socre)
 	{
@@ -30,11 +30,11 @@ public class Scores implements Serializable
 		scoreMap.put(name, socre);
 	}
 	
-	/**Hozzáad egy új elemet a tárhoz. Ha már létezik, felülírja az új pontszámmal.
+	/**HozzÃ¡ad egy Ãºj elemet a tÃ¡rhoz. Ha mÃ¡r lÃ©tezik, felÃ¼lÃ­rja az Ãºj pontszÃ¡mmal.
 	 * @param name
-	 * Játékos neve
+	 * JÃ¡tÃ©kos neve
 	 * @param score
-	 * Játékos (új) pontszáma.
+	 * JÃ¡tÃ©kos (Ãºj) pontszÃ¡ma.
 	 */
 	public void writeScore(String name, Integer score)
 	{
@@ -47,9 +47,9 @@ public class Scores implements Serializable
 		}
 	}
 	
-	/**A paraméterben kapott pontszámokat hozzáfûzi a meglévõkhöz. Az újakat beleteszi, a létezõket felülírja.
+	/**A paramÃ©terben kapott pontszÃ¡mokat hozzÃ¡fÅ±zi a meglÃ©vÅ‘khÃ¶z. Az Ãºjakat beleteszi, a lÃ©tezÅ‘ket felÃ¼lÃ­rja.
 	 * @param s
-	 * A hozzáfûzendõ adatok.
+	 * A hozzÃ¡fÅ±zendÅ‘ adatok.
 	 */
 	public void mergeScores(Scores s)
 	{
@@ -67,11 +67,11 @@ public class Scores implements Serializable
 		}
 	}
 	
-	/**Visszaadja egy konkrét játékos pontszámait.
+	/**Visszaadja egy konkrÃ©t jÃ¡tÃ©kos pontszÃ¡mait.
 	 * @param name
-	 * Kiválasztott játékos.
+	 * KivÃ¡lasztott jÃ¡tÃ©kos.
 	 * @return
-	 * A játékos pontszáma, 0 ha nincs ilyen játékos.
+	 * A jÃ¡tÃ©kos pontszÃ¡ma, 0 ha nincs ilyen jÃ¡tÃ©kos.
 	 */
 	public Integer getScore(String name)
 	{
@@ -82,9 +82,9 @@ public class Scores implements Serializable
 		return 0;
 	}
 	
-	/**Kilistázza az összes játékost és eredményét egy vektorban, "Név: pont" formátumban.
+	/**KilistÃ¡zza az Ã¶sszes jÃ¡tÃ©kost Ã©s eredmÃ©nyÃ©t egy vektorban, "NÃ©v: pont" formÃ¡tumban.
 	 * @return
-	 * "Név: pont" elemek vektora.
+	 * "NÃ©v: pont" elemek vektora.
 	 */
 	public String[] listAll()
 	{
@@ -99,9 +99,9 @@ public class Scores implements Serializable
 		return result;
 	}
 
-	/**Vissza adja az összes tárolt játékos nevét.
+	/**Vissza adja az Ã¶sszes tÃ¡rolt jÃ¡tÃ©kos nevÃ©t.
 	 * @return
-	 * Játékosok neveit tartalmazó tömb.
+	 * JÃ¡tÃ©kosok neveit tartalmazÃ³ tÃ¶mb.
 	 */
 	public String[] getNames()
 	{

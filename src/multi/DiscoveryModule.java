@@ -5,8 +5,8 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-/**UDP játék feltárást végzõ osztály. Megvalósítja a keresést és az arra adott választ is.
- * @author Tarjányi Péter
+/**UDP jÃ¡tÃ©k feltÃ¡rÃ¡st vÃ©gzÅ‘ osztÃ¡ly. MegvalÃ³sÃ­tja a keresÃ©st Ã©s az arra adott vÃ¡laszt is.
+ * @author TarjÃ¡nyi PÃ©ter
  */
 public class DiscoveryModule implements Runnable
 {
@@ -15,17 +15,17 @@ public class DiscoveryModule implements Runnable
 	private static final String INTERNATIONAL_PING = "TiliToli:ping!";
 	private static final int UDP_PORT = 55555;
 	
-	private DatagramSocket socket;	//Kapcsolathoz szükséges socket
-	private Thread receiveThread;	//Aszinkorn fogadásra használt szál
+	private DatagramSocket socket;	//Kapcsolathoz szÃ¼ksÃ©ges socket
+	private Thread receiveThread;	//Aszinkorn fogadÃ¡sra hasznÃ¡lt szÃ¡l
 	private boolean isReplying; 	//Reply thread enabler
 	private boolean isListening;	//Listening thread enabler
-	private String masterName;		//Válaszhoz szükséges néve
-	private String imageID;			//Aktuális játéktér azonosító
+	private String masterName;		//VÃ¡laszhoz szÃ¼ksÃ©ges nÃ©ve
+	private String imageID;			//AktuÃ¡lis jÃ¡tÃ©ktÃ©r azonosÃ­tÃ³
 
-	private GameList availableGames;//Alosztály, az elérhetõ játékok feldolgozására és tárolására
+	private GameList availableGames;//AlosztÃ¡ly, az elÃ©rhetÅ‘ jÃ¡tÃ©kok feldolgozÃ¡sÃ¡ra Ã©s tÃ¡rolÃ¡sÃ¡ra
 	
 	
-	/** A thread futásához szükséges run blokk, benne az elágazás asszerint, hogy szerverként válaszolgatunk, vagy várjuk a szerverek válaszát
+	/** A thread futÃ¡sÃ¡hoz szÃ¼ksÃ©ges run blokk, benne az elÃ¡gazÃ¡s asszerint, hogy szerverkÃ©nt vÃ¡laszolgatunk, vagy vÃ¡rjuk a szerverek vÃ¡laszÃ¡t
 	 */
 	@Override
 	public void run()
@@ -63,9 +63,9 @@ public class DiscoveryModule implements Runnable
 		}
 	}
 	
-	/**Belsõ függvény, megnézi a csomagot, és ha ping akkor pong.
+	/**BelsÅ‘ fÃ¼ggvÃ©ny, megnÃ©zi a csomagot, Ã©s ha ping akkor pong.
 	 * @param p
-	 * Csomag aminek a tartalmát vizsgáljuk
+	 * Csomag aminek a tartalmÃ¡t vizsgÃ¡ljuk
 	 */
 	private void replyIfValid(DatagramPacket p)
 	{
@@ -80,9 +80,9 @@ public class DiscoveryModule implements Runnable
 		//System.out.println("DiscoveryModule.ReplyIfValid: NULL data!");
 	}
 	
-	/**Belsõ függvény, ami a socketen keresztül megpróbál egy már összeállított datagramm hálózati adataival egy pong tartalmat elküldeni.
+	/**BelsÅ‘ fÃ¼ggvÃ©ny, ami a socketen keresztÃ¼l megprÃ³bÃ¡l egy mÃ¡r Ã¶sszeÃ¡llÃ­tott datagramm hÃ¡lÃ³zati adataival egy pong tartalmat elkÃ¼ldeni.
 	 * @param p
-	 * Cél adatokat tartalmazó datagramPacket.
+	 * CÃ©l adatokat tartalmazÃ³ datagramPacket.
 	 */
 	private void sendAnswer(DatagramPacket p)
 	{
@@ -115,11 +115,11 @@ public class DiscoveryModule implements Runnable
 		socket = null;
 	}
 
-	/**UDP kapcsolataon keresztül küld egy pinget a megadott cmíre!
+	/**UDP kapcsolataon keresztÃ¼l kÃ¼ld egy pinget a megadott cmÃ­re!
 	 * @param dest
-	 * Cél IP cím
+	 * CÃ©l IP cÃ­m
 	 * @return
-	 * True ha sikerült a küldés, false ha nem.
+	 * True ha sikerÃ¼lt a kÃ¼ldÃ©s, false ha nem.
 	 */
 	public boolean sendPing(InetAddress dest)
 	{
@@ -140,13 +140,13 @@ public class DiscoveryModule implements Runnable
 		return false;
 	}
 	
-	/**Bekapcsolja a hallgatózó módot. Ilyenkor válaszol a boradcast üzenetekre.
+	/**Bekapcsolja a hallgatÃ³zÃ³ mÃ³dot. Ilyenkor vÃ¡laszol a boradcast Ã¼zenetekre.
 	 * @param masterName
-	 * A játékmester neve
+	 * A jÃ¡tÃ©kmester neve
 	 * @param imageID
-	 * A játéktér (kép) azonosítója
+	 * A jÃ¡tÃ©ktÃ©r (kÃ©p) azonosÃ­tÃ³ja
 	 * @return
-	 * True ha sikerült elindítani a módot, false különben (már fut / más fut).
+	 * True ha sikerÃ¼lt elindÃ­tani a mÃ³dot, false kÃ¼lÃ¶nben (mÃ¡r fut / mÃ¡s fut).
 	 */
 	public boolean startReplyAs(String masterName, String imageID)
 	{
@@ -162,9 +162,9 @@ public class DiscoveryModule implements Runnable
 		return false;
 	}
 	
-	/**Leállítja az automatikus pong küldést. Blokkol amíg a válaszoló szál ténylegesen le nem áll.
+	/**LeÃ¡llÃ­tja az automatikus pong kÃ¼ldÃ©st. Blokkol amÃ­g a vÃ¡laszolÃ³ szÃ¡l tÃ©nylegesen le nem Ã¡ll.
 	 * @return
-	 * false ha nem is futott semmi, true ha végre leálltunk
+	 * false ha nem is futott semmi, true ha vÃ©gre leÃ¡lltunk
 	 */
 	public boolean stopReply()
 	{
@@ -188,7 +188,7 @@ public class DiscoveryModule implements Runnable
 
 	}
 	
-	/**Megadja, hogy a fogadó szál fut-e.
+	/**Megadja, hogy a fogadÃ³ szÃ¡l fut-e.
 	 * @return
 	 * The state of receiveThread as name shows.
 	 */
@@ -197,9 +197,9 @@ public class DiscoveryModule implements Runnable
 		return receiveThread.isAlive();
 	}
 
-	/**Elindítja a fogadó szálat, ami majd jól fogadja discovery reply üzeneteket.
+	/**ElindÃ­tja a fogadÃ³ szÃ¡lat, ami majd jÃ³l fogadja discovery reply Ã¼zeneteket.
 	 * @return
-	 * true ha futunk, false ha már futunk vagy más fut a szálon (ergo ide se kellett volna jutni...)
+	 * true ha futunk, false ha mÃ¡r futunk vagy mÃ¡s fut a szÃ¡lon (ergo ide se kellett volna jutni...)
 	 */
 	public boolean startListening()
 	{
@@ -214,9 +214,9 @@ public class DiscoveryModule implements Runnable
 		return false;
 	}
 	
-	/**Leállítja a reply gyûjtést. Blokkol amíg tényleg le nem áll.
+	/**LeÃ¡llÃ­tja a reply gyÅ±jtÃ©st. Blokkol amÃ­g tÃ©nyleg le nem Ã¡ll.
 	 * @return
-	 * false ha nem is fut ez a funkció, true ha leállt.
+	 * false ha nem is fut ez a funkciÃ³, true ha leÃ¡llt.
 	 */
 	public boolean stopListening()
 	{
@@ -239,20 +239,20 @@ public class DiscoveryModule implements Runnable
 		return false;
 	}
 	
-	/**Vissza adja az összegyûjtött elérhetõ játékokat.
+	/**Vissza adja az Ã¶sszegyÅ±jtÃ¶tt elÃ©rhetÅ‘ jÃ¡tÃ©kokat.
 	 * @return
-	 * Elérhetõ játékok listája.
+	 * ElÃ©rhetÅ‘ jÃ¡tÃ©kok listÃ¡ja.
 	 */
 	public synchronized GameList getServerReplys()
 	{
 			return availableGames;
 	}
 	
-	/**Vissza adja a hálózati interfészek boradcast címeit.
+	/**Vissza adja a hÃ¡lÃ³zati interfÃ©szek boradcast cÃ­meit.
 	 * @param withoutLoopback
-	 * Ha true, akkor a lista nem tartalmazza a loopback címeket.
+	 * Ha true, akkor a lista nem tartalmazza a loopback cÃ­meket.
 	 * @return
-	 * A gép összes aktív broadcast címe.
+	 * A gÃ©p Ã¶sszes aktÃ­v broadcast cÃ­me.
 	 */
 	public List<InetAddress> getAllBroadcastAddress(Boolean withoutLoopback)
 	{
@@ -275,9 +275,9 @@ public class DiscoveryModule implements Runnable
 		return result;
 	}
 	
-	/**Kinyitja az UDP socketet az elõre definiált porton
+	/**Kinyitja az UDP socketet az elÅ‘re definiÃ¡lt porton
 	 * @return
-	 * false, ha nem sikerült kinyitni, vagy már nyitva van.
+	 * false, ha nem sikerÃ¼lt kinyitni, vagy mÃ¡r nyitva van.
 	 */
 	private boolean openSocket()
 	{
@@ -286,7 +286,7 @@ public class DiscoveryModule implements Runnable
 			try
 			{
 				socket = new DatagramSocket(UDP_PORT);
-				socket.setSoTimeout(100); // <- ez nagyon is kell, különben a receiverThread örökre blokkolhat, és restartig buktuk a port foglalást.
+				socket.setSoTimeout(100); // <- ez nagyon is kell, kÃ¼lÃ¶nben a receiverThread Ã¶rÃ¶kre blokkolhat, Ã©s restartig buktuk a port foglalÃ¡st.
 				socket.setReuseAddress(true);
 				return true;
 			}catch (Exception e)
@@ -298,7 +298,7 @@ public class DiscoveryModule implements Runnable
 		return false;
 	}
 	
-	/**Lezárja az UDP socketet.
+	/**LezÃ¡rja az UDP socketet.
 	 * @return
 	 * Minden esetben true
 	 */

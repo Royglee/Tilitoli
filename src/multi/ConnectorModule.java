@@ -4,8 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-/**Játék alatt létrehozott TCP kapcsolatokat és kommunikációt kezelõ osztály.
- * @author Tarjányi Péter
+/**JÃ¡tÃ©k alatt lÃ©trehozott TCP kapcsolatokat Ã©s kommunikÃ¡ciÃ³t kezelÅ‘ osztÃ¡ly.
+ * @author TarjÃ¡nyi PÃ©ter
  *
  */
 public class ConnectorModule implements Runnable
@@ -26,7 +26,7 @@ public class ConnectorModule implements Runnable
 	private boolean puzzleDeployed;
 	private Puzzle currentPuzzle;
 	
-	/** A kapcsolatok kezeléséhez szükséges szál.
+	/** A kapcsolatok kezelÃ©sÃ©hez szÃ¼ksÃ©ges szÃ¡l.
 	 */
 	@Override
 	public void run() {
@@ -53,7 +53,7 @@ public class ConnectorModule implements Runnable
 		}
 	}
 	
-	/**Fogadja a szervertõl akpott puzzle-t, és tárolja.
+	/**Fogadja a szervertÅ‘l akpott puzzle-t, Ã©s tÃ¡rolja.
 	 */
 	private void receivePuzzle()
 	{
@@ -77,7 +77,7 @@ public class ConnectorModule implements Runnable
 		}
 	}
 	
-	/**Fogadja az új játékosokat.
+	/**Fogadja az Ãºj jÃ¡tÃ©kosokat.
 	 */
 	private void acceptNewConnection()
 	{
@@ -105,11 +105,11 @@ public class ConnectorModule implements Runnable
 		serverRunning = false;
 	}
 	
-	/** Elindítja a szerver módot. Várja a játékosok csatlakozását és ha ezt letiltjuk, szétosztja a puzzle-t, és elindul a játék.
+	/** ElindÃ­tja a szerver mÃ³dot. VÃ¡rja a jÃ¡tÃ©kosok csatlakozÃ¡sÃ¡t Ã©s ha ezt letiltjuk, szÃ©tosztja a puzzle-t, Ã©s elindul a jÃ¡tÃ©k.
 	 * @param puzzle
-	 * Szétosztandó játéktér.
+	 * SzÃ©tosztandÃ³ jÃ¡tÃ©ktÃ©r.
 	 * @return
-	 * False ha nem tud elindulni vagy kliens módban vagyunk, true ha a játék elindult.
+	 * False ha nem tud elindulni vagy kliens mÃ³dban vagyunk, true ha a jÃ¡tÃ©k elindult.
 	 */
 	public boolean startGameServer(Puzzle puzzle)
 	{
@@ -140,7 +140,7 @@ public class ConnectorModule implements Runnable
 		return false;
 	}
 	
-	/**Tiszta lappal kezdi fogadni az új játékosokat.
+	/**Tiszta lappal kezdi fogadni az Ãºj jÃ¡tÃ©kosokat.
 	 */
 	private void enableNewConnections()
 	{
@@ -151,7 +151,7 @@ public class ConnectorModule implements Runnable
 		}
 	}
 	
-	/**Lezárja a nyitott kapcsolatokat és törli azokat.
+	/**LezÃ¡rja a nyitott kapcsolatokat Ã©s tÃ¶rli azokat.
 	 */
 	private void cleanUpConnections()
 	{
@@ -165,16 +165,16 @@ public class ConnectorModule implements Runnable
 		}
 	}
 	
-	/**Leállítja a további játékosok fogadását, és elindul a játék.
+	/**LeÃ¡llÃ­tja a tovÃ¡bbi jÃ¡tÃ©kosok fogadÃ¡sÃ¡t, Ã©s elindul a jÃ¡tÃ©k.
 	 */
 	public void disableNewConnections()
 	{
 		enableAccepting = false;
 	}
 	
-	/**Leállítja a server üzemmódot. Blokkol amíg le nem áll.
+	/**LeÃ¡llÃ­tja a server Ã¼zemmÃ³dot. Blokkol amÃ­g le nem Ã¡ll.
 	 * @return
-	 * true ha leállt, false ha nem is ment a szerver mód.
+	 * true ha leÃ¡llt, false ha nem is ment a szerver mÃ³d.
 	 */
 	public boolean stopGameServer()
 	{
@@ -208,13 +208,13 @@ public class ConnectorModule implements Runnable
 		}else return false;
 	}
 	
-	/**A megadott ip címen lévõ játékhoz megpróbál csatlakozni.
+	/**A megadott ip cÃ­men lÃ©vÅ‘ jÃ¡tÃ©khoz megprÃ³bÃ¡l csatlakozni.
 	 * @param myName
-	 * A csatalkozó játékos neve.
+	 * A csatalkozÃ³ jÃ¡tÃ©kos neve.
 	 * @param address
-	 * Cél ip cím
+	 * CÃ©l ip cÃ­m
 	 * @return
-	 * false ha nem sikerült csatlakozni, true ha csatlakozott.
+	 * false ha nem sikerÃ¼lt csatlakozni, true ha csatlakozott.
 	 */
 	public boolean joinGame(String myName, InetAddress address)
 	{
@@ -240,9 +240,9 @@ public class ConnectorModule implements Runnable
 		return false;
 	}
 	
-	/**Kilép a csatlakotott játékból. Blokkol, amíg ki nem léptünk.
+	/**KilÃ©p a csatlakotott jÃ¡tÃ©kbÃ³l. Blokkol, amÃ­g ki nem lÃ©ptÃ¼nk.
 	 * @return
-	 * true ha kiléptünk, false ha nem is voltunk játékban
+	 * true ha kilÃ©ptÃ¼nk, false ha nem is voltunk jÃ¡tÃ©kban
 	 */
 	public boolean leaveGame()
 	{
@@ -275,13 +275,13 @@ public class ConnectorModule implements Runnable
 		}else return false;
 	}
 
-	/**Vissza adja a játékosok eredményeit, és elküldi a többieknek a saját eredményeket. Kliens esetán blokkol amíg meg nem jön a szervertõl a válasz. 
+	/**Vissza adja a jÃ¡tÃ©kosok eredmÃ©nyeit, Ã©s elkÃ¼ldi a tÃ¶bbieknek a sajÃ¡t eredmÃ©nyeket. Kliens esetÃ¡n blokkol amÃ­g meg nem jÃ¶n a szervertÅ‘l a vÃ¡lasz. 
 	 * @param name
-	 * Saját név.
+	 * SajÃ¡t nÃ©v.
 	 * @param score
-	 * Saját pontok.
+	 * SajÃ¡t pontok.
 	 * @return
-	 * Minden játékos eredménye, vagy null, ha nem fut semmi
+	 * Minden jÃ¡tÃ©kos eredmÃ©nye, vagy null, ha nem fut semmi
 	 */
 	public Scores getPlayerScores(String name, Integer score)
 	{
@@ -296,13 +296,13 @@ public class ConnectorModule implements Runnable
 		else return null;
 	}
 	
-	/**Szinkronizálja a pontokat. Elküldi a sajátot a szervernek, és várja amíg vissza nem kapja a többiekét is.
+	/**SzinkronizÃ¡lja a pontokat. ElkÃ¼ldi a sajÃ¡tot a szervernek, Ã©s vÃ¡rja amÃ­g vissza nem kapja a tÃ¶bbiekÃ©t is.
 	 * @param name
-	 * Saját neve.
+	 * SajÃ¡t neve.
 	 * @param score
-	 * Saját pontszám
+	 * SajÃ¡t pontszÃ¡m
 	 * @return
-	 * Minden játékos eredménye a szervertõl.
+	 * Minden jÃ¡tÃ©kos eredmÃ©nye a szervertÅ‘l.
 	 */
 	private Scores syncScore(String name, Integer score)
 	{
@@ -325,9 +325,9 @@ public class ConnectorModule implements Runnable
 		return ego; 
 	}
 	
-	/**Megadja az aktuális játékteret. Kliens esetén blokkol amíg meg nem kapja a szervertõl, tehát amíg el nem indul a játék.
+	/**Megadja az aktuÃ¡lis jÃ¡tÃ©kteret. Kliens esetÃ©n blokkol amÃ­g meg nem kapja a szervertÅ‘l, tehÃ¡t amÃ­g el nem indul a jÃ¡tÃ©k.
 	 * @return
-	 * Kliens: szervertõl akpott játéktér Szerver: szétosztott játéktér. 
+	 * Kliens: szervertÅ‘l akpott jÃ¡tÃ©ktÃ©r Szerver: szÃ©tosztott jÃ¡tÃ©ktÃ©r. 
 	 */
 	public Puzzle getPuzzle()
 	{
@@ -344,9 +344,9 @@ public class ConnectorModule implements Runnable
 		return puzzleDeployed?currentPuzzle:null;
 	}
 
-	/**Megmondja, hány TCP kapcsolat van már.
+	/**Megmondja, hÃ¡ny TCP kapcsolat van mÃ¡r.
 	 * @return
-	 * Elfogadott TCP kapcsolatok száma.
+	 * Elfogadott TCP kapcsolatok szÃ¡ma.
 	 */
 	public Integer getConnectionCount()
 	{

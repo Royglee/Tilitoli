@@ -2,8 +2,8 @@ package multi;
 
 import java.io.Serializable;
 
-/**Játékteret tároló struktúra.
- * @author Tarjányi Péter
+/**JÃ¡tÃ©kteret tÃ¡rolÃ³ struktÃºra.
+ * @author TarjÃ¡nyi PÃ©ter
  *
  */
 public class Puzzle implements Serializable
@@ -23,13 +23,13 @@ public class Puzzle implements Serializable
 		puzzle = null;
 	}
 	
-	/**Paraméterezhetõ konsturktor
+	/**ParamÃ©terezhetÅ‘ konsturktor
 	 * @param image
-	 * Kép azonosító
+	 * KÃ©p azonosÃ­tÃ³
 	 * @param size
-	 * Pálya méret
+	 * PÃ¡lya mÃ©ret
 	 * @param puzzle
-	 * Keverés
+	 * KeverÃ©s
 	 */
 	public Puzzle(String image, byte size, byte[] puzzle)
 	{
@@ -38,43 +38,43 @@ public class Puzzle implements Serializable
 		this.size = size;
 	}
 
-	/**Kép beállítása
+	/**KÃ©p beÃ¡llÃ­tÃ¡sa
 	 * @param image
-	 * kép azonosító
+	 * kÃ©p azonosÃ­tÃ³
 	 */
 	public void setImage(String image)
 	{
 		this.image = image;
 	}
 	
-	/**Visszadja a képazonosítót
+	/**Visszadja a kÃ©pazonosÃ­tÃ³t
 	 * @return
-	 * képazonosító
+	 * kÃ©pazonosÃ­tÃ³
 	 */
 	public String getImage()
 	{
 		return image;
 	}
 	
-	/**Beállítja a keverést
+	/**BeÃ¡llÃ­tja a keverÃ©st
 	 * @param puzzle
-	 * új keverés
+	 * Ãºj keverÃ©s
 	 */
 	public void setPuzzle(byte[] puzzle)
 	{
 		this.puzzle = puzzle;
 	}
 	
-	/**Visszaadja a keverést
+	/**Visszaadja a keverÃ©st
 	 * @return
-	 * aktuális keverés
+	 * aktuÃ¡lis keverÃ©s
 	 */
 	public byte[] getPuzzle()
 	{
 		return puzzle;
 	}
 
-	/**Beállítja a pálya méretét
+	/**BeÃ¡llÃ­tja a pÃ¡lya mÃ©retÃ©t
 	 * @param size
 	 * oldalhossz
 	 */
@@ -83,7 +83,7 @@ public class Puzzle implements Serializable
 		this.size = size;
 	}
 	
-	/**Visszaadja a pályaméretet
+	/**Visszaadja a pÃ¡lyamÃ©retet
 	 * @return
 	 * oldalhossz
 	 */

@@ -3,8 +3,8 @@ package multi;
 import java.net.*;
 import java.io.*;
 
-/**Különálló tcp kapcsolatokat kezelõ osztály
- * @author Tarjányi Péter
+/**KÃ¼lÃ¶nÃ¡llÃ³ tcp kapcsolatokat kezelÅ‘ osztÃ¡ly
+ * @author TarjÃ¡nyi PÃ©ter
  *
  */
 public class NetworkClient implements Runnable
@@ -18,9 +18,9 @@ public class NetworkClient implements Runnable
 	private boolean deployed;
 	//private String myName;
 	
-	/**Az osztály statikus eredményeit állítja. Threadsafe.
+	/**Az osztÃ¡ly statikus eredmÃ©nyeit Ã¡llÃ­tja. Threadsafe.
 	 * @param s
-	 * A beállítani kívánt eredmények.
+	 * A beÃ¡llÃ­tani kÃ­vÃ¡nt eredmÃ©nyek.
 	 */
 	public static synchronized void setScores(Scores s)
 	{
@@ -33,27 +33,27 @@ public class NetworkClient implements Runnable
 		}
 	}
 	
-	/**Vissza adja a aktuális legfrissebb eredményeket. Threadsafe.
+	/**Vissza adja a aktuÃ¡lis legfrissebb eredmÃ©nyeket. Threadsafe.
 	 * @return
-	 * Aktuális eredmények.
+	 * AktuÃ¡lis eredmÃ©nyek.
 	 */
 	public static synchronized Scores getScores()
 	{
 		return scores;
 	}
 	
-	/**Beállítja a szétosztandó játékteret. Threadsafe.
+	/**BeÃ¡llÃ­tja a szÃ©tosztandÃ³ jÃ¡tÃ©kteret. Threadsafe.
 	 * @param p
-	 * Szétosztandó játéktér.
+	 * SzÃ©tosztandÃ³ jÃ¡tÃ©ktÃ©r.
 	 */
 	public static synchronized void setPuzzle(Puzzle p)
 	{
 		puzzle = p;	
 	}
 	
-	/**Visszaadja a beállított játékteret, mondjuk sok haszna nincs, de elfér. Threadsafe.
+	/**Visszaadja a beÃ¡llÃ­tott jÃ¡tÃ©kteret, mondjuk sok haszna nincs, de elfÃ©r. Threadsafe.
 	 * @return
-	 * Korábban beállított szétosztandó játéktér.
+	 * KorÃ¡bban beÃ¡llÃ­tott szÃ©tosztandÃ³ jÃ¡tÃ©ktÃ©r.
 	 */
 	public static synchronized Puzzle getPuzzle()
 	{
@@ -62,7 +62,7 @@ public class NetworkClient implements Runnable
 	
 	/**Konstruktor
 	 * @param s
-	 * A fogadott TCP kapcsolathoz tartozó socket.
+	 * A fogadott TCP kapcsolathoz tartozÃ³ socket.
 	 */
 	public NetworkClient(Socket s)
 	{
@@ -88,7 +88,7 @@ public class NetworkClient implements Runnable
 		enabled = false;
 	}
 	
-	/**A kapcsolatot kezel szálat képezõ folyamat.
+	/**A kapcsolatot kezel szÃ¡lat kÃ©pezÅ‘ folyamat.
 	 *
 	 */
 	@Override
@@ -121,7 +121,7 @@ public class NetworkClient implements Runnable
 		}
 	}
 
-	/**Elindítja a konkrét TCP kapcsolatot kezelõ szálat.
+	/**ElindÃ­tja a konkrÃ©t TCP kapcsolatot kezelÅ‘ szÃ¡lat.
 	 * @return
 	 * true ha minend rendben, false ha nem indult el.
 	 */
@@ -139,9 +139,9 @@ public class NetworkClient implements Runnable
 		return enabled;
 	}
 	
-	/**Leállítja a szálat, ami kezeli a kapcsolatot.
+	/**LeÃ¡llÃ­tja a szÃ¡lat, ami kezeli a kapcsolatot.
 	 * @return
-	 * true ha leállt, false ha nem is futott.
+	 * true ha leÃ¡llt, false ha nem is futott.
 	 */
 	public boolean stop() 
 	{
@@ -163,7 +163,7 @@ public class NetworkClient implements Runnable
 	}
 	
 	/**
-	 * Leállítja a szálat, és aztán lezárja a kapcsolatot.
+	 * LeÃ¡llÃ­tja a szÃ¡lat, Ã©s aztÃ¡n lezÃ¡rja a kapcsolatot.
 	 */
 	public void close()
 	{
