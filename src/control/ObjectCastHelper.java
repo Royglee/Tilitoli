@@ -9,6 +9,13 @@ import java.util.Vector;
 
 public class ObjectCastHelper {
 	
+	/** A paraméterül kapott byte tömböt Vector objektummá alakítja
+	 * 
+	 * @param bytes
+	 * @return obj
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static Vector<Integer> deserializeBytes(byte[] bytes) throws IOException, ClassNotFoundException
 	{
 	    ByteArrayInputStream bytesIn = new ByteArrayInputStream(bytes);
@@ -19,7 +26,12 @@ public class ObjectCastHelper {
 	    return obj;
 	}
 
-
+	/** A paraméterül kapott Vector objektumot byte tömbbé alakítja
+	 * 
+	 * @param obj
+	 * @return bytes
+	 * @throws IOException
+	 */
 	public static byte[] serializeObject(Vector<Integer> obj) throws IOException
 	{
 	    ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
