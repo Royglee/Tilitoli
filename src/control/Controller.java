@@ -192,7 +192,7 @@ public class Controller{
 	 */
 	protected void startTimerChanged(){
 		String string = (game.getStartTime()>0)?""+game.getStartTime():"GO!";
-		g.countBack(string);
+		g.drawSideLowerScreen(string);
 		
 		if(game.getStartTime()==0){
 				tableChanged();
@@ -221,7 +221,7 @@ public class Controller{
 		}
 		
 		if(endScreenDrawn){
-			g.drawMainScreen();
+			g.drawBasicScreen();
 			g.drawSideUpperPanel();
 		}
 		
@@ -259,7 +259,7 @@ public class Controller{
 		waitingForPlayers=false;
 		endScreenDrawn=true;
 		g.drawSideUpperPanel();
-		g.drawMainScreen();
+		g.drawBasicScreen();
 		game.startTimerCancel();
 		
 	}
@@ -341,7 +341,7 @@ public class Controller{
 				g.win(false, someoneWon());
 			}
 			endScreenDrawn=true;
-			g.countBack(":)");
+			g.drawSideLowerScreen(":)");
 		}
 	}
 

@@ -20,57 +20,62 @@ public class Gui extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	protected Controller c;
-	public String nickname;
+	public String nickName;
 	public int clickResult;
 	
-	ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
+	private ArrayList<BufferedImage> partImageList = new ArrayList<BufferedImage>();
 	
-	public static int winwidth;		//Ablak szélessége
-	public static int winheight;	//Ablak magassága
+	public static final int WIN_WIDTH = 1037;		//Ablak szélessége(frame)
+	public static final int WIN_HEIGHT = 658;		//Ablak magassága(frame)
 	
-	JPanel main;
-	JPanel sideupper;
-	JPanel sidelower;
+	private JPanel main;							//főpanel paraméterezés, kapcsolatlétesítés, játék
+	private JPanel sideUpper;						//oldalsó felső panel user paraméterek kijelzésére
+	private JPanel sideLower;						//oldalsó alsó, visszaszámlálás, egyéb instrukciók
 	
-	JButton single = new JButton("SINGLE");
-	JButton multi = new JButton("MULTI");;
-	JButton server = new JButton("SERVER");
-	JButton client = new JButton("CLIENT");
-	JButton start = new JButton("START");
-	JButton connect = new JButton("CONNECT");
-	JButton create = new JButton ("CREATE SERVER");
-	JButton back_to_main_menu = new JButton ("BACK TO MAIN MENU");
-	JButton refresh = new JButton ("REFRESH");
+	private JButton single = new JButton("SINGLE");		//felhasznált gombok
+	private JButton multi = new JButton("MULTI");;
+	private JButton server = new JButton("SERVER");
+	private JButton client = new JButton("CLIENT");
+	private JButton start = new JButton("START");
+	private JButton connect = new JButton("CONNECT");
+	private JButton create = new JButton ("CREATE SERVER");
+	private JButton backToMenu = new JButton ("BACK TO MAIN MENU");
+	private JButton refresh = new JButton ("REFRESH");
 	
-	JTextField nickname_input_server_single;
-	JTextField nickname_input_client;
+	private JTextField nickNameInputServerSingle;			//server/single nickname beviteli mező
+	private JTextField nickNameInputClient;					//client nickname beviteli mező
 	
-	String[] animalTitles = new String[] {"dog", "cat","elephant", "giraffe"};
-	String[] resolutionTitles = new String[] {"3x3", "4x4","5x5", "6x6","7x7","8x8","9x9","10x10"};
+	//legördülő lista elemek kép és felbontás választáshoz
+	private String[] animalTitles = new String[] {"dog", "cat","elephant", "giraffe"};
+	private String[] resolutionTitles = new String[] {"3x3", "4x4","5x5", "6x6","7x7","8x8","9x9","10x10"};
 	
-	JComboBox<String> animalList = new JComboBox<>(animalTitles);
-	JComboBox<String> resolutionList = new JComboBox<>(resolutionTitles);
-	JComboBox<String> serverList = new JComboBox<>();
+	//legördülő listák kép, felbontás és szerver választáshoz clienteknek
+	private JComboBox<String> animalList = new JComboBox<>(animalTitles);
+	private JComboBox<String> resolutionList = new JComboBox<>(resolutionTitles);
+	private JComboBox<String> serverList = new JComboBox<>();
 	
+	/**
+	 * Konstruktor
+	 * @param c
+	 * Adott játékos Controller osztálya
+	 */
 	public Gui(Controller c){
 		this.c = c;
-		Gui.winwidth = 1037;
-		Gui.winheight = 658;
 		setTitle("Tili-Toli");
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);	//Kilépés ablak x-re
-		setSize(Gui.winwidth,Gui.winheight);
+		setSize(Gui.WIN_WIDTH,Gui.WIN_HEIGHT);
 		setLayout(null);
 
 		main = new JPanel();
 		add(main);
 		
-		sidelower = new JPanel();
-		add(sidelower);
-		drawMainScreen();
+		sideLower = new JPanel();
+		add(sideLower);
+		drawBasicScreen();
 		
-		sideupper = new JPanel();
-		add(sideupper);
+		sideUpper = new JPanel();
+		add(sideUpper);
 		drawSideUpperPanel();
 		
 		multi.addActionListener(new ActionListener() {
@@ -116,8 +121,8 @@ public class Gui extends JFrame {
 				resolutionString = resolutionList.getSelectedItem().toString();
 				resolution = Integer.parseInt(resolutionString.substring(0,resolutionString.indexOf("x")));
 				c.setGameParameters(picturename, resolution);
-				nickname = nickname_input_server_single.getText();
-				c.setMyName(nickname);
+				nickName = nickNameInputServerSingle.getText();
+				c.setMyName(nickName);
 				chopImage();
 				
 				
@@ -145,9 +150,9 @@ public class Gui extends JFrame {
 						c.clicked(clickResult);
 					}
 				});
-				nickname = nickname_input_client.getText();
+				nickName = nickNameInputClient.getText();
 				String server = serverList.getSelectedItem().toString();
-				c.setMyName(nickname);
+				c.setMyName(nickName);
 				c.joinServer(server);
 			}
 		});
@@ -159,7 +164,7 @@ public class Gui extends JFrame {
 				String resolutionString = resolutionList.getSelectedItem().toString();
 				int resolution = Integer.parseInt(resolutionString.substring(0,resolutionString.indexOf("x")));
 				c.setGameParameters(animalList.getSelectedItem().toString(), resolution);
-				c.setMyName(nickname_input_server_single.getText());
+				c.setMyName(nickNameInputServerSingle.getText());
 				try {
 					c.createGame();
 				} catch (ClassNotFoundException | IOException e1) {
@@ -168,7 +173,7 @@ public class Gui extends JFrame {
 			}
 		});
 		
-		back_to_main_menu.addActionListener(new ActionListener() {
+		backToMenu.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -187,7 +192,11 @@ public class Gui extends JFrame {
 		setVisible(true);
 		
 	}
-
+	/**
+	 * Képek megnyitása, méret átskálázása, hozzáadás a main panelhez
+	 * @param name
+	 * Megnyitandó kép neve
+	 */
 	private void openImage(String name) {
 		try {
 			Image img = ImageIO.read(getClass().getResource("/pictures/"+name+".jpg"));
@@ -199,9 +208,11 @@ public class Gui extends JFrame {
 			System.out.println(e1.getMessage());
 		}
 	}
-	
+	/**Kép felszeletelése részképekre megadott felbontása
+	 * 
+	 */
 	public void chopImage(){
-		images.clear();
+		partImageList.clear();
 		Image img = null;
 		int resolution = c.getGame().getResolution();
 		String picturename = c.getGame().getPicturename();
@@ -212,20 +223,24 @@ public class Gui extends JFrame {
 			e.printStackTrace();
 		}
 		img = img.getScaledInstance(800, 600, Image.SCALE_DEFAULT);
-		BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-		bimage.getGraphics().drawImage(img, 0, 0, null);
+		BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+		bufferedImage.getGraphics().drawImage(img, 0, 0, null);
 		for(int i=0; i<resolution; i++){
 			for(int j=0; j<resolution; j++){
 				int x = j*(800/resolution);
 				int y = i*(600/resolution);
 				int w = 800/resolution;
 				int h = 600/resolution;
-				BufferedImage out= bimage.getSubimage(x, y, w, h);
-				images.add(out);
+				BufferedImage out= bufferedImage.getSubimage(x, y, w, h);
+				partImageList.add(out);
 			}
 		}
 	}
-	
+	/**Részképekből main panel (játéktér) újrarajzolása vektorban szereplő számok sorrendjében 
+	 * 
+	 * @param position
+	 * Sorrendet tartalmazó vektor
+	 */
 	public void makePanel(Vector<Integer> position){
 		Image blank = null;
 		int resolution = c.getGame().getResolution();
@@ -244,7 +259,7 @@ public class Gui extends JFrame {
 				main.add(part);
 			}
 			else{
-				Image image = images.get(position.get(i)).getSubimage( 0, 0, (800/resolution-2), (600/resolution-2) );
+				Image image = partImageList.get(position.get(i)).getSubimage( 0, 0, (800/resolution-2), (600/resolution-2) );
 				JLabel part = new JLabel(new ImageIcon(image));
 				main.add(part);
 			}
@@ -252,38 +267,52 @@ public class Gui extends JFrame {
 		main.revalidate();
 		main.repaint();
 	}
-	
+	/**Részkép sorszámának visszaadása, amin kattintás történt
+	 * 
+	 * @param x_coordinate
+	 * egér kattintás x koordinátája a JPanelen
+	 * @param y_coordinate
+	 * egér kattintás y koordinátája a JPanelen
+	 */
 	private void getclickResult(int x_coordinate,int y_coordinate){
-		int w, h, cellwidth, cellheight, row_number, column_number;
+		int w, h, cellwidth, cellheight, row_label, column_label;
 		int resolution = c.getGame().getResolution();
 		h = main.getHeight(); 
 		w = main.getWidth();
 		cellwidth = w/resolution;
 		cellheight = h/resolution;
-		column_number = x_coordinate/cellwidth;
-		row_number = y_coordinate/cellheight;
-		clickResult = (row_number*resolution)+column_number;
+		column_label = x_coordinate/cellwidth;
+		row_label = y_coordinate/cellheight;
+		clickResult = (row_label*resolution)+column_label;
 	}
-	/*Advanced win képernyő: */
+	/**Main képernyő játék vége kép kirajzolása pirossal veszteseknek, zölddel nyerteseknek
+	 * 
+	 * @param isWinner
+	 * az adott játékos nyertes
+	 * @param winnerName
+	 * nyertes játékos neve
+	 */
 	public void win(boolean isWinner, String winnerName){
-		JLabel you_win;
+		JLabel label;
 		main.removeAll();
 		main.setLayout(new GridBagLayout());
 		if(isWinner){
-			you_win = new JLabel("YOU WIN!");
-			you_win.setForeground(Color.GREEN);
+			label = new JLabel("YOU WIN!");
+			label.setForeground(Color.GREEN);
 		}
 		else{
-			you_win = new JLabel("The winner is:"+winnerName);
-			you_win.setForeground(Color.RED);
+			label = new JLabel("The winner is:"+winnerName);
+			label.setForeground(Color.RED);
 		}
-		you_win.setFont(you_win.getFont().deriveFont(64f)); 
-		main.add(you_win);
+		label.setFont(label.getFont().deriveFont(64f)); 
+		main.add(label);
 		main.revalidate();
 		main.repaint();
 	}
-	
-	public void drawMainScreen() {
+	/**Alpaphelyzetű képernyő kirajzolása
+	 * 
+	 */
+	public void drawBasicScreen() {
 		MouseListener[] mouseListeners = main.getMouseListeners();
 		for (MouseListener mouseListener : mouseListeners) {
 		    main.removeMouseListener(mouseListener);
@@ -299,26 +328,28 @@ public class Gui extends JFrame {
 		main.revalidate();
 		main.repaint();
 		
-		sidelower.removeAll();
-		sidelower.setBounds(10, 521, 190, 100);
-		sidelower.setBorder(BorderFactory.createLineBorder(Color.black));
-		sidelower.setLayout(new GridBagLayout());
-		JLabel sidelower_label = new JLabel("HELLO!");
-		sidelower_label.setForeground(Color.RED);
-		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
-		sidelower.add(sidelower_label);
-		sidelower.revalidate();
-		sidelower.repaint();
+		sideLower.removeAll();
+		sideLower.setBounds(10, 521, 190, 100);
+		sideLower.setBorder(BorderFactory.createLineBorder(Color.black));
+		sideLower.setLayout(new GridBagLayout());
+		JLabel label = new JLabel("HELLO!");
+		label.setForeground(Color.RED);
+		label.setFont(label.getFont().deriveFont(35f));
+		sideLower.add(label);
+		sideLower.revalidate();
+		sideLower.repaint();
 	}
-	
+	/**Játék beállító képernyő kirajzolása server és single mód esetére
+	 * 
+	 */
 	public void drawParameterScreen() {
 		main.removeAll();
 		main.setLayout(new GridLayout(5,2,10,10));
-		JLabel nickname_ask = new JLabel("Enter your nickname!",SwingConstants.CENTER);
-		main.add(nickname_ask);
-		nickname_input_server_single = new JTextField("NICKNAME");
-		nickname_input_server_single.setHorizontalAlignment(JTextField.CENTER);
-		main.add(nickname_input_server_single);
+		JLabel nickName_ask = new JLabel("Enter your nickName!",SwingConstants.CENTER);
+		main.add(nickName_ask);
+		nickNameInputServerSingle = new JTextField("nickName");
+		nickNameInputServerSingle.setHorizontalAlignment(JTextField.CENTER);
+		main.add(nickNameInputServerSingle);
 		if(c.getServerMode()){
 			JLabel create_ask = new JLabel("Choose resolution and picture, then push CREATE to start server!",SwingConstants.CENTER);
 			main.add(create_ask);
@@ -333,24 +364,28 @@ public class Gui extends JFrame {
 		openImage("elephant");
 		openImage("giraffe");
 		if(!c.getServerMode()){
-			JLabel single_start_instruction = new JLabel("After parameters and nickname chosen, you can START!",SwingConstants.CENTER);
+			JLabel single_start_instruction = new JLabel("After parameters and nickName chosen, you can START!",SwingConstants.CENTER);
 			main.add(single_start_instruction);
 			main.add(start);
 		}
 		main.revalidate();
 		main.repaint();
 	}
-	
+	/**Kliens paraméter és server választó képernyő kirajzolása
+	 * 
+	 * @param servers
+	 * hálózaton létező serverek listája
+	 */
 	public void drawClientScreen(String[] servers) {
 		serverList = new JComboBox<>(servers);
 		main.removeAll();
 		main.setLayout(new GridLayout(3,2,10,10));
-		JLabel nickname_ask = new JLabel("Give your nickname",SwingConstants.CENTER);
-		main.add(nickname_ask);
-		nickname_input_client = new JTextField("NICKNAME");
-		nickname_input_client.setHorizontalAlignment(JTextField.CENTER);
-		nickname_input_client.setVisible(true);
-		main.add(nickname_input_client);
+		JLabel nickName_ask = new JLabel("Give your nickName",SwingConstants.CENTER);
+		main.add(nickName_ask);
+		nickNameInputClient = new JTextField("nickName");
+		nickNameInputClient.setHorizontalAlignment(JTextField.CENTER);
+		nickNameInputClient.setVisible(true);
+		main.add(nickNameInputClient);
 		if(servers.length ==0){
 			JLabel empty_list = new JLabel("There is no reachable server!",SwingConstants.CENTER);
 			main.add(empty_list);
@@ -364,7 +399,9 @@ public class Gui extends JFrame {
 		main.revalidate();
 		main.repaint();
 	}
-	
+	/**Multiplayer módban server vagy client mód választó képernyő kirajzolása
+	 * 
+	 */
 	public void drawServerOrClientScreen() {
 		JLabel label1 =new JLabel("Server or client?");
 		main.removeAll();
@@ -374,43 +411,61 @@ public class Gui extends JFrame {
 		main.revalidate();
 		main.repaint();
 	}
-	
-	public void countBack(String number){
-		sidelower.removeAll();
-		JLabel sidelower_label = new JLabel(number);
-		sidelower_label.setForeground(Color.RED);
-		sidelower_label.setFont(sidelower_label.getFont().deriveFont(35f));
-		sidelower.add(sidelower_label);
-		sidelower.revalidate();
-		sidelower.repaint();
+	/**Alsó oldalsó panel kis üzenetének frissítése
+	 * 
+	 * @param label
+	 * kiírandó üzenet
+	 */
+	public void drawSideLowerScreen(String message){
+		sideLower.removeAll();
+		JLabel label = new JLabel(message);
+		label.setForeground(Color.RED);
+		label.setFont(label.getFont().deriveFont(35f));
+		sideLower.add(label);
+		sideLower.revalidate();
+		sideLower.repaint();
 	}
-	/*oldalsó panel idő, játékosok és pontok kijelzésével*/
+	/**Felső oldalsó panel kirajzolása csatlakozott játékban levő playerekkel
+	 * 
+	 * @param score
+	 * pontállás lista
+	 * @param playerList
+	 * játékosnév lista
+	 * @param min
+	 * idő paraméter perc része
+	 * @param second
+	 * idő paraméter másodperc része
+	 */
 	public void drawScore(String[] score, String[] playerList, String min, String second) {
-		sideupper.removeAll();
-		sideupper.setBounds(10, 10, 190, 501);
-		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
-		sideupper.setLayout(new GridLayout(13,1));
-		sideupper.add(back_to_main_menu);
+		sideUpper.removeAll();
+		sideUpper.setBounds(10, 10, 190, 501);
+		sideUpper.setBorder(BorderFactory.createLineBorder(Color.black));
+		sideUpper.setLayout(new GridLayout(13,1));
+		sideUpper.add(backToMenu);
 		if(min != ""){
 			JLabel time = new JLabel("Time:"+min+":"+second,SwingConstants.CENTER);
 			time.setForeground(Color.GRAY);
 			time.setFont(time.getFont().deriveFont(30f));
-			sideupper.add(time);
+			sideUpper.add(time);
 		}
 		for(int i=0; i < playerList.length; i++){
 			JLabel listelementplayer =new JLabel(playerList[i]);
 			listelementplayer.setHorizontalAlignment(JTextField.CENTER);
 			listelementplayer.setFont(listelementplayer.getFont().deriveFont(25f)); 
-			sideupper.add(listelementplayer);
+			sideUpper.add(listelementplayer);
 			JLabel listelementscore =new JLabel(score[i]);
 			listelementscore.setHorizontalAlignment(JTextField.CENTER);
-			sideupper.add(listelementscore);
+			sideUpper.add(listelementscore);
 		}
-		sideupper.revalidate();
-		sideupper.repaint();
+		sideUpper.revalidate();
+		sideUpper.repaint();
 	}
 	
-	/*elválasztott szerver játékindítás 2. rész, kijelezve a csatlakozott játékosokat*/
+	/**Server mód create utáni clientekre várakozó panel kirajzolása
+	 * 
+	 * @param connectedCount
+	 * csatlakozott clientek száma
+	 */
 	public void drawServerStartScreen(int connectedCount) {
 		JLabel actualState;
 		main.removeAll();
@@ -422,36 +477,35 @@ public class Gui extends JFrame {
 			actualState = new JLabel("There are no any players, who connected!",SwingConstants.CENTER);
 		}
 		else{
-			actualState = new JLabel("Connected players: "+connectedCount,SwingConstants.CENTER);
+			actualState = new JLabel("Number of connected players: "+connectedCount,SwingConstants.CENTER);
 		}
 		main.add(actualState);
-		//for(int i=0; i < stringList.length; i++){
-		//	JLabel listelement =new JLabel(stringList[i]);
-		//	listelement.setHorizontalAlignment(JTextField.CENTER);
-		//	main.add(listelement);
-		//}
 		main.revalidate();
 		main.repaint();
 	}
-	/*oldalsó panel inicializálása*/
+	/**Felső oldalsó panel alaphelyzetének kirajzolása
+	 * 
+	 */
 	public void drawSideUpperPanel() {
-		sideupper.removeAll();
-		sideupper.setBounds(10, 10, 190, 501);
-		sideupper.setBorder(BorderFactory.createLineBorder(Color.black));
-		sideupper.setLayout(new GridLayout(13,1));
-		sideupper.add(back_to_main_menu);
-		sideupper.revalidate();
-		sideupper.repaint();
+		sideUpper.removeAll();
+		sideUpper.setBounds(10, 10, 190, 501);
+		sideUpper.setBorder(BorderFactory.createLineBorder(Color.black));
+		sideUpper.setLayout(new GridLayout(13,1));
+		sideUpper.add(backToMenu);
+		sideUpper.revalidate();
+		sideUpper.repaint();
 	}
-	/*kliens várakozás a szerverre képernyő*/
+	/**Client esetén csatlakozás utáni "várakozás serverre" panel kirajzolás
+	 * 
+	 */
 	public void drawWaitForServerScreen(){
-		JLabel you_win;
+		JLabel label;
 		main.removeAll();
 		main.setLayout(new GridBagLayout());
-		you_win = new JLabel("WAIT FOR SERVER START!");
-		you_win.setForeground(Color.BLACK);
-		you_win.setFont(you_win.getFont().deriveFont(64f)); 
-		main.add(you_win);
+		label = new JLabel("WAIT FOR SERVER START!");
+		label.setForeground(Color.BLACK);
+		label.setFont(label.getFont().deriveFont(64f)); 
+		main.add(label);
 		main.revalidate();
 		main.repaint();
 	}
