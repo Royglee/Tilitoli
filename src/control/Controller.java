@@ -24,10 +24,10 @@ public class Controller{
 	
 
 	
-	/**GUI-ra referencia be�ll�t�s
+	/**GUI-ra referencia beállítás
 	 * 
 	 * @param g
-	 * GUI p�ld�ny
+	 * GUI példány
 	 */
 	public void setGUI(Gui g) {
 		this.g = g;
@@ -35,16 +35,16 @@ public class Controller{
 	
 	/** 
 	 * 
-	 * @return a j�t�kot le�r� game objektum
+	 * @return a játékot leíró game objektum
 	 */
 	public Game getGame() {
 		return game;
 	}
 	
-	/**Be�ll�tja hogy a j�t�k single/multi m�dban fusson
+	/**Beállítja hogy a játék single/multi módban fusson
 	 * 
 	 * @param isMulti
-	 * true - A j�t�k multiplayer m�dban fog menni, false-a j�t�k singleplayer m�dban fog menni
+	 * true - A játék multiplayer módban fog menni, false-a játék singleplayer módban fog menni
 	 */
 	public void setMultiMode(boolean isMulti) {
 		multiplayer = isMulti;
@@ -53,21 +53,21 @@ public class Controller{
 	/**
 	 * 
 	 * @param isServer
-	 * true-szerver m�dban �zemel false-kliens m�dban �zemel a program
+	 * true-szerver módban üzemel false-kliens módban üzemel a program
 	 */
 	public void setServerMode(boolean isServer) {
 		this.servermode = isServer;
 	}
 	
-	/** Visszaadja, hogy milyen m�dban fut a szoftver
+	/** Visszaadja, hogy milyen módban fut a szoftver
 	 * 
-	 * @return true, ha szerver m�dban fut. false, ha kliens m�dban
+	 * @return true, ha szerver módban fut. false, ha kliens módban
 	 */
 	public boolean getServerMode(){
 		return servermode;
 	}
 	
-	/** Be�l�tja a felhaszn�l� nev�t
+	/** Beálítja a felhasználó nevét
 	 * 
 	 * @param name
 	 */
@@ -78,13 +78,13 @@ public class Controller{
 	
 	/**
 	 * 
-	 * @return a felhaszn�l� neve
+	 * @return a felhasználó neve
 	 */
 	public String getMyName() {
 		return myName;
 	}
 	
-	/** Be�ll�tja a j�t�kra jellemz� param�tereket
+	/** Beállítja a játékra jellemzõ paramétereket
 	 * 
 	 * @param pictureName
 	 * @param resolution
@@ -94,7 +94,7 @@ public class Controller{
 		game.setResolution(resolution);
 	}
 	
-	/** Elk�sz�ti a szervert, ahova csatlakozhatnak a kliensek
+	/** Elkészíti a szervert, ahova csatlakozhatnak a kliensek
 	 * 
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -126,7 +126,7 @@ public class Controller{
 		}, 0,1000);
 	}
 	
-	/** Kilist�zza a h�l�zaton el�rhet� szervereket
+	/** Kilistázza a hálózaton elérhetõ szervereket
 	 * 
 	 */
 	public void listServers(){
@@ -137,9 +137,9 @@ public class Controller{
 		g.drawClientScreen(multi.listGameNames(1000));
 	}
 	
-	/** A kliens csatlakozik az �ltala v�lasztott j�t�kmester szerver�hez
+	/** A kliens csatlakozik az általa választott játékmester szerveréhez
 	 * 
-	 * @param server (A j�t�kmester neve)
+	 * @param server (A játékmester neve)
 	 */
 	public void joinServer(String server) {
 		g.drawWaitForServerScreen();
@@ -148,7 +148,7 @@ public class Controller{
 		
 	}
 	
-	/**	Elind�tja a j�t�kot a be�ll�tott param�terekkel (multi/single/image/size)
+	/**	Elindítja a játékot a beállított paraméterekkel (multi/single/image/size)
 	 * 
 	 */
 	public void startGame() {
@@ -181,7 +181,7 @@ public class Controller{
 		game.startTimer(5);
 	}
 	
-	/** A j�t�k ind�t�sa el�tti 5mp-es sz�ml�l� callback f�ggv�nye
+	/** A játék indítása elõtti 5mp-es számláló callback függvénye
 	 * 
 	 */
 	protected void startTimerChanged(){
@@ -197,9 +197,9 @@ public class Controller{
 		}
 	}
 	
-	/** Egy adott elemre val� kattint�s feldolgoz�s�ra szolg�l� f�ggv�ny	
+	/** Egy adott elemre való kattintás feldolgozására szolgáló függvény	
 	 * 
-	 * @param clickResult Annak az elemnek a sorsz�ma amelyre a felhaszn�l� kattintott
+	 * @param clickResult Annak az elemnek a sorszáma amelyre a felhasználó kattintott
 	 * 3x3 esetben:
 	 *  | 0 | 1 | 2 |
 	 *  | 3 | 4 | 5 |
@@ -224,14 +224,14 @@ public class Controller{
 		
 	}
 	
-	/** A j�t�kt�r megv�ltoz�sa eset�n h�vhat� f�ggv�ny, amely �jrarajzolja a t�bl�t
+	/** A játéktér megváltozása esetén hívható függvény, amely újrarajzolja a táblát
 	 * 
 	 */
 	protected void tableChanged() {
 		g.makePanel(game.getTable());
 	}
 	
-	/** A szervert�l kapott elt�rolt pontok kirajzol�sa a k�perny�re, �s ellen�rz�s, hogy van-e nyertes
+	/** A szervertõl kapott eltárolt pontok kirajzolása a képernyõre, és ellenõrzés, hogy van-e nyertes
 	 * 
 	 */
 	public void updateScore(){
@@ -246,7 +246,7 @@ public class Controller{
 		}
 	}
 
-	/** Vissza l�p a f�men�be
+	/** Vissza lép a fõmenübe
 	 * 
 	 */
 	public void backToMainMenu() {
@@ -258,7 +258,7 @@ public class Controller{
 		
 	}
 	
-	/** Leellen�rzi, hogy van-e nyertes
+	/** Leellenõrzi, hogy van-e nyertes
 	 * 
 	 * @return A nyertes neve, vagy ""
 	 */
@@ -280,8 +280,8 @@ public class Controller{
 		
 	}
 	
-	/** A Szervernek elk�ldi a saj�t pontsz�mot, 
-	 *  �s feldolgozza a v�laszul kapott t�mb�t amelyben a t�bbi j�t�kos neve, �s pontsz�ma szerepel.
+	/** A Szervernek elküldi a saját pontszámot, 
+	 *  és feldolgozza a válaszul kapott tömböt amelyben a többi játékos neve, és pontszáma szerepel.
 	 * 
 	 */
 	private void getScoresAndNamesArray(){
@@ -298,7 +298,7 @@ public class Controller{
 		}	
 	}
 	
-	/** Elind�t egy timert, ami 1mp-k�nt szinkroniz�lja a pontokat.
+	/** Elindít egy timert, ami 1mp-ként szinkronizálja a pontokat.
 	 * 
 	 */
 	private void startSyncTimer() {
@@ -323,7 +323,7 @@ public class Controller{
 		}, 0,1000);
 	}
 	
-	/** Kirajzolja a j�t�k v�ge k�perny�t, ha valaki nyert
+	/** Kirajzolja a játék vége képernyõt, ha valaki nyert
 	 * 
 	 */
 	private void endScreenIfSomeoneWon() {
