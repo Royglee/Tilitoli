@@ -17,7 +17,7 @@ public class Game {
 	
 	/** Konstruktor
 	 * 
-	 * @param Controller c 
+	 * @param c 
 	 * controller példány
 	 */
 	public Game(Controller c) {
@@ -27,7 +27,7 @@ public class Game {
 	/**
 	 * 
 	 * @return 
-	 * resolution - A játéktábla mérete (3x3 esetén -> 3)
+	 * resolution - A játéktábla mérete (3x3 esetén 3)
 	 */
 	public int getResolution() {
 		return resolution;
@@ -36,7 +36,7 @@ public class Game {
 	/** Beállítja a játéktér méretét
 	 * 
 	 * @param resolution
-	 * A játéktábla mérete (3x3 esetén -> 3)
+	 * A játéktábla mérete (3x3 esetén 3)
 	 */
 	protected void setResolution(int resolution) {
 		this.resolution = resolution;

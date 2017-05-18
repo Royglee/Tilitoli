@@ -132,7 +132,9 @@ public class Controller{
 	/** Elkészíti a szervert, ahova csatlakozhatnak a kliensek
 	 * 
 	 * @throws IOException
+	 * ObjectCastHelper által dobott kivételt dobja tovább
 	 * @throws ClassNotFoundException
+	 * ObjectCastHelper által dobott kivételt dobja tovább
 	 */
 	public void createGame() throws IOException, ClassNotFoundException {
 		game.init();

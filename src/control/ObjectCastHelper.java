@@ -16,7 +16,9 @@ public class ObjectCastHelper {
 	 * @return 
 	 * Vector obj - A játékteret reprezentáló Vector objektum
 	 * @throws IOException
+	 * ObjectInputStream - olvasási hiba esetén
 	 * @throws ClassNotFoundException
+	 * Ha nem létezik oylan osztály mint amibe castolni szeretnénk
 	 */
 	public static Vector<Integer> deserializeBytes(byte[] bytes) throws IOException, ClassNotFoundException
 	{
@@ -35,6 +37,7 @@ public class ObjectCastHelper {
 	 * @return 
 	 * bytes - A játékteret reprezentáló byte tömb
 	 * @throws IOException
+	 * ObjectOutputStream-re írás hiba esetén
 	 */
 	public static byte[] serializeObject(Vector<Integer> obj) throws IOException
 	{
