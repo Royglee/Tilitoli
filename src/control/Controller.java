@@ -138,7 +138,7 @@ public class Controller{
 	 */
 	public void createGame() throws IOException, ClassNotFoundException {
 		game.init();
-		game.mix(5);
+		game.mix(500);
 		Puzzle p = new Puzzle(game.getPicturename(), (byte)game.getResolution(),ObjectCastHelper.serializeObject(game.getTable()));
 		if (multi != null){
 			multi.finishGame();
@@ -184,7 +184,7 @@ public class Controller{
 		time = 0;
 		if(!multiplayer){
 			game.init();
-			game.mix(1); 
+			game.mix(500); 
 			updateScore();
 		}else{
 			if(servermode){
