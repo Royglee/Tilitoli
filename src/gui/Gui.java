@@ -236,8 +236,8 @@ public class Gui extends JFrame {
 				int y = i*(600/resolution);
 				int w = 800/resolution;
 				int h = 600/resolution;
-				BufferedImage out= bufferedImage.getSubimage(x, y, w, h);
-				partImageList.add(out);
+				BufferedImage part= bufferedImage.getSubimage(x, y, w, h);
+				partImageList.add(part);
 			}
 		}
 	}
@@ -337,10 +337,10 @@ public class Gui extends JFrame {
 		sideLower.setBounds(10, 521, 190, 100);
 		sideLower.setBorder(BorderFactory.createLineBorder(Color.black));
 		sideLower.setLayout(new GridBagLayout());
-		JLabel label = new JLabel("HELLO!");
-		label.setForeground(Color.RED);
-		label.setFont(label.getFont().deriveFont(35f));
-		sideLower.add(label);
+		JLabel label2 = new JLabel("HELLO!");
+		label2.setForeground(Color.RED);
+		label2.setFont(label2.getFont().deriveFont(35f));
+		sideLower.add(label2);
 		sideLower.revalidate();
 		sideLower.repaint();
 	}
@@ -356,8 +356,8 @@ public class Gui extends JFrame {
 		nickNameInputServerSingle.setHorizontalAlignment(JTextField.CENTER);
 		main.add(nickNameInputServerSingle);
 		if(c.getServerMode()){
-			JLabel create_ask = new JLabel("Choose resolution and picture, then push CREATE to start server!",SwingConstants.CENTER);
-			main.add(create_ask);
+			JLabel label1 = new JLabel("Choose resolution and picture, then push CREATE to start server!",SwingConstants.CENTER);
+			main.add(label1);
 			main.add(create);
 		}
 		((JLabel)animalList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -369,8 +369,8 @@ public class Gui extends JFrame {
 		openImage("elephant");
 		openImage("giraffe");
 		if(!c.getServerMode()){
-			JLabel single_start_instruction = new JLabel("After parameters and nickName chosen, you can START!",SwingConstants.CENTER);
-			main.add(single_start_instruction);
+			JLabel label2 = new JLabel("After parameters and nickName chosen, you can START!",SwingConstants.CENTER);
+			main.add(label2);
 			main.add(start);
 		}
 		main.revalidate();
@@ -385,15 +385,14 @@ public class Gui extends JFrame {
 		serverList = new JComboBox<>(servers);
 		main.removeAll();
 		main.setLayout(new GridLayout(3,2,10,10));
-		JLabel nickName_ask = new JLabel("Give your nickName",SwingConstants.CENTER);
-		main.add(nickName_ask);
+		JLabel label1 = new JLabel("Give your nickName",SwingConstants.CENTER);
+		main.add(label1);
 		nickNameInputClient = new JTextField("nickName");
 		nickNameInputClient.setHorizontalAlignment(JTextField.CENTER);
-		nickNameInputClient.setVisible(true);
 		main.add(nickNameInputClient);
 		if(servers.length ==0){
-			JLabel empty_list = new JLabel("There is no reachable server!",SwingConstants.CENTER);
-			main.add(empty_list);
+			JLabel label2 = new JLabel("There is no reachable server!",SwingConstants.CENTER);
+			main.add(label2);
 		}
 		else{
 			((JLabel)serverList.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
@@ -472,19 +471,19 @@ public class Gui extends JFrame {
 	 * csatlakozott clientek száma
 	 */
 	public void drawServerStartScreen(int connectedCount) {
-		JLabel actualState;
+		JLabel label;
 		main.removeAll();
 		main.setLayout(new GridLayout(10,1,10,10));
 		main.add(start);
 		JLabel server_start_instruction = new JLabel("Wait, while client are connect, then you can START!",SwingConstants.CENTER);
 		main.add(server_start_instruction);
 		if(connectedCount ==0){
-			actualState = new JLabel("There are no any players, who connected!",SwingConstants.CENTER);
+			label = new JLabel("There are no any players, who connected!",SwingConstants.CENTER);
 		}
 		else{
-			actualState = new JLabel("Number of connected players: "+connectedCount,SwingConstants.CENTER);
+			label = new JLabel("Number of connected players: "+connectedCount,SwingConstants.CENTER);
 		}
-		main.add(actualState);
+		main.add(label);
 		main.revalidate();
 		main.repaint();
 	}
