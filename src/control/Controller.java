@@ -27,7 +27,7 @@ public class Controller{
 	/**GUI-ra referencia beállítás
 	 * 
 	 * @param g
-	 * GUI példány
+	 * Gui objektum
 	 */
 	public void setGUI(Gui g) {
 		this.g = g;
@@ -35,29 +35,41 @@ public class Controller{
 	
 	/** 
 	 * 
-	 * @return a játékot leíró game objektum
+	 * @return 
+	 * game - a játékot leíró game objektum
 	 */
 	public Game getGame() {
 		return game;
 	}
 	
-	
+	/** Eltárolja, hogy multi üzemmódban fog menni a játék és kirajzolja a következő képernyőt
+	 * 
+	 */
 	public void multiModeSelected() {
 		multiplayer = true;
 		g.drawServerOrClientScreen();
 	}
 	
+	/** Eltárolja, hogy single üzemmódban fog menni a játék és kirajzolja a következő képernyőt
+	 * 
+	 */
 	public void singleModeSelected() {
 		multiplayer = false;
 		servermode = false;
 		g.drawParameterScreen();
 	}
 	
+	/** Eltárolja, hogy szerver módban fog futni a program és kirajzolja a következő képernyőt
+	 * 
+	 */
 	public void serverModeSelected() {
 		servermode = true;
 		g.drawParameterScreen();
 	}
 	
+	/** Eltárolja, hogy kliens módban fog futni a program és kirajzolja a következő képernyőt
+	 * 
+	 */
 	public void clientModeSelected() {
 		servermode = false;
 		
@@ -71,6 +83,7 @@ public class Controller{
 	 * 
 	 * @param isServer
 	 * true-szerver módban üzemel false-kliens módban üzemel a program
+	 * 
 	 */
 	public void setServerMode(boolean isServer) {
 		this.servermode = isServer;
@@ -78,7 +91,8 @@ public class Controller{
 	
 	/** Visszaadja, hogy milyen módban fut a szoftver
 	 * 
-	 * @return true, ha szerver módban fut. false, ha kliens módban
+	 * @return
+	 * true, ha szerver módban fut. false, ha kliens módban
 	 */
 	public boolean getServerMode(){
 		return servermode;
@@ -87,6 +101,7 @@ public class Controller{
 	/** Beálítja a felhasználó nevét
 	 * 
 	 * @param name
+	 * A felhasználó neve
 	 */
 	public void setMyName(String name) {
 		myName = name;
@@ -95,7 +110,8 @@ public class Controller{
 	
 	/**
 	 * 
-	 * @return a felhasználó neve
+	 * @return myName
+	 * a felhasználó neve
 	 */
 	public String getMyName() {
 		return myName;
@@ -104,7 +120,9 @@ public class Controller{
 	/** Beállítja a játékra jellemzõ paramétereket
 	 * 
 	 * @param pictureName
+	 * A kép azonosítója
 	 * @param resolution
+	 * A tábla mérete
 	 */
 	public void setGameParameters(String pictureName, int resolution) {
 		game.setPicturename(pictureName);
@@ -145,7 +163,8 @@ public class Controller{
 	
 	/** A kliens csatlakozik az általa választott játékmester szerveréhez
 	 * 
-	 * @param server (A játékmester neve)
+	 * @param server 
+	 * A szerver neve (A játékmester neve)
 	 */
 	public void joinServer(String server) {
 		g.drawWaitForServerScreen();
@@ -205,11 +224,8 @@ public class Controller{
 	
 	/** Egy adott elemre való kattintás feldolgozására szolgáló függvény	
 	 * 
-	 * @param clickResult Annak az elemnek a sorszáma amelyre a felhasználó kattintott
-	 * 3x3 esetben:
-	 *  | 0 | 1 | 2 |
-	 *  | 3 | 4 | 5 |
-	 *  | 6 | 7 | 8 |
+	 * @param clickResult 
+	 * Annak az elemnek a sorszáma amelyre a felhasználó kattintott
 	 */
 	public void clicked(int clickResult) {	
 		if(game.canMove(clickResult)){
@@ -266,7 +282,8 @@ public class Controller{
 	
 	/** Leellenõrzi, hogy van-e nyertes
 	 * 
-	 * @return A nyertes neve, vagy ""
+	 * @return 
+	 * A nyertes neve, vagy ""
 	 */
 	private String someoneWon(){
 		if(multiplayer){
