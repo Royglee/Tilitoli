@@ -103,6 +103,9 @@ public class Controller{
 		game.init();
 		game.mix(5);
 		Puzzle p = new Puzzle(game.getPicturename(), (byte)game.getResolution(),ObjectCastHelper.serializeObject(game.getTable()));
+		if (multi != null){
+			multi.finishGame();
+		}
 		multi = new Multiplayer();
 		multi.createGame(myName,p);
 		waitingForPlayers=true;
@@ -127,6 +130,9 @@ public class Controller{
 	 * 
 	 */
 	public void listServers(){
+		if (multi != null){
+			multi.finishGame();
+		}
 		multi = new Multiplayer();
 		g.drawClientScreen(multi.listGameNames(1000));
 	}
