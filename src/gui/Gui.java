@@ -412,7 +412,7 @@ public class Gui extends JFrame {
 	}
 	/**Alsó oldalsó panel kis üzenetének frissítése
 	 * 
-	 * @param label
+	 * @param message
 	 * kiírandó üzenet
 	 */
 	public void drawSideLowerScreen(String message){
