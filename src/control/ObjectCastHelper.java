@@ -9,7 +9,7 @@ import java.util.Vector;
 
 public class ObjectCastHelper {
 	
-	/** A paraméterül kapott byte tömböt Vector objektummá alakítja
+	/** A paramÃ©terkÃ©nt kapott byte tÃ¶mbbÅ‘l Vector objektummÃ¡ alakÃ­tja
 	 * 
 	 * @param bytes
 	 * @return obj
@@ -26,7 +26,7 @@ public class ObjectCastHelper {
 	    return obj;
 	}
 
-	/** A paraméterül kapott Vector objektumot byte tömbbé alakítja
+	/** A paramÃ©terkÃ©nt kapott Vector objektumot byte tÃ¶mbbÃ© alakÃ­tja
 	 * 
 	 * @param obj
 	 * @return bytes
