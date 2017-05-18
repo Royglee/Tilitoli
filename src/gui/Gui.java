@@ -77,8 +77,7 @@ public class Gui extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c.setMultiMode(true);
-				drawServerOrClientScreen();
+				c.multiModeSelected();
 			}
 		});
 		
@@ -86,9 +85,7 @@ public class Gui extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c.setMultiMode(false);
-				c.setServerMode(false);
-				drawParameterScreen();
+				c.singleModeSelected();
 			}
 		});
 		
@@ -96,8 +93,7 @@ public class Gui extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c.setServerMode(true);
-				drawParameterScreen();
+				c.serverModeSelected();
 			}
 		});
 		
@@ -105,7 +101,7 @@ public class Gui extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c.listServers();
+				c.clientModeSelected();
 			}
 		});
 		
@@ -167,7 +163,6 @@ public class Gui extends JFrame {
 				try {
 					c.createGame();
 				} catch (ClassNotFoundException | IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -185,7 +180,7 @@ public class Gui extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				c.listServers();
+				c.clientModeSelected();
 			}
 		});
 		

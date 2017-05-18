@@ -41,13 +41,30 @@ public class Controller{
 		return game;
 	}
 	
-	/**Beállítja hogy a játék single/multi módban fusson
-	 * 
-	 * @param isMulti
-	 * true - A játék multiplayer módban fog menni, false-a játék singleplayer módban fog menni
-	 */
-	public void setMultiMode(boolean isMulti) {
-		multiplayer = isMulti;
+	
+	public void multiModeSelected() {
+		multiplayer = true;
+		g.drawServerOrClientScreen();
+	}
+	
+	public void singleModeSelected() {
+		multiplayer = false;
+		servermode = false;
+		g.drawParameterScreen();
+	}
+	
+	public void serverModeSelected() {
+		servermode = true;
+		g.drawParameterScreen();
+	}
+	
+	public void clientModeSelected() {
+		servermode = false;
+		
+		if (multi != null){multi.finishGame();}
+		
+		multi = new Multiplayer();
+		g.drawClientScreen(multi.listGameNames(1000));
 	}
 	
 	/**
@@ -124,17 +141,6 @@ public class Controller{
 		
 		    }
 		}, 0,1000);
-	}
-	
-	/** Kilistázza a hálózaton elérhetõ szervereket
-	 * 
-	 */
-	public void listServers(){
-		if (multi != null){
-			multi.finishGame();
-		}
-		multi = new Multiplayer();
-		g.drawClientScreen(multi.listGameNames(1000));
 	}
 	
 	/** A kliens csatlakozik az általa választott játékmester szerveréhez
