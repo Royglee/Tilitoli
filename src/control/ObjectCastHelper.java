@@ -12,7 +12,9 @@ public class ObjectCastHelper {
 	/** A paraméterként kapott byte tömbből Vector objektummá alakítja
 	 * 
 	 * @param bytes
-	 * @return obj
+	 * A játékteret reprezentáló byte tömb
+	 * @return 
+	 * Vector obj - A játékteret reprezentáló Vector objektum
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
@@ -29,7 +31,9 @@ public class ObjectCastHelper {
 	/** A paraméterként kapott Vector objektumot byte tömbbé alakítja
 	 * 
 	 * @param obj
-	 * @return bytes
+	 * A játékteret reprezentáló Vector objektum
+	 * @return 
+	 * bytes - A játékteret reprezentáló byte tömb
 	 * @throws IOException
 	 */
 	public static byte[] serializeObject(Vector<Integer> obj) throws IOException
